@@ -1,0 +1,42 @@
+****************************************************
+dominick hera		
+cis1500   		assignment 2/scrambler
+29/11/15
+****************************************************
+
+*****************
+Pledge of Honesty
+*****************
+
+I pledge that the code accompanying this README is the work of only my own and no one else.
+
+************
+Compilation
+************
+
+gcc -std=c99 -Wall -pedantic a2SCRAM.c -o a2SCRAM
+
+***********************
+Running the program(s)
+***********************
+
+asks for file name, enter file name with the extension i.e. scrambleTest.txt
+
+*****************
+Known Limitations
+*****************
+
+program doesn’t scramble special characters that aren’t normal text characters.
+
+****************
+Summary of Tests
+****************
+
+ran with my personal text file, which worked without issues
+
+ran the program with the provided test file which revealed issues with punctuation being thought of as part of the word and also being mixed into the scrambler. had to add the ispunc check  in the process file portion to set the word length to the number that it hits punctuation.
+
+attempted to run text file with random characters next to each other and it seemed like it didn’t scramble the characters but did scramble the accompanying normal text characters
+
+
+
