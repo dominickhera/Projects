@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Notification - iOU WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>iOU - Loan Tracking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>iOU 4.0.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>iOU WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>iOU Widget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>25201F491AC42BBD001F3F1A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2587474F1A8D103000959B0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>258747651A8D108D00959B0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>25F0741F1A12F39A0093A106</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>25F074371A12F39A0093A106</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
