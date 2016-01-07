@@ -1,2 +1,2 @@
 # Projects
-Projects both personal and from school that I have completed.
+These are completed projects both personal and from school by Dominick Hera
