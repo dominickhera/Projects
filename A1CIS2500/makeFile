@@ -1,12 +1,12 @@
 CC=gcc
 CFLAGS= -Wall -std=c99
 TARGET=run
-FILES=./src/main.c ./src/storeval.c
+FILES=./src/main.c ./src/storeval.c ./assets/template.txt
 INCLUDE=./include
 
 
 all: $(FILES)
-    $(CC) $(CFLAGS) -o $(TARGET) $(FILES) -I $(INCLUDE)
+	$(CC) $(CFLAGS) -o $(TARGET) $(FILES) -I $(INCLUDE)
 
 clean:
-     rm $(TARGET)
+	rm $(TARGET)

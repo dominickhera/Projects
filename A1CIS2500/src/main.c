@@ -1,10 +1,10 @@
 #include "main.h"
 
 int main(){
-    FILE * openData;
+   // FILE * openData;
     FILE * openTemplate;
-    FILE * outputFile;
-    char line[256];
+  //  FILE * outputFile;
+//    char line[256];
 
     openTemplate = fopen("template.txt", "r");
     if (openTemplate == NULL){
@@ -30,8 +30,8 @@ int main(){
 
     }
 */
-fclose(openData);
-fclose(outputFile);
+//fclose(openData);
+//fclose(outputFile);
 fclose(openTemplate);
 
 
