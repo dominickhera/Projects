@@ -1,0 +1,5 @@
+recipName=Bora
+friend=Soren
+sonName=Tyrone
+feature=eyes
+sendName=Remi
