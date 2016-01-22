@@ -1,0 +1,10 @@
+Dear {recipName},
+
+I understand that we haven't spzken since I ran away with {friend}...
+
+But I thzught yzu shzuld knzw that we have a szn.
+His name is {sznName}. He has yzur {feature}.
+
+
+Sincerly,
+{sendName}
