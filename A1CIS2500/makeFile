@@ -6,7 +6,7 @@ INCLUDE=./include
 
 
 all: $(FILES)
-	$(CC) $(CFLAGS) -o $(TARGET) $(FILES) -I $(INCLUDE)
+	$(CC) $(CFLAGS) -std=c99 -Wall -o $(TARGET) $(FILES) -I $(INCLUDE)
 
 clean:
 	rm $(TARGET)
