@@ -1,9 +1,9 @@
-#include<main.h>
+#include"main.h"
 
 int main() {
 
     FILE * openData;
-    FILE * openTemplate
+    FILE * openTemplate;
     FILE * outputFile;
     char word[50];
     int i;
@@ -14,8 +14,7 @@ int main() {
         printf("couldn't open template text file\n");
         return 1;
     }
-
-      openTemplate = fopen("./assets/template.txt", "r");
+    openTemplate = fopen("./assets/template.txt", "r");
     if (openTemplate == NULL){
         printf("couldn't open template text file\n");
         return 1;
@@ -27,17 +26,19 @@ int main() {
         return 1;
     }
 
-    while (fscanf(openData, "%s", word) != EOF) {
+while (fscanf(openTemplate, "%s", word) != EOF)
+    {
         length = strlen(word);
-        for (i = 0; i < length; i++) {
-            if (ispunct(word[i])) {
+        for (i = 0; i < length; i++)
+        {
+            if (ispunct(word[i])) 
+            {
                 length = i;
                 break;
-            } else if ( ){
-
-	}
+            }
         }
-        fprintf(outputFile,"%s%c", word, fgetc(openData));
+
+        printf("%s%c", word, fgetc(openTemplate));
     }
 
     fclose(openTemplate);
