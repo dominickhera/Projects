@@ -10,6 +10,12 @@ int main(int argc, char* argv[]) {
     char variableArray[50];
     int i = 0;
     int length = 0;
+    int varEnd = 0;
+    int valid = 0;
+    char key[256];
+    char value[256];
+    int count = 0;
+
 
     if (argc != 4) {
         printf(" incorrect number of arguments given\n");
@@ -33,18 +39,31 @@ int main(int argc, char* argv[]) {
     }
 
     while(fgets(line, 256, openData ) != NULL){
+        // int length = 0;
 
         length = strlen(line);
         line[length-1] = '\0';
 
-        for (int i = 0; i < length; i++) {
-             while(line[i] == '=') {
-		
-                            }
+        for (int i = 0; i < length; i++)
+        {
+            while (line[i] == '=')
+            {
+                varEnd = i;
+                i++;
+                count++;
+            }
+
         }
 
-        setValue(variableArray, line);
-        printf(getValue(variableArray));
+        strcpy(key, line, varEnd);
+        strcpy(value, line + (varEnd + 1), length + 1);
+        printf("Key:%s\nValue:%s\n", key, value);
+
+
+        //printf("Read\n");
+        valid = setValue(key, value);
+        //    setValue(variableArray, line);
+        //  printf(getValue(variableArray));
         fprintf(outputFile, "%s\n", line);
     }
 
@@ -53,3 +72,5 @@ int main(int argc, char* argv[]) {
     fclose(outputFile);
     return 0;
 }
+
+
