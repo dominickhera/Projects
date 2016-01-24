@@ -5,5 +5,6 @@
 #include<string.h>
 #include"storeval.h"
 #include"uthash.h"
+#include<ctype.h>
 
 #endif
