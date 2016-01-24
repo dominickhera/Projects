@@ -1,60 +1,69 @@
-#include "main.h"
+#include"main.h"
 
-int main(){
+int main() {
+
     FILE * openData;
     FILE * openTemplate;
     FILE * outputFile;
+    char word[50];
     char line[256];
-    char dataEntry[30];
-    char* dataExit;
-    char* test;
-    int i = 0;
+    char variableArray[50];
+    int i;
     int length;
+
+    openData = fopen("./assets/data.txt", "r");
+    if (openData == NULL){
+        printf("couldn't open template text file\n");
+        return 1;
+    }
     openTemplate = fopen("./assets/template.txt", "r");
     if (openTemplate == NULL){
         printf("couldn't open template text file\n");
         return 1;
     }
 
-    openData = fopen("./assets/data.txt", "r");
-    if (openData == NULL) {
-        printf("couldn't open data text file\n");
+    outputFile = fopen("./assets/output.txt", "w");
+    if (openData == NULL){
+        printf("couldn't open template text file\n");
         return 1;
     }
 
-    outputFile = fopen("./assets/outputFile.txt", "w");
 
-      setValue(dataExit, openData);
-      printf(getValue(dataExit));
+    while(fgets(line, 256, openData ) != NULL){
+        int length = 0;
 
-/*
-    while (fscanf(openData, "%s", line) != EOF) {
-        
-	setValue(dataExit[i], openData);
-	printf(getValue(dataExit[i]));
-	 i++;
-    }
-     
-       while(fgets(line, 256, openTemplate) != NULL){
-       int length = 0;
+        length = strlen(line);
+        line[length-1] = '\0';
 
-       length = strlen(line);
-       line[length-1] = '\0';
+        for (int i = 0; i < length; i ++ {
+                if (line[i] == '=') {
+		
+                }
+                }
 
-       for (int i = 0; i < length; i++){
-       if(line[i] == 'o') {
-       line[i] = 'z';
-       }
-       }
+                setValue(variableArray, line);
+                printf(getValue(variableArray));
+                fprintf(outputFile, "%s\n", line);
+                }
 
-       fprintf(outputFile, "%s\n", line);
+                /*
+                   while (fscanf(openTemplate, "%s", word) != EOF)
+                   {
+                   length = strlen(word);
+                   for (i = 0; i < length; i++)
+                   :                   {
+                   if (ispunct(word[i])) 
+                   {
+                   length = i;
+                   break;
+                   }
+                   }
 
-       }
-     */
+                   printf("%s%c", word, fgetc(openTemplate));
+                   }
+                 */
+    fclose(openTemplate);
     fclose(openData);
     fclose(outputFile);
-    fclose(openTemplate);
-
-
     return 0;
 }
