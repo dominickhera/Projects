@@ -8,6 +8,8 @@ int main(int argc, char* argv[]) {
     char line[256];
     char value[256];
     char key[256];
+    char word[50];
+    int wordLength = 0;
     int length = 0;
     int argNum = 0;
     int argLength = 0;
@@ -47,28 +49,36 @@ int main(int argc, char* argv[]) {
             }
         }
 
-	strncpy(key, line, argLength);
-	strcpy(value, line + (argLength + 1));
-	printf("Key:%s\nValue:%s\n", key, value);
-	sucNum = setValue(key, value);
-	memset(key, 0, length);
-}
-	if (sucNum == 1) {
-	printf("set success\nnumber of variables copied: %d\n", argNum);
-	}    
-
-	while(fgets(line, 256, openTemplate) != NULL) {
-	length = strlen(line);
-	line[length - 1] = '\0';
-
-	for (int i = 0; i < length; i++) {
-	if (line[i] == key) {
-	line[i] = getValue(key);
-	}
+        strncpy(key, line, argLength);
+        strcpy(value, line + (argLength + 1));
+        printf("Key:%s\nValue:%s\n", key, value);
+        sucNum = setValue(key, value);
+        memset(key, 0, length);
     }
-}
+    if (sucNum == 1) {
+        printf("set success\nnumber of variables copied: %d\n\n", argNum);
+    } 
+
+    while(fgets(line, 256, openTemplate) != NULL) {
+        length = strlen(line);
+        line[length - 1] = '\0';
+
+        printf("%s%c",line,  fgetc(openTemplate));
+        for (int i = 0; i < length; i++) {
+            if (line[i] == '{') {
+                i++;
+                while (line[i] != '}') {
+                    word[wordLength] = line[i];
+                    wordLength++;
+                    i++;
+
+                }
+            }
+        }
+    }
+    printf("\n");
     fclose(openTemplate);
     fclose(openData);
     fclose(outputFile);
     return 0;
- }
+}
