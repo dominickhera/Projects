@@ -3,3 +3,19 @@ dominick hera assignment 1
 cis2500  16/1/16
 dhera@mail.uoguelph.ca
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+to compile
+~~~~~~~~~~~~
+make file include so either just use "make" or "make -f makeFile" if the first option doesnt work
+
+
+to run
+~~~~~~
+
+./run ./assets/data.txt ./assets/template.txt ./assets/output.txt
+
+limitations
+~~~~~~~~~~~
+-program wont run without the proper files mentioned when running
+-program will leave names empty if the variable name is not included in the data file
+

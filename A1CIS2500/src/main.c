@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
     int argLength = 0;
     int sucNum = 0;
     int updateCounter = 0;
-    int failCounter = 0;
 
+    //makes sure 4 arguements are included, opens all the necessary files based on what the user enters
     if (argc != 4) 
     {
         printf(" incorrect number of arguments given\n");
@@ -43,9 +43,12 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    //scans the data.txt file for the variables and variable values based on the = sign, and assigns them to char arrays key or value based on which one they are, and then puts it into storeValue. also resets the memory for key and value.
+
     while(fgets(line, 256, openData) != NULL)
     {
 
+        //        valueSetter(openData, length);
         length = strlen(line);
         line[length+1] = '\0';
 
@@ -60,19 +63,18 @@ int main(int argc, char* argv[])
         }
 
         strncpy(key, line, argLength);
-        if (value == "\0") {
-        strncpy(value, "MISSING_DATA");
-        } else {
         strncpy(value, line + (argLength + 1), (length + 1));
-        }
-         sucNum = setValue(key, value);
+        sucNum = setValue(key, value);
         memset(key, 0, length);
         memset(value, 0, length);
     }
+    // checks to make sure that all variables were found and stored correctly, terminates program if not correct.
     if (sucNum != 1) 
     {
         printf(" Unsufficient Amount of Variables Found");
     } 
+
+    //scans the template.txt file for all the variable entires and inputs the variables with similar names from the data.txt file, searching for the brackets that each variable name is in for reference. also counts amount of variables replaced for stats. 
 
     while(fgets(line, 256, openTemplate) != NULL) 
     {
@@ -113,10 +115,10 @@ int main(int argc, char* argv[])
             } 
 
         }
-         printf("%s\n", finalLine);
         fprintf(outputFile, "%s\n", finalLine);
     } 
-    printf("%d Variables Found\n%d Variables Successfully Replaced\n", argNum, updateCounter);
+    // prints out stats about program execution, and closes all files to prevent memory leaks
+    printf("%d Variables Found\n%d Variables Successfully Replaced\nProcess Executed Successfully\n", argNum, updateCounter);
     fclose(openTemplate);
     fclose(openData);
     fclose(outputFile);
