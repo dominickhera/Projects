@@ -1,20 +1,21 @@
 #include"main.h"
+int valueSetter (FILE * openData, int nlength)
+ {
 
 int argNum = 0;
 int argLength = 0;
 int sucNum = 0;
-int length = 0;
+//int nlength = 0;
 char line [256];
 char value[256];
 char key[256];
 
 
-int valueSetter (FILE * openData, int length) {
 
- length = strlen(line);
-          line[length+1] = '\0';
+nlength = strlen(line);
+          line[nlength+1] = '\0';
   
-           for (int i = 0; i < length; i++)
+           for (int i = 0; i < nlength; i++)
            {
                while(line[i] == '=')
                {
@@ -25,10 +26,10 @@ int valueSetter (FILE * openData, int length) {
            }
    
            strncpy(key, line, argLength);
-           strncpy(value, line + (argLength + 1), (length + 1));
+           strncpy(value, line + (argLength + 1), nlength + 1);
            sucNum = setValue(key, value);
-           memset(key, 0, length);
-           memset(value, 0, length);
+           memset(key, 0, nlength);
+           memset(value, 0, nlength);
 
-return length;
+return 0;
 }

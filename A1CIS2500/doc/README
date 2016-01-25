@@ -16,3 +16,6 @@ to run
 
 limitations
 ~~~~~~~~~~~
+-program wont run without the proper files mentioned when running
+-program will leave names empty if the variable name is not included in the data file
+
