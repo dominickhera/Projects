@@ -42,7 +42,8 @@ int main(int argc, char* argv[]) {
         line[length+1] = '\0';
 
         for (int i = 0; i < length; i++) {
-            while(line[i] == '=') {
+            while(line[i] == '=') 
+            {
                 argLength = i;
                 i++;
                 argNum++;
@@ -50,33 +51,59 @@ int main(int argc, char* argv[]) {
         }
 
         strncpy(key, line, argLength);
-        strcpy(value, line + (argLength + 1));
+        strncpy(value, line + (argLength + 1), (length + 1));
         printf("Key:%s\nValue:%s\n", key, value);
         sucNum = setValue(key, value);
         memset(key, 0, length);
+        memset(value, 0, length);
     }
-    if (sucNum == 1) {
+    if (sucNum == 1) 
+    {
         printf("set success\nnumber of variables copied: %d\n\n", argNum);
     } 
 
-    while(fgets(line, 256, openTemplate) != NULL) {
+    while(fgets(line, 256, openTemplate) != NULL) 
+    {
+        char finalLine[256]; 
+        char wordUpdate[256];
+        int counter = 0;
+        memset(word, '\0', strlen(word));
         length = strlen(line);
         line[length - 1] = '\0';
 
-        printf("%s%c",line,  fgetc(openTemplate));
-        for (int i = 0; i < length; i++) {
-            if (line[i] == '{') {
+        for (int i = 0; i < length; i++) 
+        {
+            if (line[i] == '{') 
+            {
                 i++;
-                while (line[i] != '}') {
+
+                while (line[i] != '}') 
+                {
                     word[wordLength] = line[i];
                     wordLength++;
                     i++;
 
                 }
+                strcpy(wordUpdate, getValue(word));
+                 wordUpdate[strlen(wordUpdate) - 1] = '\0'; 
+                for (int l = 0; l < strlen(wordUpdate); l++)
+                {
+                    finalLine[counter] = wordUpdate[l];
+                    counter++; 
+                }
+                wordLength = 0;
             }
+            else 
+            {
+                finalLine[counter] = line[i];
+                counter++;
+            } 
+        
         }
-    }
-    printf("\n");
+ 
+        printf("%s\n", finalLine);
+        fprintf(outputFile, "%s\n", finalLine);
+    } 
     fclose(openTemplate);
     fclose(openData);
     fclose(outputFile);
