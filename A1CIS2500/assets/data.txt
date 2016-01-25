@@ -1,5 +1,5 @@
 recipName=Bora
-friend=Soren
+friend=
 sonName=Dyrone
 feature=eyes
 sendName=Remi
