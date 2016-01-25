@@ -16,7 +16,6 @@ int main(int argc, char* argv[])
     int argLength = 0;
     int sucNum = 0;
     int updateCounter = 0;
-    int failCounter = 0;
 
     if (argc != 4) 
     {
@@ -46,7 +45,8 @@ int main(int argc, char* argv[])
     while(fgets(line, 256, openData) != NULL)
     {
 
-        length = strlen(line);
+        valueSetter(openData, length);
+       /* length = strlen(line);
         line[length+1] = '\0';
 
         for (int i = 0; i < length; i++) 
@@ -60,14 +60,10 @@ int main(int argc, char* argv[])
         }
 
         strncpy(key, line, argLength);
-        if (value == "\0") {
-        strncpy(value, "MISSING_DATA");
-        } else {
         strncpy(value, line + (argLength + 1), (length + 1));
-        }
-         sucNum = setValue(key, value);
+        sucNum = setValue(key, value);
         memset(key, 0, length);
-        memset(value, 0, length);
+        memset(value, 0, length);*/
     }
     if (sucNum != 1) 
     {
@@ -113,10 +109,10 @@ int main(int argc, char* argv[])
             } 
 
         }
-         printf("%s\n", finalLine);
+        // printf("%s\n", finalLine);
         fprintf(outputFile, "%s\n", finalLine);
     } 
-    printf("%d Variables Found\n%d Variables Successfully Replaced\n", argNum, updateCounter);
+    printf("%d Variables Found\n%d Variables Successfully Replaced\nProcess Executed Successfully\n", argNum, updateCounter);
     fclose(openTemplate);
     fclose(openData);
     fclose(outputFile);
