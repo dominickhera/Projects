@@ -7,6 +7,6 @@
 #include"uthash.h"
 #include<ctype.h>
 
-int valueSetter(char openData[], int length);
+int valueSetter(FILE * openData, int length);
 
 #endif

@@ -9,7 +9,7 @@ char value[256];
 char key[256];
 
 
-int valueSetter (char openData[], int length) {
+int valueSetter (FILE * openData, int length) {
 
  length = strlen(line);
           line[length+1] = '\0';
@@ -30,5 +30,5 @@ int valueSetter (char openData[], int length) {
            memset(key, 0, length);
            memset(value, 0, length);
 
-return 0;
+return length;
 }
