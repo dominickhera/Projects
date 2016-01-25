@@ -60,8 +60,12 @@ int main(int argc, char* argv[])
         }
 
         strncpy(key, line, argLength);
+        if (value == "\0") {
+        strncpy(value, "MISSING_DATA");
+        } else {
         strncpy(value, line + (argLength + 1), (length + 1));
-        sucNum = setValue(key, value);
+        }
+         sucNum = setValue(key, value);
         memset(key, 0, length);
         memset(value, 0, length);
     }
