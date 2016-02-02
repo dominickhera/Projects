@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -Wall -std=c9 -lncurses9
+CFLAGS= -Wall -std=c99 -lncurses
 TARGET=run
 FILES=./src/main.c
 INCLUDE=./include
