@@ -4,11 +4,11 @@ void endGame();
 void startGame();
 
 int main(int argc, char* argv[]) {
-/*
+
     if  (argc != 1) {
         printf("incorrect amount of arguments given\n");
         return 1;
-    }*/
+    }
 
 startGame();
 /*
