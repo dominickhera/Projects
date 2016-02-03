@@ -2,6 +2,8 @@
 
 void endGame();
 void startGame();
+void gameLoop();
+void moveCursor(char input);
 
 int main(int argc, char* argv[]) {
 
@@ -10,26 +12,53 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-startGame();
-/*
-    initscr();
-
-    printw("hello world");
-
-    refresh();
-
-    getch();*/
-
+    startGame();
+    gameLoop();
     endGame();
 
     return 0;
 }
 
 void startGame(){
-initscr();
-printw("hello world");
-refresh();
-getch();
+    initscr();
+    noecho();
+    cbreak(); 
+    printw("hello world");
+    refresh();
+    getch();
+}
+
+void gameLoop() {
+    char input;
+    do {
+        input = getch();
+        moveCursor(input);
+    } while (input != 'q');
+
+}
+
+void moveCursor(char input) {
+    int xpos, ypos;
+    int oldX, oldy;
+    getyx(stdscr, ypos, xpos);
+
+    switch(input) {
+        case 'w':
+            ypos--;
+            break;
+        case 'a':
+            xpos--;
+            break;
+        case 's':
+            ypos++;
+            break;
+        case 'd':
+            xpos++;
+            break;
+        default:
+            break;
+    }
+    move(ypos, xpos);
 }
 
 void endGame(){
