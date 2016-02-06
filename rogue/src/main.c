@@ -1,21 +1,28 @@
 #include"main.h"
 
+typedef struct roomStruct {
+    int x;
+    int y;
+    int width;
+    int height;
+    itemContents[10];
+}room;
+
 void endGame();
 void startGame();
-void gameLoop();
-void moveCursor(char input);
-
+room* roomParse();
 int main(int argc, char* argv[]) {
-
+    FILE * openLevel;
     if  (argc != 1) {
         printf("incorrect amount of arguments given\n");
         return 1;
     }
 
-    startGame();
-    gameLoop();
-    endGame();
+    openLevel = fopen(argv[1], "r");
 
+    //    startGame();
+    //    endGame();
+    fclose(openLevel);
     return 0;
 }
 
@@ -23,42 +30,23 @@ void startGame(){
     initscr();
     noecho();
     cbreak(); 
-    printw("hello world");
     refresh();
     getch();
 }
 
-void gameLoop() {
-    char input;
-    do {
-        input = getch();
-        moveCursor(input);
-    } while (input != 'q');
+room* roomParse() {
+    room * roomThing;
+    int counter = 0;
+    
 
-}
+    roomThing = malloc(sizeof(room));
+    roomThing->x = xInt;
+    roomThing->y = yInt;
+    roomThing->width = widthInt;
+    roomThing-height = heighInt;
 
-void moveCursor(char input) {
-    int xpos, ypos;
-    int oldX, oldy;
-    getyx(stdscr, ypos, xpos);
+    return roomThing;
 
-    switch(input) {
-        case 'w':
-            ypos--;
-            break;
-        case 'a':
-            xpos--;
-            break;
-        case 's':
-            ypos++;
-            break;
-        case 'd':
-            xpos++;
-            break;
-        default:
-            break;
-    }
-    move(ypos, xpos);
 }
 
 void endGame(){
