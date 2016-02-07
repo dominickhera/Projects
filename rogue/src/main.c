@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     }
 
     openLevel = fopen(argv[1], "r");
-
+    roomParse();
     //    startGame();
     //    endGame();
     fclose(openLevel);
@@ -36,10 +36,25 @@ void startGame(){
 
 room* roomParse() {
     room * roomThing;
-    int counter = 0;
-    
+    roomThing = malloc(sizeof(room));    
 
-    roomThing = malloc(sizeof(room));
+    while(fgets(line, 256, openLevel) != NULL) {
+        char finalLine[256];
+        char wordUpdate[256];
+        int counter = 0;
+        memset(word, '\0', strlen(word));
+        length = strlen(line);
+        line[length - 1] = '\0'
+
+            for (int i = 0; i < length; i++) {
+                while(line[i] != 'X') {
+                    word[wordLength] = line[i];
+                    wordLength++;
+                    i++;
+                }
+            }
+    }
+
     roomThing->x = xInt;
     roomThing->y = yInt;
     roomThing->width = widthInt;
