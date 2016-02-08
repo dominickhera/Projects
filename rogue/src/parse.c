@@ -2,6 +2,7 @@ room * parse() {
 FILE * openLevel;
 room * roomThing;
 roomThing = malloc(sizeof(room)); 
+
     if  (argc != 1) {
         printf("incorrect amount of arguments given\n");
         return 1;
@@ -10,8 +11,6 @@ roomThing = malloc(sizeof(room));
     openLevel = fopen(argv[1], "r");
    
    while(fgets(line, 900, openLevel) != NULL) {
-        char finalLine[256];
-        char wordUpdate[256];
         int counter = 0;
         length = strlen(line);
         line[length - 1] = '\0'

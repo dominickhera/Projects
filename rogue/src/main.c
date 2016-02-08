@@ -7,7 +7,7 @@
 #include "draw.h"
 
 void startGame();
-void roomParse();
+void parse();
 void draw();
 void endGame();
 
