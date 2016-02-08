@@ -1,2 +1,14 @@
 #include <stdio.h>
-#include
+
+
+void startGame(){
+    initscr();
+    noecho();
+    cbreak(); 
+    refresh();
+    getch();
+}
+
+void endGame(){
+    endwin();
+}

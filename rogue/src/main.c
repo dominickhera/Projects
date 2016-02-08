@@ -9,27 +9,13 @@
 void startGame();
 void roomParse();
 void draw();
-
-
 void endGame();
 
 
 int main(int argc, char* argv[]) {
     roomParse();
-    //    startGame();
-    //    endGame();
+    startGame();
+    endGame();
     fclose(openLevel);
     return 0;
-}
-
-void startGame(){
-    initscr();
-    noecho();
-    cbreak(); 
-    refresh();
-    getch();
-}
-
-void endGame(){
-    endwin();
 }
