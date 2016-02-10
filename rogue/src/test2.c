@@ -26,6 +26,7 @@ int main (int argc, char* argv[])
 {
     FILE * openLevel;
     char text[200];
+    room * roomThing;
     room x[6];
     room y[6];
     room width[6];
@@ -41,19 +42,31 @@ int main (int argc, char* argv[])
     if (openLevel == NULL){
         printf("couldn't open file\n");
     }
-
+roomThing = malloc(sizeof(room));
     while (fscanf(openLevel, "%s", text) != EOF)
     {
         char * pch;
         pch = strtok (text," ");
+        //roomThing->x = atoi(pch);
+        //pch = strtok (text, "X");
+        //roomThing->y = atoi(pch);
+       // printf("%d", roomThing->x);
         //pch = strtok (text," X de dw ds g , M h p");
-
+		//printf("%d", roomThing->y);
         while (pch != NULL)
         {
             printf ("%s\n",pch);
            // pch = strtok (NULL, " X de dw ds g , M h p");
             pch = strtok (NULL, " ");
+          //  roomThing->y = atoi(pch);
+            //printf("%d", roomThing->y);
         }
+   roomThing->x = atoi(pch);
+    roomThing->y = atoi(pch);
     }
+  //  roomThing->x = atoi(pch);
+    //roomThing->y = atoi(pch);
+printf("%d", roomThing->x);
+printf("%d", roomThing->y);
     return 0;
 }
