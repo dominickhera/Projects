@@ -57,6 +57,6 @@ int main (int argc, char* argv[])
     }
 
     roomThing = malloc(sizeof(room));
-    
+
     return 0;
 }
