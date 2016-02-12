@@ -8,19 +8,6 @@ typedef struct roomStruct {
     int width;
     int height;
 }room;
-/*
-   enum itemsEnum {
-   z,
-   a,
-   g,
-   G,
-   w,
-   W,
-   m,
-   e,
-   M,
-   P,
-   };*/
 
 int main (int argc, char* argv[])
 {
@@ -39,7 +26,6 @@ int main (int argc, char* argv[])
     room y[6];
     room width[6];
     room height[6];
-    // enum itemsEnum items;
     openLevel = fopen(argv[1], "r");
 
     if (argc != 2){
@@ -75,7 +61,6 @@ int main (int argc, char* argv[])
 
         while (pch != NULL)
         {
-
             printf ("%s\n",pch);
             pch = strtok (NULL, " ");
         }
