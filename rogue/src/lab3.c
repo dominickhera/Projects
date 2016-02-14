@@ -15,15 +15,11 @@ int main(int argc, char ** argv){
     char condition;
     int x1 = 27;
     int y1 = 12;
-
     int heroY = 5;
     int heroX = 5;
+    
     room1 = createRoom(y1,x1);
 
-
-    /* for(int i=0;i<y1;i++){
-       printf("%s\n", room1[i]);
-       }*/
     initscr();
     noecho();
 
@@ -47,6 +43,7 @@ int main(int argc, char ** argv){
         } 
         else if(condition == 2){
             move(30, 0);
+            printw("hello");
         }
         else if (condition == 3){
             clear();
