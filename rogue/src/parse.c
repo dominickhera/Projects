@@ -37,13 +37,15 @@ roomThing = malloc(sizeof(room));
     roomThing->x = xInt;
     roomThing->y = yInt;
 
+    fclose(openLevel)
+
     return roomThing;
 
 }
 
 room * createRoom(char * line, int length){
 
-    
+
 }
 
 /*
