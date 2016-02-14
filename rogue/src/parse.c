@@ -1,4 +1,13 @@
-room * parse() {    
+#import <stdio.h>
+#import <stdlib.h>
+#import <ctype.h>
+#import <string.h>
+#import "parse.h"
+
+#define TOTALROOMCOUNT  5
+
+room * parseFile(char ) { 
+
 FILE * openLevel;
 room * roomThing;
 roomThing = malloc(sizeof(room)); 
@@ -14,7 +23,7 @@ roomThing = malloc(sizeof(room));
         int counter = 0;
         length = strlen(line);
         line[length - 1] = '\0'
-<<<<<<< HEAD
+
             for (int i = 0; i < length; i++) {
                 while(line[i] != 'X') {
                     word[wordLength] = line[i];
@@ -22,20 +31,22 @@ roomThing = malloc(sizeof(room));
                     i++;
                 }
             }
-=======
->>>>>>> 9d49c8fbc75cd3bd953ac667bbfc5f5af03bd41f
+
     }
-/*
+
     roomThing->x = xInt;
     roomThing->y = yInt;
-    roomThing->width = widthInt;
-    roomThing-height = heighInt;
-*/
+
     return roomThing;
 
 }
 
+room * createRoom(char * line, int length){
 
+    
+}
+
+/*
 for (int i = 0; i < length; i++) {
                 while(line[i] != 'X') {
                     word[wordLength] = line[i];
@@ -43,3 +54,4 @@ for (int i = 0; i < length; i++) {
                     i++;
                 }
             }
+            */
