@@ -9,11 +9,11 @@ int main(int argc, char* argv[])
 
 	char * filename = argv[1]; 
 
-    roomParse();
+    parseFile(filename); 
 
-    startGame();
+    // startGame();
 
-    endGame();
+    // endGame();
 
     return 0;
 }
