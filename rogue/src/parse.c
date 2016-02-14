@@ -109,7 +109,7 @@ room * createRoom(char * line, int length)
 
         if (isalpha(line[i]) && isdigit(line[i + 1]))
         {
-            if (line[i] != 'e' && line[i] != 's' && line[i] != 'w')
+            if (line[i] != 'e' && line[i] != 's' && line[i] != 'w')=
             {
                 if(line[i + 2] == ',')
                 {
@@ -130,7 +130,7 @@ room * createRoom(char * line, int length)
                 }
                     // g11,4   g4,11  g11,11 
 
-                int commaPOS = 0; 
+               // int commaPOS = 0; 
                 if(line[i + 2] == ',')
                 {
                     tmpRoom->roomItems[numberOfItems].itemX = atoi(&line[i + 1]); 
