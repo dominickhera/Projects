@@ -1,7 +1,7 @@
 #ifndef __DHERA__PARSE__
 #define __DHERA__PARSE__
 
-typedef struct itemStruct
+typedef struct item
 {
 	int itemX;
 	int itemY;
@@ -9,14 +9,19 @@ typedef struct itemStruct
 }item;
 
 typedef struct roomStruct {
-    int x;
+    
+    int x; 
     int y;
-    char doorSize[4];
-    int doorLocation[4];
+
+    char doorLocation[4];
+    int doorPosition[4];
+    int totalDoors; 
+
     item * roomItems;
+
 }room;
 
-room * parseFile(char *openLevel);
+room * parseFile(char * filename);
 room * createRoom(char * line, int length);
 
 #endif

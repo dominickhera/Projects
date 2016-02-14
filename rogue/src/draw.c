@@ -1,20 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h> 
 #include "draw.h"
 
 
-void startGame(){
-    initscr();
+void startGame()
+{
+/*    initscr();
     noecho();
     cbreak(); 
     refresh();
     getch();
+ */
+    return;
 }
 
-void endGame(){
+/*
+void endGame()
+{
     endwin();
 }
 
-char ** createRoom(int roomY, int roomX){
+char ** createRoom(int roomY, int roomX)
+{
 
     char ** currentRoom;
 
@@ -128,3 +135,5 @@ void destroyRoom(char ** currentRoom, int roomY){
     }
     free(currentRoom);
 }
+
+*/
