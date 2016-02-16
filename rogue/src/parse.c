@@ -118,29 +118,12 @@ room * parseRoom(char * line, int length)
                     }
                     else if (isdigit(line[i + 3]))
                     {
-<<<<<<< HEAD
-                        puts("bro its done yo"); 
-                        exit(1);
-                    }
-                }
-                // g11,4   g4,11  g11,11 
-
-                // int commaPOS = 0; 
-                if(line[i + 2] == ',')
-                {
-                    tmpRoom->roomItems[numberOfItems].itemX = atoi(&line[i + 1]); 
-=======
                         tempRoom->roomItems[numberOfItems].itemY = atoi(&line[i + 3]);
->>>>>>> 68b6da65cdbb8544a262c27e4f9ae36b4d34178b
 
                     }
                 }
                 else if(isdigit(line[i + 2]))
                 {
-<<<<<<< HEAD
-
-=======
->>>>>>> 68b6da65cdbb8544a262c27e4f9ae36b4d34178b
                     //2 numbers
                     if(line[i + 3] == ',')
                     {
@@ -185,3 +168,5 @@ room * parseRoom(char * line, int length)
     return tempRoom; 
 
 }
+
+

@@ -7,12 +7,13 @@
 int main(int argc, char* argv[]) 
 {
 
-	char * filename = argv[1]; 
+    char * filename = argv[1]; 
 
-	room * Rooms = malloc(sizeof(room)  * 6);
+    room * Rooms = malloc(sizeof(room)  * 6);
     Rooms = parseFile(filename); 
 
     initGame();
+    mainGame(room->x, room->y);
 
     // endGame();
 

@@ -1,4 +1,8 @@
-#include "draw.h"
+//#include "draw.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ncurses.h>
 
 void initGame()
 {
@@ -64,8 +68,6 @@ int main(int argc, char ** argv){
 
     return 0;
 }
-
-
 
 
 char ** createRoom(int roomY, int roomX){

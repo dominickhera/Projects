@@ -13,16 +13,16 @@ int main(int argc, char ** argv){
     char ** room1;
     char input;
     char condition;
-<<<<<<< HEAD:rogue/src/lab3.c
-    int x1 = 27;
-    int y1 = 12;
-=======
+
+   // int x1 = 27;
+    //int y1 = 12;
+
  /*   int x1 = 27;
     int y1 = 12;*/
     int x1 = atoi(argv[1]);
     int y1 = atoi(argv[2]);
 
->>>>>>> 19c8fc7e7c8613d5e360d6524bd8fedbd74190f2:rogue/assets/lab3.c
+
     int heroY = 5;
     int heroX = 5;
     
