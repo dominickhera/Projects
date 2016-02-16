@@ -1,4 +1,1 @@
-9X16 de4 dw9 ds8 g8,71 M3,4 h6,5 p2,3
-2X6 de4 dw9 ds8 g8,7 M3,4 h6,53 p2,31
-10X13 de4 dw9 ds8 g18,7 M31,4 h6,5 p2,3
-12X1 de4 dw9 ds8 g8,73 M3,4 h6,53 p2,3
+9X16 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
