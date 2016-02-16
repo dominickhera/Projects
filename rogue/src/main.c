@@ -9,9 +9,10 @@ int main(int argc, char* argv[])
 
 	char * filename = argv[1]; 
 
-    parseFile(filename); 
+	room * Rooms = malloc(sizeof(room)  * 6);
+    Rooms = parseFile(filename); 
 
-    // startGame();
+    initGame();
 
     // endGame();
 

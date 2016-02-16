@@ -1,27 +1,74 @@
-#include <stdio.h>
-#include <stdlib.h> 
 #include "draw.h"
 
-
-void startGame()
+void initGame()
 {
-/*    initscr();
+    initscr();
     noecho();
     cbreak(); 
-    refresh();
-    getch();
- */
+ 
     return;
 }
 
-/*
-void endGame()
-{
+int main(int argc, char ** argv){
+    char ** room1;
+    char input;
+    char condition;
+ 
+    int x1 = atoi(argv[1]);
+    int y1 = atoi(argv[2]);
+
+    int heroY = 5;
+    int heroX = 5;
+    room1 = createRoom(y1,x1);
+
+    initscr();
+    noecho();
+
+    for(int i=0;i<y1;i++){
+        for(int k=0;k<x1;k++){
+            mvaddch(i, k, room1[i] [k]);
+        }
+    }
+
+    mvaddch(heroY, heroX, '@');
+    move(heroY, heroX);
+    refresh();
+
+    //game loop
+    while(input != 'q'){
+        refresh();
+        input = getch();
+        condition = checkInput(input, heroY, heroX);
+        if(condition == 1){
+            movePlayer(input,&heroY,&heroX);
+        } 
+        else if(condition == 2){
+            move(30, 0);
+        }
+        else if (condition == 3){
+            clear();
+
+            for(int i=0;i<y1;i++){
+                for(int k=0;k<x1;k++){
+                    mvaddch(i, k, room1[i] [k]);
+                }
+            }
+        }
+        move(heroY, heroX);
+        refresh();
+    }
+
     endwin();
+
+    destroyRoom(room1, y1);
+
+    return 0;
 }
 
-char ** createRoom(int roomY, int roomX)
-{
+
+
+
+char ** createRoom(int roomY, int roomX){
 
     char ** currentRoom;
 
@@ -136,4 +183,7 @@ void destroyRoom(char ** currentRoom, int roomY){
     free(currentRoom);
 }
 
-*/
+void endGame(){
+	endwin();
+}
+

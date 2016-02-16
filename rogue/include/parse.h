@@ -22,6 +22,6 @@ typedef struct roomStruct {
 }room;
 
 room * parseFile(char * filename);
-room * createRoom(char * line, int length);
+room * parseRoom(char * line, int length);
 
 #endif
