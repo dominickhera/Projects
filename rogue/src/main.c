@@ -12,10 +12,7 @@ int main(int argc, char* argv[])
     room * Rooms = malloc(sizeof(room)  * 6);
     Rooms = parseFile(filename); 
 
-    initGame();
-    mainGame(room->x, room->y);
-
-    // endGame();
+    initCurses(Rooms);
 
     return 0;
 }

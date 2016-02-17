@@ -1,34 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ncurses.h>
-
-char ** createRoom(int roomY, int roomX);
-int checkInput(char input, int posY, int posX);
-void movePlayer(char input, int * posY, int * posX);
-void destroyRoom(char ** currentRoom, int roomY);
+#include "draw.h"
 
 
-int main(int argc, char ** argv){
+void initGame()
+	{
+    initscr();
+    noecho();
+    cbreak(); 
+ 
+    return;
+}
+
+int mainGame(int argc, char ** argv){
     char ** room1;
     char input;
     char condition;
-
-   // int x1 = 27;
-    //int y1 = 12;
-
+ 
     int x1 = atoi(argv[1]);
     int y1 = atoi(argv[2]);
 
-
     int heroY = 5;
     int heroX = 5;
-    
     room1 = createRoom(y1,x1);
 
     initscr();
     noecho();
-
 
     for(int i=0;i<y1;i++){
         for(int k=0;k<x1;k++){
@@ -50,7 +45,6 @@ int main(int argc, char ** argv){
         } 
         else if(condition == 2){
             move(30, 0);
-            printw("hello");
         }
         else if (condition == 3){
             clear();
@@ -71,8 +65,6 @@ int main(int argc, char ** argv){
 
     return 0;
 }
-
-
 
 
 char ** createRoom(int roomY, int roomX){
@@ -188,5 +180,9 @@ void destroyRoom(char ** currentRoom, int roomY){
         free(currentRoom[i]);
     }
     free(currentRoom);
+}
+
+void endGame(){
+	endwin();
 }
 

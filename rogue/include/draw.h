@@ -7,7 +7,12 @@
 
 
 
-void initGame();
+void initCurses(room * Rooms);
+char ** printRooms(int xVar, int yVar);
+//void printRooms();
+//void printItems();
+void endGame();
+
 /*
 char ** createRoom(int roomY, int roomX);
 int checkInput(char input, int posY, int posX);
