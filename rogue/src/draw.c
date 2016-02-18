@@ -80,7 +80,7 @@ void initCurses(room * Rooms)
     refresh();
 
     //main game loop
-    while(input != 'q')
+    do
     {
         refresh();
         input = getch();
@@ -96,7 +96,7 @@ void initCurses(room * Rooms)
         }
         move(charY, charX);
         refresh();
-    }
+    }while(input != 'q');
     endGame();
     //freeLevels(roomMake[i], yVar);
 
@@ -153,7 +153,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
             curseRoom[i][k] = '.';
         }
     }
-
+/*
 for(int i=0; i<3; i++)
 {
 	if((Rooms[index].door[i].doorLocation) == 'e')
@@ -174,7 +174,7 @@ for(int i=0; i<3; i++)
 	}
 
 }
-
+*/
 
 
     return curseRoom;
