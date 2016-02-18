@@ -7,21 +7,10 @@
 
 
 void initCurses(room * Rooms);
-void gameLoop();
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
-void endGame();
-/*
-void initCurses(room * Rooms);
-
-//char ** printRooms(int yVar, int xVar, room * Rooms, int index);
-void gameLoop();
-//void printRooms();
-//void printItems();
-void endGame();
-*/
-/*
-int checkInput(char input, int posY, int posX);
 void movePlayer(char input, int * posY, int * posX);
-void destroyRoom(char ** currentRoom, int roomY);
-*/
+int checkInput(char input, int posY, int posX);
+//void freeLevels(char ** curseRoom, int yVar);
+void endGame();
+
 #endif

@@ -5,14 +5,17 @@
 void initCurses(room * Rooms)
 {
     char ** roomMake[6];
-
-    int yRoom,xRoom;
+    char input, condition;
+    int yRoom, xRoom;
+    int charY = 5;
+    int charX = 5;
     for (int i = 0; i < 6; i ++)
     {
         xRoom = Rooms[i].x;
         yRoom = Rooms[i].y;
-        roomMake[i] = printRooms(yRoom,xRoom, Rooms,i);
+        roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
     }
+
 
 
     initscr();
@@ -32,7 +35,7 @@ void initCurses(room * Rooms)
             }
             else
             {
-                offset = offset + (Rooms[j - 1].x  + 5);
+                offset = offset + (Rooms[j - 1].x  + 3);
                 if(Rooms[j].y > maxTop)
                 {
                     maxTop = Rooms[j].y;
@@ -56,13 +59,14 @@ void initCurses(room * Rooms)
             }
             else if (j > 3)
             {
-                offset = offset + (Rooms[j - 1].x  + 5);
+                offset = offset + (Rooms[j - 1].x  + 3);
             }
 
             for(int i=0;i<Rooms[j ].y;i++)
             {
                 for(int k=0;k<Rooms[j ].x;k++)
                 {
+
                     mvaddch(i + (maxTop + 5), k + offset, roomMake[j][i] [k]);
                 }
             }
@@ -71,27 +75,33 @@ void initCurses(room * Rooms)
 
     }
 
-    gameLoop();
+    mvaddch(charY, charX, '@');
+    move(charY, charX);
+    refresh();
 
+    //main game loop
+    while(input != 'q')
+    {
+        refresh();
+        input = getch();
+        condition = checkInput(input, charY, charX);
+        if(condition == 1)
+        {
+            movePlayer(input,&charY,&charX);
+        } 
+        else if(condition == 2)
+        {
+            move(30, 0);
+            printw("you pressed h woo");
+        }
+        move(charY, charX);
+        refresh();
+    }
+    endGame();
+    //freeLevels(roomMake[i], yVar);
 
     return;
 }
-
-
-void gameLoop()
-{
-    char input;
-    int i = 0;
-
-    do
-    {
-        input = getch();
-        i++;
-    }while(input != 'q');
-    endGame();
-}
-
-
 
 char ** printRooms(int yVar, int xVar, room * Rooms, int index)
 {
@@ -113,10 +123,11 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
             exit(1);
         }
     }
- 
+
     for(int i=0;i<xVar;i++)
     {
         curseRoom[0][i] = '-';
+
     }
 
     for(int i=0;i<xVar;i++)
@@ -143,9 +154,103 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         }
     }
 
+for(int i=0; i<3; i++)
+{
+	if((Rooms[index].door[i].doorLocation) == 'e')
+	{
+		curseRoom[Rooms[index].doorPosition[i].doorLocation][0] = '+';
+	}
+	else if((Rooms[index].totalDoors[i].doorLocation) == 'n')
+	{
+		curseRoom[Rooms[index].doorPosition[i].DoorLocation][0] = '+';
+	}
+	else if((Rooms[index].totalDoors[i].doorLocation) == 's')
+	{
+		curseRoom[Rooms[index].doorPosition[i].doorLocation][0] = '+';
+	}
+	else if((Rooms[index].totalDoors[i].doorLocation) == 'w')
+	{
+		curseRoom[Rooms[index].doorPosition[i].doorLocation][0] = '+';
+	}
+
+}
+
+
+
     return curseRoom;
 }
 
+
+int checkInput(char input, int posY, int posX){
+    char space;
+    switch(input){
+        case 'w':
+            posY -= 1;
+            break;
+        case 'a':
+            posX -= 1;
+            break;
+        case 's':
+            posY += 1;
+            break;
+        case 'd':
+            posX += 1;
+            break;
+    }
+
+    space = mvinch(posY, posX) & A_CHARTEXT;
+
+    switch(space){
+        case '#':
+            return 0;
+        case '.':
+            return 1;
+            break;
+        case '+':
+        	return 2;
+        default:
+            return 0;
+    }
+
+    return 0;
+}
+
+void movePlayer(char input, int * posY, int * posX){
+    switch(input){
+        case 'w':
+            mvaddch(*posY, *posX, '.');
+            *posY -= 1;
+            break;
+        case 'a':
+            mvaddch(*posY, *posX, '.');
+            *posX -= 1;
+            break;
+        case 's':
+            mvaddch(*posY, *posX, '.');
+            *posY += 1;
+            break;
+        case 'd':
+            mvaddch(*posY, *posX, '.');
+            *posX += 1;
+            break;
+        default:
+            return;
+    }
+    mvaddch(*posY, *posX, '@');
+    move(*posY, *posX);
+}
+
+/*
+   void freeLevels(char ** curseRoom, int yVar)
+   {
+   int i = 0;
+   for(int i=0;i<yVar;i++)
+   {
+   free(curseRoom[i]);
+   }
+   free(curseRoom);
+   }
+ */
 void endGame(){
-	endwin();
+    endwin();
 }

@@ -1,6 +1,6 @@
-27X12 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
+19X12 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
 10X11 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
 9X9 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
 15X9 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
-6X12 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
+15X11 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3
 12X12 de4 dw9 ds8 g8,7 M3,4 h6,5 p2,3

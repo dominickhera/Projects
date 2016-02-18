@@ -41,22 +41,28 @@ int main(int argc, char ** argv){
     refresh();
 
     //game loop
-    while(input != 'q'){
+    while(input != 'q')
+    {
         refresh();
         input = getch();
         condition = checkInput(input, heroY, heroX);
-        if(condition == 1){
+        if(condition == 1)
+        {
             movePlayer(input,&heroY,&heroX);
         } 
-        else if(condition == 2){
+        else if(condition == 2)
+        {
             move(30, 0);
             printw("hello");
         }
-        else if (condition == 3){
+        else if (condition == 3)
+        {
             clear();
 
-            for(int i=0;i<y1;i++){
-                for(int k=0;k<x1;k++){
+            for(int i=0;i<y1;i++)
+            {
+                for(int k=0;k<x1;k++)
+                {
                     mvaddch(i, k, room1[i] [k]);
                 }
             }
