@@ -3,4 +3,24 @@ a2
 8/2/16
 dominick hera
 dhera@mail.uoguelph.ca
-§§§§§§§§§§§§§§§§§§§§§§§
+§§§§§§§§§§§§§§§§§§§§§§
+
+
+to run
+=====
+./rogue ./assets/building.txt
+
+
+to compile
+=========
+type 'make' to run the makeFile
+
+
+program limitations
+====================
+- program doesnt full do all specifications
+	- program will parse the lines of the building.txt, all but the very last number of the last item will work, it for some reasons changes to 0
+	- program will only create rooms and allow hero to move in the first room, that's it
+	- no items are spawned, no doors are created ( the efforts to try to create them are seen in the code)
+- program seg faults on raspberrypi, only works on OS X so far (great finding that out in the last 30 minutes)	
+

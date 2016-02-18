@@ -4,6 +4,7 @@
 #include <string.h>
 #include "parse.h"
 
+//opens file, closes it to prevent memory leaks, begins paarsing file to a char array for actually parsing the info.
 room * parseFile(char * filename) 
 { 
 
@@ -33,7 +34,7 @@ room * parseFile(char * filename)
     return Rooms; 
 
 }
-
+//parses all the information provided  in the lines into a room struct that will be used to create the rooms in ncurses
 room * parseRoom(char * line, int length)
 {
     room * tempRoom = malloc(sizeof(room));
@@ -41,10 +42,8 @@ room * parseRoom(char * line, int length)
     tempRoom->totalDoors = 0;
     int numberOfItems = 0; 
 
-    //Room Sizes, 12X12 or 2X12 or 12X2) 
     for(int i = 0; i < length; i++)
     {
-        //we have done size!
         if (line[i] == 'X') 
         {
             //x
@@ -72,7 +71,6 @@ room * parseRoom(char * line, int length)
 
             continue; 
         }
-        //This is doors de4
         if (line[i] == 'd')
         {
             if (isalpha(line[i + 1]))

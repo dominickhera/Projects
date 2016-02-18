@@ -1,7 +1,8 @@
 #include "draw.h"
 #include "parse.h"
 
-
+//calls the room print function to print all the rooms, makes sure to print them at an offset so they all dont print right next to eachother
+//also handles the game loop that looks for user interaction and checks the input against another function to see how to respond
 void initCurses(room * Rooms)
 {
     char ** roomMake[6];
@@ -92,7 +93,7 @@ void initCurses(room * Rooms)
         else if(condition == 2)
         {
             move(30, 0);
-            printw("you pressed h woo");
+            printw("you pressed hit a wall");
         }
         move(charY, charX);
         refresh();
@@ -102,7 +103,9 @@ void initCurses(room * Rooms)
 
     return;
 }
-
+// main function that actually prints out the rooms
+//mallocs and then begins to assign each character to the cureRoom file
+//attempts to create the doors can also be seen commented out.
 char ** printRooms(int yVar, int xVar, room * Rooms, int index)
 {
     char ** curseRoom;
@@ -180,7 +183,8 @@ for(int i=0; i<3; i++)
     return curseRoom;
 }
 
-
+//checks the input of what character the user typed and responds accordingly
+//also deals with collision control to make sure the hero doesnt go through walls
 int checkInput(char input, int posY, int posX){
     char space;
     switch(input){
@@ -239,7 +243,7 @@ void movePlayer(char input, int * posY, int * posX){
     mvaddch(*posY, *posX, '@');
     move(*posY, *posX);
 }
-
+//frees all the memory used to prevent memory leaks if only the program compiled on pi that is
 /*
    void freeLevels(char ** curseRoom, int yVar)
    {
@@ -251,6 +255,7 @@ void movePlayer(char input, int * posY, int * posX){
    free(curseRoom);
    }
  */
+ //merely ends the game and gets out of ncurses
 void endGame(){
     endwin();
 }
