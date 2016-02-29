@@ -40,6 +40,7 @@ room * parseRoom(char * line, int length)
     room * tempRoom = malloc(sizeof(room));
     tempRoom->roomItems = malloc(sizeof(item) * 10);
     tempRoom->totalDoors = 0;
+    tempRoom->totalItems = 0;
     int numberOfItems = 0; 
 
     for(int i = 0; i < length; i++)
@@ -146,6 +147,7 @@ room * parseRoom(char * line, int length)
                 tempRoom->roomItems[numberOfItems].itemType = line[i]; 
 
                 numberOfItems++; 
+                tempRoom->totalItems = numberOfItems;
                 continue; 
             }
         }

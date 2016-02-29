@@ -14,8 +14,9 @@ typedef struct roomStruct {
     int y;
 
     char doorLocation[4];
-    int doorPosition[4];
+    int doorPosition[4]; 
     int totalDoors; 
+    int totalItems;
 
     item * roomItems;
 
