@@ -11,16 +11,16 @@ void initCurses(room * Rooms)
     int charY = 5;
     int charX = 5;
 
-  /*  initscr();
+   initscr();
    noecho();
-*/
+
     for (int i = 0; i < 6; i ++)
     {
         xRoom = Rooms[i].x;
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
     }
-/*
+
     int offset = 0;
     int maxTop = 0;
 
@@ -101,7 +101,7 @@ void initCurses(room * Rooms)
     }while(input != 'q');
     endGame();
     //freeLevels(roomMake[i], yVar);
-*/
+
     return;
 }
 // main function that actually prints out the rooms
