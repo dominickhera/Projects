@@ -13,8 +13,8 @@ typedef struct roomStruct {
     int x; 
     int y;
 
-    char doorLocation[4];
-    int doorPosition[4]; 
+    char * doorLocation;
+    int  * doorPosition; 
     int totalDoors; 
     int totalItems;
 
@@ -24,5 +24,6 @@ typedef struct roomStruct {
 
 room * parseFile(char * filename);
 room * parseRoom(char * line, int length);
+void realParse(room * Rooms, char * line, int length);
 
 #endif

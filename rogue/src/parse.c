@@ -11,7 +11,7 @@ room * parseFile(char * filename)
     FILE * openLevel;
 
     openLevel = fopen(filename, "r");
-    room * Rooms = malloc(sizeof(room) * 5); 
+    room * Rooms = malloc(sizeof(room) * 6); 
 
     int counter = 0;
     char line [256]; 
@@ -22,26 +22,34 @@ room * parseFile(char * filename)
     {
 
         length = strlen(line);
-        line[length - 1] = '\0';
-        Rooms[counter] = *parseRoom(line, length);
+        if (line[length - 1] == '\n'){
+          line[length - 1] = '\0';
+        } else {
+            line[length] = '\0';
+        }
+        //parseRoom(line, length);
+        realParse(&Rooms[counter], line, length);
         memset(line, '\0', 256);
         counter++;
 
     }
-
+    
     fclose(openLevel);
 
     return Rooms; 
 
 }
-//parses all the information provided  in the lines into a room struct that will be used to create the rooms in ncurses
-room * parseRoom(char * line, int length)
+
+void realParse(room * Rooms, char * line, int length)
 {
-    room * tempRoom = malloc(sizeof(room));
-    tempRoom->roomItems = malloc(sizeof(item) * 10);
-    tempRoom->totalDoors = 0;
-    tempRoom->totalItems = 0;
-    int numberOfItems = 0; 
+
+    Rooms->totalDoors = 0;
+    Rooms->totalItems = 0;
+    Rooms->x = 0;
+    Rooms->y = 0;
+    Rooms->roomItems = NULL;
+    Rooms->doorPosition = NULL;
+    Rooms->doorLocation = NULL;
 
     for(int i = 0; i < length; i++)
     {
@@ -52,31 +60,39 @@ room * parseRoom(char * line, int length)
             {
                 if (isdigit(line[i - 1]))
                 {
-                    tempRoom->x = atoi(&line[i-1]);
+                    Rooms->x = atoi(&line[i-1]);
                 }
             }
             else if (isdigit(line[i - 2])) //12X12
             {
-                tempRoom->x = (line[i - 2] - '0') * 10 + (line[i - 1] - '0');
+                Rooms->x = (line[i - 2] - '0') * 10 + (line[i - 1] - '0');
 
             }
             //y
             if (isdigit(line[i + 2])) 
             {
-                tempRoom->y = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                Rooms->y = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
             }
             else if (isdigit(line[i + 1])) //1 char
             {  
-                tempRoom->y = atoi(&line[i + 1]);
+                Rooms->y = atoi(&line[i + 1]);
             }
 
             continue; 
         }
+
+
+
         if (line[i] == 'd')
         {
             if (isalpha(line[i + 1]))
             {
-                tempRoom->doorLocation[tempRoom->totalDoors] = line[i + 1];
+                if(Rooms->totalDoors == 0){
+                    Rooms->doorLocation = malloc(sizeof(char)* 1);
+                } else {
+                    Rooms->doorLocation = realloc(Rooms->doorLocation, sizeof(char)* (Rooms->totalDoors + 1));
+                }
+                Rooms->doorLocation[Rooms->totalDoors] = line[i + 1];
             }
             else 
             {
@@ -87,11 +103,21 @@ room * parseRoom(char * line, int length)
             {
                 if (isdigit(line[i + 3])) //2 number
                 {
-                    tempRoom->doorPosition[tempRoom->totalDoors] = (line[i + 2] - '0') * 10 + (line[i + 3] - '0');
+                    if(Rooms->totalDoors == 0) {
+                        Rooms->doorPosition = malloc(sizeof(int)* 1);
+                    } else {
+                        Rooms->doorPosition = realloc(Rooms->doorPosition, sizeof(int)* (Rooms->totalDoors + 1));
+                    }
+                    Rooms->doorPosition[Rooms->totalDoors] = (line[i + 2] - '0') * 10 + (line[i + 3] - '0');
                 }
                 else //1 number
                 {
-                    tempRoom->doorPosition[tempRoom->totalDoors] = atoi(&line[i + 2]);
+                    if(Rooms->totalDoors == 0) {
+                        Rooms->doorPosition = malloc(sizeof(int)* 1);
+                    } else {
+                        Rooms->doorPosition = realloc(Rooms->doorPosition, sizeof(int)* (Rooms->totalDoors + 1));
+                    }
+                    Rooms->doorPosition[Rooms->totalDoors] = atoi(&line[i + 2]);
                 }
 
             }
@@ -100,71 +126,209 @@ room * parseRoom(char * line, int length)
                 puts("yo missin a dig");
             }
 
-            tempRoom->totalDoors++; 
+            Rooms->totalDoors++; 
             continue; 
         }
 
-        if (isalpha(line[i]) && isdigit(line[i + 1]))
-        {
-            if (line[i] != 'e' && line[i] != 's' && line[i] != 'w')
-            {
-                if(line[i + 2] == ',')//e4,15
-                {
-                    tempRoom->roomItems[numberOfItems].itemX = atoi(&line[i + 1]); 
-                    if (isdigit(line[i + 4]))
-                    {
-                        tempRoom->roomItems[numberOfItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
-                    }
-                    else if (isdigit(line[i + 3]))
-                    {
-                        tempRoom->roomItems[numberOfItems].itemY = atoi(&line[i + 3]);
+    if (isalpha(line[i]) && isdigit(line[i + 1]))
+    {
 
-                    }
-                }
-                else if(isdigit(line[i + 2]))
-                {
-                    //2 numbers
-                    if(line[i + 3] == ',')
-                    {
-                        tempRoom->roomItems[numberOfItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
-                        if (isdigit(line[i + 5]))
-                        {
-                            tempRoom->roomItems[numberOfItems].itemY = (line[i + 6] - '0') * 10 + (line[i +5] - '0');
-                        }
-                        else if (isdigit(line[i + 4]))
-                        {
-                            tempRoom->roomItems[numberOfItems].itemY = atoi(&line[i + 4]);
-
-                        }
-                    }
-                    else                    {   
-                        puts("bro its done yo"); 
-                        exit(1);
-                    }
-                }
-                // g11,4   g4,11  g11,11
-
-                tempRoom->roomItems[numberOfItems].itemType = line[i]; 
-
-                numberOfItems++; 
-                tempRoom->totalItems = numberOfItems;
-                continue; 
-            }
+        if(Rooms->totalItems == 0){
+            Rooms->roomItems = malloc(sizeof(item)* 1);
+        } else {
+            Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
         }
+        if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
+        {
+            if(line[i + 2] == ',')//e4,15
+            {
+                Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 
+                if (isdigit(line[i + 4]))
+                {
+                    Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
+                }
+                else if (isdigit(line[i + 3]))
+                {
+                    Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 3]);
 
+                }
+            }
+            else if(isdigit(line[i + 2]))
+            {
+                //2 numbers
+                if(line[i + 3] == ',')
+                {
+                    Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                    if (isdigit(line[i + 5]))
+                    {
+                        Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 6] - '0') * 10 + (line[i +5] - '0');
+                    }
+                    else if (isdigit(line[i + 4]))
+                    {
+                        Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 4]);
+
+                    }
+                }
+                else                    {   
+                    puts("bro its done yo"); 
+                    exit(1);
+                }
+            }
+            // g11,4   g4,11  g11,11
+
+            Rooms->roomItems[Rooms->totalItems].itemType = line[i]; 
+
+            Rooms->totalItems++; 
+            continue; 
+        }
     }
+}
 
-    printf("x:%d,y:%d\n", tempRoom->x, tempRoom->y);
+    printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
-    for(int i = 0; i < tempRoom->totalDoors; i++)
+    for(int i = 0; i < Rooms->totalDoors; i++)
     {
-        printf("doorNum[%d] = d%c%d\n", i, tempRoom->doorLocation[i], tempRoom->doorPosition[i]);
-    }
-    for (int i = 0; i < numberOfItems; i++)
-    {
-        printf("item[%d] = %c%d,%d\n", i , tempRoom->roomItems[i].itemType, tempRoom->roomItems[i].itemX, tempRoom->roomItems[i].itemY);
+        printf("doorNum[%d] = d%c%d\n", i, Rooms->doorLocation[i], Rooms->doorPosition[i]);
     }
 
-    return tempRoom; 
+    for (int i = 0; i < Rooms->totalItems; i++)
+    {
+        printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
+    }
+}
+
+/*
+//parses all the information provided  in the lines into a room struct that will be used to create the rooms in ncurses
+room * parseRoom(char * line, int length)
+{
+room * Rooms = malloc(sizeof(room));
+Rooms->roomItems = malloc(sizeof(item) * 10);
+Rooms->totalDoors = 0;
+Rooms->totalItems = 0;
+int Rooms->totalItems = 0; 
+
+for(int i = 0; i < length; i++)
+{
+if (line[i] == 'X') 
+{
+//x
+if (line [i - 2] == 0) 
+{
+if (isdigit(line[i - 1]))
+{
+Rooms->x = atoi(&line[i-1]);
+}
+}
+else if (isdigit(line[i - 2])) //12X12
+{
+Rooms->x = (line[i - 2] - '0') * 10 + (line[i - 1] - '0');
 
 }
+//y
+if (isdigit(line[i + 2])) 
+{
+Rooms->y = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+}
+else if (isdigit(line[i + 1])) //1 char
+{  
+Rooms->y = atoi(&line[i + 1]);
+}
+
+continue; 
+}
+if (line[i] == 'd')
+{
+if (isalpha(line[i + 1]))
+{
+Rooms->doorLocation[Rooms->totalDoors] = line[i + 1];
+}
+else 
+{
+puts("Missing baring");
+exit(1);
+}
+if (isdigit(line[i + 2]))
+{
+if (isdigit(line[i + 3])) //2 number
+{
+Rooms->doorPosition[Rooms->totalDoors] = (line[i + 2] - '0') * 10 + (line[i + 3] - '0');
+}
+else //1 number
+{
+Rooms->doorPosition[Rooms->totalDoors] = atoi(&line[i + 2]);
+}
+
+}
+else 
+{
+puts("yo missin a dig");
+}
+
+Rooms->totalDoors++; 
+continue; 
+}
+
+if (isalpha(line[i]) && isdigit(line[i + 1]))
+{
+    if (line[i] != 'e' && line[i] != 's' && line[i] != 'w')
+    {
+        if(line[i + 2] == ',')//e4,15
+        {
+            Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 
+            if (isdigit(line[i + 4]))
+            {
+                Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
+            }
+            else if (isdigit(line[i + 3]))
+            {
+                Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 3]);
+
+            }
+        }
+        else if(isdigit(line[i + 2]))
+        {
+            //2 numbers
+            if(line[i + 3] == ',')
+            {
+                Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                if (isdigit(line[i + 5]))
+                {
+                    Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 6] - '0') * 10 + (line[i +5] - '0');
+                }
+                else if (isdigit(line[i + 4]))
+                {
+                    Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 4]);
+
+                }
+            }
+            else                    {   
+                puts("bro its done yo"); 
+                exit(1);
+            }
+        }
+        // g11,4   g4,11  g11,11
+
+        Rooms->roomItems[Rooms->totalItems].itemType = line[i]; 
+
+        Rooms->totalItems++; 
+        Rooms->totalItems = Rooms->totalItems;
+        continue; 
+    }
+}
+
+}
+
+printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
+
+for(int i = 0; i < Rooms->totalDoors; i++)
+{
+    printf("doorNum[%d] = d%c%d\n", i, Rooms->doorLocation[i], Rooms->doorPosition[i]);
+}
+for (int i = 0; i < Rooms->totalItems; i++)
+{
+    printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
+}
+
+return Rooms; 
+
+}*/

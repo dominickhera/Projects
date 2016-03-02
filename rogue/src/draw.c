@@ -11,8 +11,8 @@ void initCurses(room * Rooms)
     int charY = 5;
     int charX = 5;
 
-   initscr();
-   noecho();
+    //initscr();
+    //noecho();
 
     for (int i = 0; i < 6; i ++)
     {
@@ -20,7 +20,7 @@ void initCurses(room * Rooms)
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
     }
-
+/*
     int offset = 0;
     int maxTop = 0;
 
@@ -75,14 +75,14 @@ void initCurses(room * Rooms)
 
     }
 
-   // printw("%d", Rooms->totalDoors);
+    // printw("%d", Rooms->totalDoors);
 
-   mvaddch(charY, charX, '@');
+    mvaddch(charY, charX, '@');
     move(charY, charX);
     refresh();
 
     //main game loop
-   do
+    do
     {
         refresh();
         input = getch();
@@ -101,7 +101,7 @@ void initCurses(room * Rooms)
     }while(input != 'q');
     endGame();
     //freeLevels(roomMake[i], yVar);
-
+*/
     return;
 }
 // main function that actually prints out the rooms
@@ -158,31 +158,31 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         }
     }
 
-for(int i=0; i<Rooms[index].totalDoors; i++)
-{
-	if((Rooms[index].doorLocation[i]) == 'e')
-	{
-		curseRoom[Rooms[index].doorPosition[i] - 1][xVar - 1] = '+';
-	}
-	else if((Rooms[index].doorLocation[i]) == 'n')
-	{
-		curseRoom[0][Rooms[index].doorPosition[i] - 1] = '+';
-	}
-	else if((Rooms[index].doorLocation[i]) == 's')
-	{
-		curseRoom[yVar - 1][Rooms[index].doorPosition[i] - 1] = '+';
-	}
-	else if((Rooms[index].doorLocation[i]) == 'w')
-	{
-		curseRoom[Rooms[index].doorPosition[i] - 1][0] = '+';
-	}
+    for(int i=0; i<Rooms[index].totalDoors; i++)
+    {
+        if((Rooms[index].doorLocation[i]) == 'e')
+        {
+            curseRoom[Rooms[index].doorPosition[i] - 1][xVar - 1] = '+';
+        }
+        else if((Rooms[index].doorLocation[i]) == 'n')
+        {
+            curseRoom[0][Rooms[index].doorPosition[i] - 1] = '+';
+        }
+        else if((Rooms[index].doorLocation[i]) == 's')
+        {
+            curseRoom[yVar - 1][Rooms[index].doorPosition[i] - 1] = '+';
+        }
+        else if((Rooms[index].doorLocation[i]) == 'w')
+        {
+            curseRoom[Rooms[index].doorPosition[i] - 1][0] = '+';
+        }
 
-}
-/*
-for(int i=0, i< Rooms[index].totalItems; i++){
-    printf("%d", Rooms[index].totalItems)
-}*/
-printf("%d\n", Rooms[index].totalItems);
+    }
+    /*
+       for(int i=0, i< Rooms[index].totalItems; i++){
+       printf("%d", Rooms[index].totalItems)
+       }*/
+    printf("%d\n", Rooms[index].totalItems);
 
 
     return curseRoom;
@@ -216,7 +216,7 @@ int checkInput(char input, int posY, int posX){
             return 1;
             break;
         case '+':
-        	return 2;
+            return 2;
         default:
             return 0;
     }
@@ -260,7 +260,7 @@ void movePlayer(char input, int * posY, int * posX){
    free(curseRoom);
    }
  */
- //merely ends the game and gets out of ncurses
+//merely ends the game and gets out of ncurses
 void endGame(){
     endwin();
 }
