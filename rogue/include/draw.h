@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ncurses.h>
-
+#include <time.h>
 
 void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);

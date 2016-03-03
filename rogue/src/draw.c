@@ -87,26 +87,26 @@ void initCurses(room * Rooms)
         refresh();
         input = getch();
         condition = checkInput(input, charY, charX);
-       /* if(condition == 1)
-        {
-            movePlayer(input,&charY,&charX);
-        } 
-        else if(condition == 2)
-        {
-            move(30, 0);
-            printw("you hit a wall");
-        }*/
+        /* if(condition == 1)
+           {
+           movePlayer(input,&charY,&charX);
+           } 
+           else if(condition == 2)
+           {
+           move(30, 0);
+           printw("you hit a wall");
+           }*/
         switch (condition)
         {
             case 1:
-            movePlayer(input,&charY,&charX);
-            break;
+                movePlayer(input,&charY,&charX);
+                break;
             case 2:
-            move(30, 0);
-            printw("you hit a wall");
-            break;
+                move(30, 0);
+                printw("you hit a door");
+                break;
             default:
-            printw("lol wtf");
+                printw("lol wtf");
         }
         move(charY, charX);
         refresh();
