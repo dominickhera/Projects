@@ -23,7 +23,7 @@ room * parseFile(char * filename)
 
         length = strlen(line);
         if (line[length - 1] == '\n'){
-          line[length - 1] = '\0';
+            line[length - 1] = '\0';
         } else {
             line[length] = '\0';
         }
@@ -130,60 +130,60 @@ void realParse(room * Rooms, char * line, int length)
             continue; 
         }
 
-    if (isalpha(line[i]) && isdigit(line[i + 1]))
-    {
-
-        
-        if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
+        if (isalpha(line[i]) && isdigit(line[i + 1]))
         {
-            if(Rooms->totalItems == 0){
-            Rooms->roomItems = malloc(sizeof(item)* 1);
-        } else {
-            Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
-        }
-            if(line[i + 2] == ',')//e4,15
-            {
-                Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 
-                if (isdigit(line[i + 4]))
-                {
-                    Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
-                }
-                else if (isdigit(line[i + 3]))
-                {
-                    Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 3]);
 
-                }
-            }
-            else if(isdigit(line[i + 2]))
+
+            if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
             {
-                //2 numbers
-                if(line[i + 3] == ',')
+                if(Rooms->totalItems == 0){
+                    Rooms->roomItems = malloc(sizeof(item)* 1);
+                } else {
+                    Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
+                }
+                if(line[i + 2] == ',')//e4,15
                 {
-                    Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
-                    if (isdigit(line[i + 5]))
+                    Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 
+                    if (isdigit(line[i + 4]))
                     {
-                        Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 6] - '0') * 10 + (line[i +5] - '0');
+                        Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
                     }
-                    else if (isdigit(line[i + 4]))
+                    else if (isdigit(line[i + 3]))
                     {
-                        Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 4]);
+                        Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 3]);
 
                     }
                 }
-                else                    {   
-                    puts("bro its done yo"); 
-                    exit(1);
+                else if(isdigit(line[i + 2]))
+                {
+                    //2 numbers
+                    if(line[i + 3] == ',')
+                    {
+                        Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                        if (isdigit(line[i + 5]))
+                        {
+                            Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 6] - '0') * 10 + (line[i +5] - '0');
+                        }
+                        else if (isdigit(line[i + 4]))
+                        {
+                            Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 4]);
+
+                        }
+                    }
+                    else                    {   
+                        puts("bro its done yo"); 
+                        exit(1);
+                    }
                 }
+                // g11,4   g4,11  g11,11
+
+                Rooms->roomItems[Rooms->totalItems].itemType = line[i]; 
+
+                Rooms->totalItems++; 
+                continue; 
             }
-            // g11,4   g4,11  g11,11
-
-            Rooms->roomItems[Rooms->totalItems].itemType = line[i]; 
-
-            Rooms->totalItems++; 
-            continue; 
         }
     }
-}
 
     printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 

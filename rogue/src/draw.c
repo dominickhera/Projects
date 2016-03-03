@@ -257,9 +257,9 @@ void freeLevels(char ** curseRoom[], room * Rooms)
     for(int i=0;i<6;i++)
     {
         for( int j=0; j < Rooms[0].y; j++){
-              //   free(curseRoom[i][j]);   
-             }
-       // free(curseRoom[i]);
+            //   free(curseRoom[i][j]);   
+        }
+        // free(curseRoom[i]);
     }
     //free(curseRoom);
 }
