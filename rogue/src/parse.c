@@ -33,7 +33,7 @@ room * parseFile(char * filename)
         counter++;
 
     }
-    
+
     fclose(openLevel);
 
     return Rooms; 
@@ -133,13 +133,14 @@ void realParse(room * Rooms, char * line, int length)
     if (isalpha(line[i]) && isdigit(line[i + 1]))
     {
 
-        if(Rooms->totalItems == 0){
+        
+        if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
+        {
+            if(Rooms->totalItems == 0){
             Rooms->roomItems = malloc(sizeof(item)* 1);
         } else {
             Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
         }
-        if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
-        {
             if(line[i + 2] == ',')//e4,15
             {
                 Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 

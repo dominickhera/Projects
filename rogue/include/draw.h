@@ -10,7 +10,8 @@ void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
 void movePlayer(char input, int * posY, int * posX);
 int checkInput(char input, int posY, int posX);
-//void freeLevels(char ** curseRoom, int yVar);
+void freeLevels(char ** curseRoom[], room * Rooms);
+void freeRoom (room * Rooms);
 void endGame();
 
 #endif

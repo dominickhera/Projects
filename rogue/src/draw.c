@@ -11,8 +11,8 @@ void initCurses(room * Rooms)
     int charY = 5;
     int charX = 5;
 
-    //initscr();
-    //noecho();
+    initscr();
+    noecho();
 
     for (int i = 0; i < 6; i ++)
     {
@@ -20,7 +20,7 @@ void initCurses(room * Rooms)
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
     }
-/*
+
     int offset = 0;
     int maxTop = 0;
 
@@ -100,8 +100,9 @@ void initCurses(room * Rooms)
         refresh();
     }while(input != 'q');
     endGame();
-    //freeLevels(roomMake[i], yVar);
-*/
+    freeLevels(roomMake, Rooms);
+    freeRoom(Rooms);
+
     return;
 }
 // main function that actually prints out the rooms
@@ -178,10 +179,11 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         }
 
     }
-    /*
-       for(int i=0, i< Rooms[index].totalItems; i++){
-       printf("%d", Rooms[index].totalItems)
-       }*/
+
+    for(int i=0; i<Rooms[index].totalItems; i++){
+        curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = Rooms[index].roomItems[i].itemType;
+
+    }
     printf("%d\n", Rooms[index].totalItems);
 
 
@@ -249,17 +251,29 @@ void movePlayer(char input, int * posY, int * posX){
     move(*posY, *posX);
 }
 //frees all the memory used to prevent memory leaks if only the program compiled on pi that is
-/*
-   void freeLevels(char ** curseRoom, int yVar)
-   {
-   int i = 0;
-   for(int i=0;i<yVar;i++)
-   {
-   free(curseRoom[i]);
-   }
-   free(curseRoom);
-   }
- */
+
+void freeLevels(char ** curseRoom[], room * Rooms)
+{
+    for(int i=0;i<6;i++)
+    {
+        for( int j=0; j < Rooms[0].y; j++){
+              //   free(curseRoom[i][j]);   
+             }
+       // free(curseRoom[i]);
+    }
+    //free(curseRoom);
+}
+
+void freeRoom (room * Rooms){
+    for (int i = 0; i < 6; i++)
+    {
+        free(Rooms[i].roomItems);
+        free(Rooms[i].doorPosition);
+        free(Rooms[i].doorLocation);
+    }
+    free(Rooms);
+}
+
 //merely ends the game and gets out of ncurses
 void endGame(){
     endwin();
