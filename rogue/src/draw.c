@@ -8,9 +8,11 @@ void initCurses(room * Rooms)
     char ** roomMake[6];
     char input, condition;
     int yRoom, xRoom;
+    int smallGold = 0;
+    int bigGold = 0;
     int charY = 5;
     int charX = 5;
-
+    srand(time(NULL));
     initscr();
     noecho();
 
