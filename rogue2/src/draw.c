@@ -8,8 +8,9 @@ void initCurses(room * Rooms)
     char ** roomMake[6];
     char input, condition;
     int yRoom, xRoom;
-    int smallGold = 0;
-    int bigGold = 0;
+    int goldTotal = 0;
+    int smallRandNum = 0;
+    int bigRandNum = 0;
     int charY = 5;
     int charX = 5;
     srand(time(NULL));
@@ -77,8 +78,6 @@ void initCurses(room * Rooms)
 
     }
 
-    // printw("%d", Rooms->totalDoors);
-
     mvaddch(charY, charX, '@');
     move(charY, charX);
     refresh();
@@ -89,7 +88,7 @@ void initCurses(room * Rooms)
         refresh();
         input = getch();
         condition = checkInput(input, charY, charX);
-        /* if(condition == 1)
+      /*   if(condition == 1)
            {
            movePlayer(input,&charY,&charX);
            } 
@@ -104,16 +103,34 @@ void initCurses(room * Rooms)
                 movePlayer(input,&charY,&charX);
                 break;
             case 2:
-                move(30, 0);
+                move(0, 0);
                 printw("you hit a door");
                 break;
+            case 3:
+                smallRandNum = 0;
+                movePlayer(input,&charY,&charX);
+                smallRandNum = (rand() % 50);
+                goldTotal = goldTotal + smallRandNum;
+                move(0, 0);
+                printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
+                //printf("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
+                break;
+            case 4:
+                bigRandNum = 0;
+                movePlayer(input,&charY,&charX);
+                bigRandNum = rand()%(250-50 + 1) + 50;
+                goldTotal = goldTotal + bigRandNum;
+                move(0, 0);
+                printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
+                break;
             default:
-                printw("lol wtf");
+                break;
         }
         move(charY, charX);
         refresh();
     }while(input != 'q');
     endGame();
+    printf("Congradulations you collected %d gold!\n", goldTotal);
     freeLevels(roomMake, Rooms);
     freeRoom(Rooms);
 
@@ -238,9 +255,9 @@ int checkInput(char input, int posY, int posX){
         case '-':
             return 0;
         case 'g':
-            return 1;
+            return 3;
         case 'G':
-            return 1;
+            return 4;
         case ' ':
             return 0;
         default:

@@ -1,6 +1,6 @@
 §§§§§§§§§§§§§§§§§§§§§§§
-a2
-8/2/16
+a3
+5/3/16
 dominick hera
 dhera@mail.uoguelph.ca
 §§§§§§§§§§§§§§§§§§§§§§
@@ -8,7 +8,7 @@ dhera@mail.uoguelph.ca
 
 to run
 =====
-./rogue ./assets/building.txt
+./bin/rogue ./assets/building.txt
 
 
 to compile
