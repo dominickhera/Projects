@@ -9,8 +9,8 @@ void initCurses(room * Rooms)
     char input, condition;
     int yRoom, xRoom;
     int goldTotal = 0;
-    int potionCount = 0;
-    int attackCount = 0;
+    int potionCount = 1;
+    int attackCount = 5;
     int healthCount = 50;
     int inventoryTotal = 0;
     int smallRandNum = 0;
@@ -27,6 +27,9 @@ void initCurses(room * Rooms)
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
     }
+
+    move(30, 0);
+    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
 
     int offset = 0;
     int maxTop = 0;
@@ -116,26 +119,58 @@ void initCurses(room * Rooms)
                 break;
             case 3:
                 smallRandNum = 0;
-                
                 smallRandNum = (rand() % 50);
                 goldTotal = goldTotal + smallRandNum;
                 movePlayer(input,&charY,&charX);
                 move(30, 0);
                 printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-               // move(30, 0);
+                // move(30, 0);
                 //printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
                 break;
             case 4:
                 bigRandNum = 0;
-                
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 goldTotal = goldTotal + bigRandNum;
                 movePlayer(input,&charY,&charX);
                 move(30, 0);
                 printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-               // move(30, 0);
+                // move(30, 0);
                 //printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
                 break;
+            case 5:
+                movePlayer(input,&charY,&charX);
+                input = 'q';
+                break;
+            case 6:
+                movePlayer(input,&charY,&charX);
+                move(30, 0);
+                potionCount++;
+                move(30,0);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                break;
+            case 7:
+                if(healthCount == 50)
+                {
+                    move(0,0);
+                    printw("You already have full health");
+                    move(30,0);
+                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+
+                }
+                else if (potionCount > 0)
+                {
+                    potionCount--;
+                    move(30,0);
+                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                } 
+                else 
+                {
+                    move(0,0);
+                    printw("You have no potions left");
+                    move(30,0);
+                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+
+                }
             default:
                 break;
         }
@@ -311,6 +346,9 @@ int checkInput(char input, int posY, int posX){
         case 'd':
             posX += 1;
             break;
+        case 'p':
+            return 7;
+            break;
     }
 
     space = mvinch(posY, posX) & A_CHARTEXT;
@@ -331,6 +369,12 @@ int checkInput(char input, int posY, int posX){
             return 3;
         case '8':
             return 4;
+        case '<':
+            return 5;
+        case '>':
+            return 5;
+        case '!':
+            return 6;
         case ' ':
             return 0;
         default:
@@ -345,26 +389,18 @@ void movePlayer(char input, int * posY, int * posX){
         case 'w':
             mvaddch(*posY, *posX, '.');
             *posY -= 1;
-           // move(30, 0);
-            //printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 'a':
             mvaddch(*posY, *posX, '.');
             *posX -= 1;
-           // move(30, 0);
-           // printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 's':
             mvaddch(*posY, *posX, '.');
             *posY += 1;
-           // move(30, 0);
-           // printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 'd':
             mvaddch(*posY, *posX, '.');
             *posX += 1;
-           // move(30, 0);
-            //printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         default:
             return;
