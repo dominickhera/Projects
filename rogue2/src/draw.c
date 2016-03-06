@@ -160,6 +160,7 @@ void initCurses(room * Rooms)
                 else if (potionCount > 0)
                 {
                     potionCount--;
+                    healthCount = 50;
                     move(30,0);
                     printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 } 
