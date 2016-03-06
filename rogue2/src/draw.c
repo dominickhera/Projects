@@ -9,6 +9,9 @@ void initCurses(room * Rooms)
     char input, condition;
     int yRoom, xRoom;
     int goldTotal = 0;
+    int potionCount = 0;
+    int attackCount = 0;
+    int healthCount = 50;
     int inventoryTotal = 0;
     int smallRandNum = 0;
     int bigRandNum = 0;
@@ -102,27 +105,36 @@ void initCurses(room * Rooms)
         {
             case 1:
                 movePlayer(input,&charY,&charX);
+                move(30, 0);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 2:
                 move(0, 0);
                 printw("you hit a door");
+                move(30, 0);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 3:
                 smallRandNum = 0;
-                movePlayer(input,&charY,&charX);
+                
                 smallRandNum = (rand() % 50);
                 goldTotal = goldTotal + smallRandNum;
+                movePlayer(input,&charY,&charX);
                 move(30, 0);
-                printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
-                //printf("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+               // move(30, 0);
+                //printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
                 break;
             case 4:
                 bigRandNum = 0;
-                movePlayer(input,&charY,&charX);
+                
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 goldTotal = goldTotal + bigRandNum;
+                movePlayer(input,&charY,&charX);
                 move(30, 0);
-                printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+               // move(30, 0);
+                //printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
                 break;
             default:
                 break;
@@ -333,18 +345,26 @@ void movePlayer(char input, int * posY, int * posX){
         case 'w':
             mvaddch(*posY, *posX, '.');
             *posY -= 1;
+           // move(30, 0);
+            //printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 'a':
             mvaddch(*posY, *posX, '.');
             *posX -= 1;
+           // move(30, 0);
+           // printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 's':
             mvaddch(*posY, *posX, '.');
             *posY += 1;
+           // move(30, 0);
+           // printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         case 'd':
             mvaddch(*posY, *posX, '.');
             *posX += 1;
+           // move(30, 0);
+            //printw("| Health: %d | Potions: %d | Attack: %d | Inventory: %d /5 | Gold: %d |", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
             break;
         default:
             return;
