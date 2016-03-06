@@ -9,6 +9,7 @@ void initCurses(room * Rooms)
     char input, condition;
     int yRoom, xRoom;
     int goldTotal = 0;
+    int inventoryTotal = 0;
     int smallRandNum = 0;
     int bigRandNum = 0;
     int charY = 5;
@@ -88,15 +89,15 @@ void initCurses(room * Rooms)
         refresh();
         input = getch();
         condition = checkInput(input, charY, charX);
-      /*   if(condition == 1)
-           {
-           movePlayer(input,&charY,&charX);
-           } 
-           else if(condition == 2)
-           {
-           move(30, 0);
-           printw("you hit a wall");
-           }*/
+        /*   if(condition == 1)
+             {
+             movePlayer(input,&charY,&charX);
+             } 
+             else if(condition == 2)
+             {
+             move(30, 0);
+             printw("you hit a wall");
+             }*/
         switch (condition)
         {
             case 1:
@@ -111,7 +112,7 @@ void initCurses(room * Rooms)
                 movePlayer(input,&charY,&charX);
                 smallRandNum = (rand() % 50);
                 goldTotal = goldTotal + smallRandNum;
-                move(0, 0);
+                move(30, 0);
                 printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
                 //printf("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
                 break;
@@ -120,7 +121,7 @@ void initCurses(room * Rooms)
                 movePlayer(input,&charY,&charX);
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 goldTotal = goldTotal + bigRandNum;
-                move(0, 0);
+                move(30, 0);
                 printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
                 break;
             default:
@@ -130,7 +131,7 @@ void initCurses(room * Rooms)
         refresh();
     }while(input != 'q');
     endGame();
-    printf("Congradulations you collected %d gold!\n", goldTotal);
+    printf("Congratulations, you collected %d gold!\n", goldTotal);
     freeLevels(roomMake, Rooms);
     freeRoom(Rooms);
 
@@ -211,9 +212,69 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
 
     }
 
-    for(int i=0; i<Rooms[index].totalItems; i++){
-        curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = Rooms[index].roomItems[i].itemType;
+    for(int i=0; i<Rooms[index].totalItems; i++)
+    {
+        if (Rooms[index].roomItems[i].itemType == 'g')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '*';
 
+        } 
+        else if (Rooms[index].roomItems[i].itemType == 'G')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '8';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'z')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '<';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'w')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = ')';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'W')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '(';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'm')
+        {
+            int randomNum = 0;
+            randomNum = rand() % 4;
+
+            switch (randomNum)
+            {
+                case 0:
+                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'A';
+                case 1:
+                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'B';
+                case 2:
+                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
+                case 3:
+                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'S';
+                default:
+                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
+            }
+            randomNum = 0;
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'p')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '!';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'a')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = '<';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'M')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'T';
+        }
+        else if (Rooms[index].roomItems[i].itemType == 'e')
+        {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = ']';
+        }/*
+            else
+            {
+            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = Rooms[index].roomItems[i].itemType;
+            }*/
     }
     printf("%d\n", Rooms[index].totalItems);
 
@@ -254,9 +315,9 @@ int checkInput(char input, int posY, int posX){
             return 0;
         case '-':
             return 0;
-        case 'g':
+        case '*':
             return 3;
-        case 'G':
+        case '8':
             return 4;
         case ' ':
             return 0;

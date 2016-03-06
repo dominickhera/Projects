@@ -1,7 +1,7 @@
 CFLAGS = -std=c99 -Wall
 EXE = rogue
 
-all: $(EXE)
+all: $(EXE) clean
 
 $(EXE): main.o parse.o draw.o BIN
 		gcc main.o draw.o parse.o -lncurses -o ./bin/$(EXE)
