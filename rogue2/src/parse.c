@@ -81,8 +81,6 @@ void realParse(room * Rooms, char * line, int length)
             continue; 
         }
 
-
-
         if (line[i] == 'd')
         {
             if (isalpha(line[i + 1]))
