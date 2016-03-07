@@ -172,6 +172,15 @@ void initCurses(room * Rooms)
                     printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
 
                 }
+                break;
+            case 8:
+                    movePlayer(input,&charY,&charX);
+                    inventoryTotal++;
+                    move(0,0);
+                    printw("You added an item to your inventory");
+                    move(30,0);
+                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+
             default:
                 break;
         }
@@ -376,6 +385,12 @@ int checkInput(char input, int posY, int posX){
             return 5;
         case '!':
             return 6;
+        case ')':
+            return 8;
+        case '(':
+            return 8;
+        case ']':
+            return 8;
         case ' ':
             return 0;
         default:

@@ -1,4 +1,4 @@
-19X10 de4 dw9 ds4 g8,7 z3,4 g6,5 p4,6
+19X10 de4 dw9 ds4 W8,7 W3,4 W6,5 p4,6 W7,9 W15,9 W12,9
 10X11 dn4 dw9 ds8 g8,7 M2,4 W6,5 m2,3
 12X12 de4 dw9 ds2 g8,7 m3,4 g6,5 p2,3
 17X12 de4 dw9 dn3 e8,2 w4,4 g6,5 p2,3
