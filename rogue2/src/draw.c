@@ -122,20 +122,20 @@ void initCurses(room * Rooms)
                 smallRandNum = (rand() % 50);
                 goldTotal = goldTotal + smallRandNum;
                 movePlayer(input,&charY,&charX);
+                move(0,0);
+                printw("You picked up %d gold!", smallRandNum);
                 move(30, 0);
                 printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-                // move(30, 0);
-                //printw("random number: %d current gold total: %d\n", smallRandNum, goldTotal);
                 break;
             case 4:
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 goldTotal = goldTotal + bigRandNum;
                 movePlayer(input,&charY,&charX);
+                move(0,0);
+                printw("You picked up %d gold!", bigRandNum);
                 move(30, 0);
                 printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-                // move(30, 0);
-                //printw("random number: %d current gold total: %d\n", bigRandNum, goldTotal);
                 break;
             case 5:
                 movePlayer(input,&charY,&charX);
@@ -143,7 +143,8 @@ void initCurses(room * Rooms)
                 break;
             case 6:
                 movePlayer(input,&charY,&charX);
-                move(30, 0);
+                move(0, 0);
+                printw("You picked up a potion!");
                 potionCount++;
                 move(30,0);
                 printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
@@ -174,13 +175,23 @@ void initCurses(room * Rooms)
                 }
                 break;
             case 8:
-                    movePlayer(input,&charY,&charX);
-                    inventoryTotal++;
-                    move(0,0);
-                    printw("You added an item to your inventory");
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-
+                if (inventoryTotal < 5)
+                {
+                movePlayer(input,&charY,&charX);  
+                inventoryTotal++;
+                move(0,0);
+                printw("You added an item to your inventory");
+                move(30,0);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                }
+                else
+                {
+                move(0,0);
+                printw("Your inventory is already full! You can't pick up anymore items");
+                move(30,0);
+                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                   
+                }
             default:
                 break;
         }
