@@ -102,53 +102,37 @@ void initCurses(room * Rooms)
         refresh();
         input = getch();
         condition = checkInput(input, charY, charX);
-        /*   if(condition == 1)
-             {
-             movePlayer(input,&charY,&charX);
-             } 
-             else if(condition == 2)
-             {
-             move(30, 0);
-             printw("you hit a wall");
-             }*/
         switch (condition)
         {
             case 1:
+                clearNotifyLine();
                 movePlayer(input,&charY,&charX);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                //move(30, 0);
-                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
                 break;
             case 2:
                 move(0, 0);
-                printw("you hit a door");
+                printw("you walked through a door");
+                clearNotifyLine();
+                movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                //move(30, 0);
-                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
                 break;
             case 3:
                 smallRandNum = 0;
                 smallRandNum = (rand() % 50);
                 Player.goldTotal += smallRandNum;
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                //goldTotal = goldTotal + smallRandNum;
                 movePlayer(input,&charY,&charX);
                 move(0,0);
                 printw("You picked up %d gold!", smallRandNum);
-                //move(30, 0);
-                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 4:
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
-                //goldTotal = goldTotal + bigRandNum;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
                 move(0,0);
                 printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                //move(30, 0);
-                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 5:
                 movePlayer(input,&charY,&charX);
@@ -160,8 +144,6 @@ void initCurses(room * Rooms)
                 printw("You picked up a potion!");
                 Player.potionCount++;
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                //move(30,0);
-                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 7:
                 if(Player.healthCount == 50)
@@ -169,9 +151,6 @@ void initCurses(room * Rooms)
                     move(0,0);
                     printw("You already have full health");
                     getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                    //move(30,0);
-                   // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-
                 }
                 else if (Player.potionCount > 0)
                 {
@@ -179,18 +158,13 @@ void initCurses(room * Rooms)
                     move(0,0);
                     printw("You now have full health");
                     Player.healthCount = 50;
-                   getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                    //move(30,0);
-                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
                 } 
                 else 
                 {
                     move(0,0);
                     printw("You have no potions left");
                     getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                   // move(30,0);
-                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-
                 }
                 break;
             case 8:
@@ -201,18 +175,17 @@ void initCurses(room * Rooms)
                     move(0,0);
                     printw("You added an item to your inventory");
                     getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                   // move(30,0);
-                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 }
                 else
                 {
                     move(0,0);
                     printw("Your inventory is already full! You can't pick up anymore items");
                     getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
-                    //move(30,0);
-                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
-
                 }
+            case 9:
+                movePlayerInHallways(input,&charY,&charX);
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                break; 
             default:
                 break;
         }
@@ -357,11 +330,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         else if (Rooms[index].roomItems[i].itemType == 'e')
         {
             curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = ']';
-        }/*
-            else
-            {
-            curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = Rooms[index].roomItems[i].itemType;
-            }*/
+        }
     }
     printf("%d\n", Rooms[index].totalItems);
 
@@ -432,20 +401,20 @@ void connectDoors(char ** roomMake[], room * Rooms)
 
                         break;
                     case 's':
-                    if(i <= 2)
-                    {
-                        while(1)
+                        if(i <= 2)
                         {
-                         countVar++; 
-                         printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, countVar);
-                         yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
-                         spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
-                          if (spaceVar == '#')
+                            while(1)
                             {
-                              break;
+                                countVar++; 
+                                printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, countVar);
+                                yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
+                                spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
+                                if (spaceVar == '#')
+                                {
+                                    break;
+                                }
                             }
                         }
-                    }
                         break;
                     case 'w':
 
@@ -473,7 +442,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
                         printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 2);
                         break;
                 }
-                
+
             }
 
         }
@@ -496,9 +465,11 @@ void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int r
 
 //checks the input of what character the user typed and responds accordingly
 //also deals with collision control to make sure the hero doesnt go through walls
-int checkInput(char input, int posY, int posX){
+int checkInput(char input, int posY, int posX)
+{
     char space;
-    switch(input){
+    switch(input)
+    {
         case 'w':
             posY -= 1;
             break;
@@ -518,9 +489,10 @@ int checkInput(char input, int posY, int posX){
 
     space = mvinch(posY, posX) & A_CHARTEXT;
 
-    switch(space){
+    switch(space)
+    {
         case '#':
-            return 1;
+            return 9;
         case '.':
             return 1;
             break;
@@ -555,8 +527,10 @@ int checkInput(char input, int posY, int posX){
     return 0;
 }
 
-void movePlayer(char input, int * posY, int * posX){
-    switch(input){
+void movePlayer(char input, int * posY, int * posX)
+{
+    switch(input)
+    {
         case 'w':
             mvaddch(*posY, *posX, '.');
             *posY -= 1;
@@ -578,6 +552,38 @@ void movePlayer(char input, int * posY, int * posX){
     }
     mvaddch(*posY, *posX, '@');
     move(*posY, *posX);
+}
+
+void movePlayerInHallways(char input, int * posY, int * posX)
+{
+    switch(input)
+    {
+        case 'w':
+            mvaddch(*posY, *posX, '#');
+            *posY -= 1;
+            break;
+        case 'a':
+            mvaddch(*posY, *posX, '#');
+            *posX -= 1;
+            break;
+        case 's':
+            mvaddch(*posY, *posX, '#');
+            *posY += 1;
+            break;
+        case 'd':
+            mvaddch(*posY, *posX, '#');
+            *posX += 1;
+            break;
+        default:
+            return;
+    }
+    mvaddch(*posY, *posX, '@');
+    move(*posY, *posX);
+}
+
+void getNotify()
+{
+
 }
 
 int getMaxX(room * Rooms)
@@ -604,6 +610,12 @@ int getMaxY(room * Rooms)
         }
     }
     return maxY;
+}
+
+void clearNotifyLine()
+{
+    move(0,0);
+    clrtoeol();
 }
 
 void getStatus(player Player, int x, int y)
