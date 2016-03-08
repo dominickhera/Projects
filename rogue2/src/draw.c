@@ -11,11 +11,6 @@ void initCurses(room * Rooms)
     int yRoom, xRoom;
     int cols = 0;
     int rows = 0;
-    int goldTotal = 0;
-    int potionCount = 1;
-    int attackCount = 5;
-    int healthCount = 50;
-    int inventoryTotal = 0;
     int smallRandNum = 0;
     int bigRandNum = 0;
     int maxX = 0;
@@ -35,7 +30,7 @@ void initCurses(room * Rooms)
     initPlayer(&Player);
     maxX = getMaxX(Rooms);
     maxY = getMaxY(Rooms);
-    //getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
 
     getmaxyx(stdscr, rows, cols);
 
@@ -120,34 +115,40 @@ void initCurses(room * Rooms)
         {
             case 1:
                 movePlayer(input,&charY,&charX);
-                move(30, 0);
-                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                //move(30, 0);
+                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
                 break;
             case 2:
                 move(0, 0);
                 printw("you hit a door");
-                move(30, 0);
-                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                //move(30, 0);
+                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
                 break;
             case 3:
                 smallRandNum = 0;
                 smallRandNum = (rand() % 50);
-                goldTotal = goldTotal + smallRandNum;
+                Player.goldTotal += smallRandNum;
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                //goldTotal = goldTotal + smallRandNum;
                 movePlayer(input,&charY,&charX);
                 move(0,0);
                 printw("You picked up %d gold!", smallRandNum);
-                move(30, 0);
-                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                //move(30, 0);
+                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 4:
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
-                goldTotal = goldTotal + bigRandNum;
+                //goldTotal = goldTotal + bigRandNum;
+                Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
                 move(0,0);
                 printw("You picked up %d gold!", bigRandNum);
-                move(30, 0);
-                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                //move(30, 0);
+                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 5:
                 movePlayer(input,&charY,&charX);
@@ -157,51 +158,59 @@ void initCurses(room * Rooms)
                 movePlayer(input,&charY,&charX);
                 move(0, 0);
                 printw("You picked up a potion!");
-                potionCount++;
-                move(30,0);
-                printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                Player.potionCount++;
+                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                //move(30,0);
+                //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 break;
             case 7:
-                if(healthCount == 50)
+                if(Player.healthCount == 50)
                 {
                     move(0,0);
                     printw("You already have full health");
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    //move(30,0);
+                   // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
 
                 }
-                else if (potionCount > 0)
+                else if (Player.potionCount > 0)
                 {
-                    potionCount--;
-                    healthCount = 50;
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    Player.potionCount--;
+                    move(0,0);
+                    printw("You now have full health");
+                    Player.healthCount = 50;
+                   getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    //move(30,0);
+                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 } 
                 else 
                 {
                     move(0,0);
                     printw("You have no potions left");
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                   // move(30,0);
+                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
 
                 }
                 break;
             case 8:
-                if (inventoryTotal < 5)
+                if (Player.inventoryTotal < 5)
                 {
                     movePlayer(input,&charY,&charX);  
-                    inventoryTotal++;
+                    Player.inventoryTotal++;
                     move(0,0);
                     printw("You added an item to your inventory");
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                   // move(30,0);
+                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
                 }
                 else
                 {
                     move(0,0);
                     printw("Your inventory is already full! You can't pick up anymore items");
-                    move(30,0);
-                    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
+                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    //move(30,0);
+                    //printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
 
                 }
             default:
@@ -210,12 +219,10 @@ void initCurses(room * Rooms)
         move(charY, charX);
         refresh();
     }while(input != 'q');
-    endGame();
-    printf("Congratulations, you collected %d gold!\n", goldTotal);
-
+    printf("Congratulations, you collected %d gold!\n", Player.goldTotal);
     freeLevels(roomMake, Rooms);
     freeRoom(Rooms);
-
+    endGame();
     return;
 }
 // main function that actually prints out the rooms
@@ -602,15 +609,15 @@ int getMaxY(room * Rooms)
 void getStatus(player Player, int x, int y)
 {
     //move(0,0);
-    move(y, x);
+    move(x, y);
     printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
 }
 
 void initPlayer(player * Player)
 {
-    Player->healthCount = 50;
+    Player->healthCount = 30;
     Player->goldTotal = 0;
-    Player->potionCount = 0;
+    Player->potionCount = 1;
     Player->inventoryTotal = 0;
     Player->attackCount = 5;
 }
