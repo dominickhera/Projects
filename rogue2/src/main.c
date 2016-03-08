@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
     Rooms = parseFile(filename); 
     //freeRoom(Rooms);
-    initCurses(Rooms);
+    //initCurses(Rooms);
 
     return 0;
 }
