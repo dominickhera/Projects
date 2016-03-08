@@ -20,8 +20,8 @@ void initCurses(room * Rooms)
     int bigRandNum = 0;
     int maxX = 0;
     int maxY = 0;
-    int charY = 5;
-    int charX = 5;
+    int charY = 10;
+    int charX = 10;
     srand(time(NULL));
     initscr();
     noecho();
@@ -85,7 +85,6 @@ void initCurses(room * Rooms)
             {
                 for(int k=0;k<Rooms[j ].x;k++)
                 {
-
                     mvaddch(i + (maxTop + (yOffset * 2)), k + offset + 5, roomMake[j][i] [k]);
                 }
             }
@@ -95,6 +94,7 @@ void initCurses(room * Rooms)
     }
 
     printHallway(cols, (maxY + 7));
+    connectDoors(roomMake, Rooms);
     //move((maxY * 3 + 10), 0);
     // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
     mvaddch(charY, charX, '@');
@@ -368,20 +368,124 @@ void printHallway(int x, int y)
     move(y, 0);
     for(int i=0; i<x; i++)
     {
-      mvaddch(y, i, '#');  
+        mvaddch(y, i, '#');  
     }
 
 }
 
-void connectDoors(char ** roomMake[])
+void connectDoors(char ** roomMake[], room * Rooms)
 {
+    int offset = 0;
+    int maxTop = 0;
+    int yOffset = 0;
+    int yVar = 0;
+    int countVar = 0;
+    char spaceVar;
+
 
     for(int i = 0; i<6; i++)
     {
+        // offset = offset + (Rooms[i - 1].x  + 6);
+        if (i <= 2)
+        {
+            if (i == 0)
+            {
+                maxTop = Rooms[i].y;
+                offset = 0;
+            }
+            else
+            {
+                offset = offset + (Rooms[i - 1].x  + 6);
+                if(Rooms[i].y > maxTop)
+                {
+                    maxTop = Rooms[i].y;
+                }
+            }
+            yOffset = 5;
+        }
+        else if (i > 2 && i < 6)
+        {
+            if(i == 3)
+            {
+                offset = 0;
+            }
+            else if (i > 3)
+            {
+                offset = offset + (Rooms[i - 1].x  + 6);
+            }
+            yOffset = maxTop + (yOffset * 2);
+        }
+        for(int j = 0; j < Rooms[i].totalDoors; j++)
+        {
+            if(j == 0)
+            {
+                switch(Rooms[i].doorLocation[j])
+                {
+                    case 'n':
+
+                        break;
+                    case 's':
+                    if(i <= 2)
+                    {
+                        while(1)
+                        {
+                         countVar++; 
+                         printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, countVar);
+                         yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
+                         spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
+                          if (spaceVar == '#')
+                            {
+                              break;
+                            }
+                        }
+                    }
+                        break;
+                    case 'w':
+
+                        break;
+                    case 'e':
+
+                        break;
+                }
+            }
+            else if (j > 0)
+            {
+
+                switch(Rooms[i].doorLocation[j])
+                {
+                    case 'n':
+                        printDeadEnds( (Rooms[i].doorPosition[j] - 1 + 5 + offset), (0 + yOffset), 0, -1, 2);
+                        break;
+                    case 's':
+                        printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 2);
+                        break;
+                    case 'w':
+                        printDeadEnds((0 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 2);
+                        break;
+                    case 'e':
+                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 2);
+                        break;
+                }
+                
+            }
+
+        }
 
     }
 
 }
+
+void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum)
+{
+    move(startY, startX);
+    for(int i = 0; i < randNum; i++)
+    { 
+        startY = startY + yIncrement;
+        startX = startX + xIncrement;
+        mvaddch((startY), (startX), '#');
+    }
+}
+
 
 //checks the input of what character the user typed and responds accordingly
 //also deals with collision control to make sure the hero doesnt go through walls

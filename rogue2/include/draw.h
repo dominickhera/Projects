@@ -19,6 +19,8 @@ typedef struct character
 void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
 void printHallway(int x, int y);
+void connectDoors(char ** roomMake[], room * Rooms);
+void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum);
 void movePlayer(char input, int * posY, int * posX);
 int checkInput(char input, int posY, int posX);
 int getMaxX(room * Rooms);

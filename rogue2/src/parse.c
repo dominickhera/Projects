@@ -183,6 +183,8 @@ void realParse(room * Rooms, char * line, int length)
         }
     }
 /*
+
+
     printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
     for(int i = 0; i < Rooms->totalDoors; i++)
