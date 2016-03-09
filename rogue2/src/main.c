@@ -12,8 +12,7 @@ int main(int argc, char* argv[])
     char * filename = argv[1]; 
 
     Rooms = parseFile(filename); 
-    //freeRoom(Rooms);
-    //initCurses(Rooms);
+    initCurses(Rooms);
 
     return 0;
 }

@@ -161,7 +161,7 @@ void realParse(room * Rooms, char * line, int length)
                         Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
                         if (isdigit(line[i + 5]))
                         {
-                            Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 5] - '0') * 10 + (line[i +5] - '0');
+                            Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 4] - '0') * 10 + (line[i + 5] - '0');
                         }
                         else if (isdigit(line[i + 4]))
                         {
