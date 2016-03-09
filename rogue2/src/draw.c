@@ -131,7 +131,7 @@ void initCurses(room * Rooms)
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
-                getNotification(1,1);
+                getNotification(1,2);
                 //move(0,0);
                 //printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
@@ -205,7 +205,7 @@ void initCurses(room * Rooms)
 }
 // main function that actually prints out the rooms
 //mallocs and then begins to assign each character to the cureRoom file
-//attempts to create the doors can also be seen commented out.
+//prints out items, large switch case to determine what actual character to print out for each item
 char ** printRooms(int yVar, int xVar, room * Rooms, int index)
 {
     char ** curseRoom;
@@ -470,6 +470,7 @@ void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int r
 
 //checks the input of what character the user typed and responds accordingly
 //also deals with collision control to make sure the hero doesnt go through walls
+//also contains conditions for numerous possible items that the user can run into
 int checkInput(char input, int posY, int posX)
 {
     char space;
@@ -542,6 +543,7 @@ int checkInput(char input, int posY, int posX)
     return 0;
 }
 
+//basic move function to move player around in rooms
 void movePlayer(char input, int * posY, int * posX)
 {
     switch(input)
@@ -569,6 +571,7 @@ void movePlayer(char input, int * posY, int * posX)
     move(*posY, *posX);
 }
 
+//seperate move function to handle moving around within hallways
 void movePlayerInHallways(char input, int * posY, int * posX)
 {
     switch(input)
@@ -594,11 +597,6 @@ void movePlayerInHallways(char input, int * posY, int * posX)
     }
     mvaddch(*posY, *posX, '@');
     move(*posY, *posX);
-}
-
-void getNotify()
-{
-
 }
 
 int getMaxX(room * Rooms)
@@ -627,22 +625,24 @@ int getMaxY(room * Rooms)
     return maxY;
 }
 
+//clears the notification line
 void clearNotifyLine()
 {
     move(0,0);
     clrtoeol();
 }
 
+//prints the status bar with all the player information in it
 void getStatus(player Player, int x, int y)
 {
-    //move(0,0);
     move(x, y);
     printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
 }
 
+//initialises all the parts of the player struct to their starting amounts as specified by the requirements provided
 void initPlayer(player * Player)
 {
-    Player->healthCount = 30;
+    Player->healthCount = 50;
     Player->goldTotal = 0;
     Player->potionCount = 1;
     Player->inventoryTotal = 0;
@@ -664,29 +664,29 @@ void getNotification(int event, int x)
                     printw("Hero picked up a large gold pile!");
                 case 3:
                     move(0,0);
-                    printw("Hero picked up ");
+                    printw("Notification");
                 //default:
                     //move(0,0);
                     //printw("Error");
             }
         case 2:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         case 3:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         case 4:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         case 5:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         case 6:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         case 7:
             move(0,0);
-            printw("Hero stepped on ");
+            printw("Notification");
         //default:
             //move(0,0);
            // printw("Error");

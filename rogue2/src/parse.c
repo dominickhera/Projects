@@ -142,14 +142,14 @@ void realParse(room * Rooms, char * line, int length)
                 }
                 if(line[i + 2] == ',')//e4,15
                 {
-                    Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 1]); 
+                    Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 1]); 
                     if (isdigit(line[i + 4]))
                     {
-                        Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
+                        Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
                     }
                     else if (isdigit(line[i + 3]))
                     {
-                        Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 3]);
+                        Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 3]);
 
                     }
                 }
@@ -158,14 +158,14 @@ void realParse(room * Rooms, char * line, int length)
                     //2 numbers
                     if(line[i + 3] == ',')
                     {
-                        Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                        Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
                         if (isdigit(line[i + 5]))
                         {
-                            Rooms->roomItems[Rooms->totalItems].itemY = (line[i + 4] - '0') * 10 + (line[i + 5] - '0');
+                            Rooms->roomItems[Rooms->totalItems].itemX = (line[i + 4] - '0') * 10 + (line[i + 5] - '0');
                         }
                         else if (isdigit(line[i + 4]))
                         {
-                            Rooms->roomItems[Rooms->totalItems].itemY = atoi(&line[i + 4]);
+                            Rooms->roomItems[Rooms->totalItems].itemX = atoi(&line[i + 4]);
 
                         }
                     }
@@ -184,7 +184,7 @@ void realParse(room * Rooms, char * line, int length)
         }
     }
 
-
+/*
 
     printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
@@ -196,5 +196,5 @@ void realParse(room * Rooms, char * line, int length)
     for (int i = 0; i < Rooms->totalItems; i++)
     {
         printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
-    }
+    }*/
 }

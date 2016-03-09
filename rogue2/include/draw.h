@@ -16,6 +16,41 @@ typedef struct character
 
 }player;
 
+typedef struct bat
+{
+	int batHealth;
+	int batAttackCount;
+	int batAttackSpeed;
+}bat;
+
+typedef struct troll
+{
+	int trollHealth;
+	int trollAttackCount;
+	int trollAttackSpeed;
+}troll;
+
+typedef struct snake
+{
+	int snakeHealth;
+	int snakeAttackCount;
+	int snakeAttackSpeed;
+}snake;
+
+typedef struct zombie
+{
+	int zombieHealth;
+	int zombieAttackCount;
+	int zombieAttackSpeed;
+}zombie;
+
+typedef struct aquator
+{
+	int aquatorHealth;
+	int aquatorAttackCount;
+	int aquatorAttackSpeed;
+}aquator;
+
 void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
 void printHallway(int x, int y);
