@@ -122,16 +122,18 @@ void initCurses(room * Rooms)
                 Player.goldTotal += smallRandNum;
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
                 movePlayer(input,&charY,&charX);
-                move(0,0);
-                printw("You picked up %d gold!", smallRandNum);
+                getNotification(1,1);
+               // move(0,0);
+                //printw("You picked up %d gold!", smallRandNum);
                 break;
             case 4:
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
-                move(0,0);
-                printw("You picked up %d gold!", bigRandNum);
+                getNotification(1,1);
+                //move(0,0);
+                //printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
                 break;
             case 5:
@@ -186,6 +188,9 @@ void initCurses(room * Rooms)
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
                 break; 
+            case 10:
+                move(0,0);
+                printw("you ran into a monster");
             default:
                 break;
         }
@@ -520,6 +525,16 @@ int checkInput(char input, int posY, int posX)
             return 8;
         case ' ':
             return 0;
+        case 'Z':
+            return 10;
+        case 'A':
+            return 10;
+        case 'B':
+            return 10;
+        case 'S':
+            return 10;
+        case 'T':
+            return 10;
         default:
             return 1;
     }
@@ -632,6 +647,50 @@ void initPlayer(player * Player)
     Player->potionCount = 1;
     Player->inventoryTotal = 0;
     Player->attackCount = 5;
+}
+
+void getNotification(int event, int x)
+{
+    switch (event) 
+    {
+        case 1:
+            switch (x)
+            {
+                case 1:
+                    move(0,0);
+                    printw("Hero picked up a small gold pile!");
+                case 2:
+                    move(0,0);
+                    printw("Hero picked up a large gold pile!");
+                case 3:
+                    move(0,0);
+                    printw("Hero picked up ");
+                //default:
+                    //move(0,0);
+                    //printw("Error");
+            }
+        case 2:
+            move(0,0);
+            printw("Hero stepped on ");
+        case 3:
+            move(0,0);
+            printw("Hero stepped on ");
+        case 4:
+            move(0,0);
+            printw("Hero stepped on ");
+        case 5:
+            move(0,0);
+            printw("Hero stepped on ");
+        case 6:
+            move(0,0);
+            printw("Hero stepped on ");
+        case 7:
+            move(0,0);
+            printw("Hero stepped on ");
+        //default:
+            //move(0,0);
+           // printw("Error");
+    }
 }
 
 int getNotifyX(room * Rooms)

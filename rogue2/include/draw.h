@@ -26,6 +26,7 @@ void movePlayerInHallways(char input, int * posY, int * posX);
 int checkInput(char input, int posY, int posX);
 int getMaxX(room * Rooms);
 int getMaxY(room * Rooms);
+void getNotification(int event, int x);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();
