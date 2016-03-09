@@ -65,6 +65,7 @@ void getNotification(int event, int x);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();
+int midHallwayNum(room * Rooms);
 int getNotifyY(room * Rooms);
 int getNotifyX(room * Rooms);
 void freeLevels(char ** curseRoom[], room * Rooms);

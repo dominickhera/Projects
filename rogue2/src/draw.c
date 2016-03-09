@@ -17,6 +17,7 @@ void initCurses(room * Rooms)
     int maxY = 0;
     int charY = 10;
     int charX = 10;
+    int testOffset = 0;
     srand(time(NULL));
     initscr();
     noecho();
@@ -30,7 +31,7 @@ void initCurses(room * Rooms)
     initPlayer(&Player);
     maxX = getMaxX(Rooms);
     maxY = getMaxY(Rooms);
-    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
 
     getmaxyx(stdscr, rows, cols);
 
@@ -87,8 +88,14 @@ void initCurses(room * Rooms)
         }
 
     }
-
-    printHallway(cols, (maxY + 7));
+    move(0,0);
+    printw("offset is %d", offset);
+    move(0, 30);
+    printw("yOffset is %d", maxTop);
+    testOffset = offset - (yOffset + maxTop);
+    move(0,60);
+    printw("test offset is %d", testOffset);
+    printHallway(getMaxY(Rooms), testOffset);
     connectDoors(roomMake, Rooms);
     //move((maxY * 3 + 10), 0);
     // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
@@ -107,23 +114,23 @@ void initCurses(room * Rooms)
             case 1:
                 clearNotifyLine();
                 movePlayer(input,&charY,&charX);
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 2:
                 move(0, 0);
                 printw("you walked through a door");
                 clearNotifyLine();
                 movePlayerInHallways(input,&charY,&charX);
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 3:
                 smallRandNum = 0;
                 smallRandNum = (rand() % 50);
                 Player.goldTotal += smallRandNum;
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 movePlayer(input,&charY,&charX);
                 getNotification(1,1);
-               // move(0,0);
+                // move(0,0);
                 //printw("You picked up %d gold!", smallRandNum);
                 break;
             case 4:
@@ -134,7 +141,7 @@ void initCurses(room * Rooms)
                 getNotification(1,2);
                 //move(0,0);
                 //printw("You picked up %d gold!", bigRandNum);
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 5:
                 movePlayer(input,&charY,&charX);
@@ -145,14 +152,14 @@ void initCurses(room * Rooms)
                 move(0, 0);
                 printw("You picked up a potion!");
                 Player.potionCount++;
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 7:
                 if(Player.healthCount == 50)
                 {
                     move(0,0);
                     printw("You already have full health");
-                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else if (Player.potionCount > 0)
                 {
@@ -160,13 +167,13 @@ void initCurses(room * Rooms)
                     move(0,0);
                     printw("You now have full health");
                     Player.healthCount = 50;
-                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 } 
                 else 
                 {
                     move(0,0);
                     printw("You have no potions left");
-                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 break;
             case 8:
@@ -176,21 +183,22 @@ void initCurses(room * Rooms)
                     Player.inventoryTotal++;
                     move(0,0);
                     printw("You added an item to your inventory");
-                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else
                 {
                     move(0,0);
                     printw("Your inventory is already full! You can't pick up anymore items");
-                    getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                    getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
             case 9:
                 movePlayerInHallways(input,&charY,&charX);
-                getStatus(Player, getNotifyX(Rooms), getNotifyY(Rooms));
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break; 
             case 10:
                 move(0,0);
                 printw("you ran into a monster");
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             default:
                 break;
         }
@@ -366,7 +374,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
 
     for(int i = 0; i<6; i++)
     {
-        // offset = offset + (Rooms[i - 1].x  + 6);
+        offset = offset + (Rooms[i - 1].x  + 6);
         if (i <= 2)
         {
             if (i == 0)
@@ -615,14 +623,16 @@ int getMaxX(room * Rooms)
 int getMaxY(room * Rooms)
 {
     int maxY = 0;
+    int temp = 0;
     for(int i = 0; i<6; i++)
     {
         if (Rooms[i].y > maxY)
         {
             maxY = Rooms[i].y;
         }
+        temp += maxY;
     }
-    return maxY;
+    return temp;
 }
 
 //clears the notification line
@@ -659,40 +669,71 @@ void getNotification(int event, int x)
                 case 1:
                     move(0,0);
                     printw("Hero picked up a small gold pile!");
+                    break;
                 case 2:
                     move(0,0);
                     printw("Hero picked up a large gold pile!");
+                    break;
                 case 3:
                     move(0,0);
-                    printw("Notification");
-                //default:
+                    printw("Notification1");
+                    //default:
                     //move(0,0);
                     //printw("Error");
             }
+            break;
         case 2:
             move(0,0);
-            printw("Notification");
+            printw("Notification2");
+            break;
         case 3:
             move(0,0);
-            printw("Notification");
+            printw("Notification3");
+            break;
         case 4:
             move(0,0);
-            printw("Notification");
+            printw("Notification4");
+            break;
         case 5:
             move(0,0);
-            printw("Notification");
+            printw("Notification5");
+            break;
         case 6:
             move(0,0);
-            printw("Notification");
+            printw("Notification6");
+            break;
         case 7:
             move(0,0);
-            printw("Notification");
-        //default:
+            printw("Notification7");
+            break;
+            //default:
             //move(0,0);
-           // printw("Error");
+            // printw("Error");
     }
 }
 
+int midHallwayNum(room * Rooms)
+{
+    int midHallwayNum = 0;
+    //int temp = 0;
+    for(int i = 0; i<6; i++)
+    {
+        if (Rooms[i].y > midHallwayNum)
+        {
+            midHallwayNum = Rooms[i].y;
+        }
+       // temp += maxY;
+    }
+    //move(0,30);
+    //printw("first %d", midHallwayNum);
+    
+    midHallwayNum = midHallwayNum + 5;
+   // move(0,50);
+    //printw("second %d", midHallwayNum);
+    return midHallwayNum;
+}
+
+//gets the x barring of the notifications
 int getNotifyX(room * Rooms)
 {
     int notifyX = 0;
@@ -700,19 +741,21 @@ int getNotifyX(room * Rooms)
     return notifyX;
 }
 
+//gets the y barring of the notifications
 int getNotifyY(room * Rooms)
 {
 
     int notifyY = 0;
 
-    notifyY = getMaxY(Rooms);
-    notifyY = ((notifyY + notifyY + notifyY) + 10);
+    notifyY = (getMaxY(Rooms)/2);
+    //move(0,30);
+  //  printw("thing: %d", notifyY);
 
     return notifyY;
 
 }
-//frees all the memory used to prevent memory leaks if only the program compiled on pi that is
 
+//frees all the memory used to prevent memory leaks if only the program compiled on pi that is
 void freeLevels(char ** curseRoom[], room * Rooms)
 {
     for(int i=0;i<6;i++)
@@ -726,7 +769,8 @@ void freeLevels(char ** curseRoom[], room * Rooms)
     //free(curseRoom);
 }
 
-void freeRoom (room * Rooms){
+void freeRoom (room * Rooms)
+{
     for (int i = 0; i < 6; i++)
     {
         free(Rooms[i].roomItems);
@@ -737,6 +781,7 @@ void freeRoom (room * Rooms){
 }
 
 //merely ends the game and gets out of ncurses
-void endGame(){
+void endGame()
+{
     endwin();
 }
