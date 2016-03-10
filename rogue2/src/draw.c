@@ -15,9 +15,8 @@ void initCurses(room * Rooms)
     int bigRandNum = 0;
     int maxX = 0;
     int maxY = 0;
-    int charY = 10;
-    int charX = 10;
-    int testOffset = 0;
+    int charY = 6;
+    int charX = 6 ;
     srand(time(NULL));
     initscr();
     noecho();
@@ -61,7 +60,7 @@ void initCurses(room * Rooms)
             {
                 for(int k=0;k<Rooms[j].x;k++)
                 {
-                    mvaddch(i + yOffset, k + offset + 5, roomMake[j][i] [k]);
+                    mvaddch(i + yOffset, k + offset + 6, roomMake[j][i] [k]);
                 }
             }
 
@@ -81,21 +80,21 @@ void initCurses(room * Rooms)
             {
                 for(int k=0;k<Rooms[j ].x;k++)
                 {
-                    mvaddch(i + (maxTop + (yOffset * 2)), k + offset + 5, roomMake[j][i] [k]);
+                    mvaddch(i + (maxTop + (yOffset * 2)), k + offset + 6, roomMake[j][i] [k]);
                 }
             }
 
         }
 
     }
-    move(0,0);
-    printw("offset is %d", offset);
-    move(0, 30);
-    printw("yOffset is %d", maxTop);
-    testOffset = offset - (yOffset + maxTop);
-    move(0,60);
-    printw("test offset is %d", testOffset);
-    printHallway(getMaxY(Rooms), testOffset);
+   
+    printHorizontalHallway(getMaxY(Rooms), 21);
+    printHorizontalHallway(getMaxY(Rooms), 43);
+    printHorizontalHallway(getMaxY(Rooms), 3);
+    printVerticalHallway((rows/1.3), (yOffset / 2));
+    midHallwayNum(Rooms);
+  //  printVerticalHallway(getMaxY(Rooms), 25);
+   // printVerticalHallway(getMaxY(Rooms), 45);
     connectDoors(roomMake, Rooms);
     //move((maxY * 3 + 10), 0);
     // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
@@ -351,15 +350,23 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
     return curseRoom;
 }
 
-void printHallway(int x, int y)
+void printHorizontalHallway(int x, int y)
 {
-
     move(y, 0);
     for(int i=0; i<x; i++)
     {
         mvaddch(y, i, '#');  
     }
 
+}
+
+void printVerticalHallway(int x, int y)
+{
+    move(y, 0);
+    for(int i=0; i<x; i++)
+    {
+        mvaddch(i, y, '#');
+    }
 }
 
 void connectDoors(char ** roomMake[], room * Rooms)
@@ -443,16 +450,16 @@ void connectDoors(char ** roomMake[], room * Rooms)
                 switch(Rooms[i].doorLocation[j])
                 {
                     case 'n':
-                        printDeadEnds( (Rooms[i].doorPosition[j] - 1 + 5 + offset), (0 + yOffset), 0, -1, 2);
+                        printDeadEnds( (Rooms[i].doorPosition[j] - 1 + 5 + offset), (0 + yOffset), 0, -1, 4);
                         break;
                     case 's':
-                        printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 2);
+                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y  + yOffset), 0, 1, 4);
                         break;
                     case 'w':
-                        printDeadEnds((0 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 2);
+                        printDeadEnds((0 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 4);
                         break;
                     case 'e':
-                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 2);
+                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 4);
                         break;
                 }
 
@@ -466,7 +473,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
 
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum)
 {
-    move(startY, startX);
+    move((startY), (startX));
     for(int i = 0; i < randNum; i++)
     { 
         startY = startY + yIncrement;
@@ -474,7 +481,6 @@ void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int r
         mvaddch((startY), (startX), '#');
     }
 }
-
 
 //checks the input of what character the user typed and responds accordingly
 //also deals with collision control to make sure the hero doesnt go through walls
@@ -716,16 +722,18 @@ int midHallwayNum(room * Rooms)
 {
     int midHallwayNum = 0;
     //int temp = 0;
-    for(int i = 0; i<6; i++)
+    for(int i = 0; i<2; i++)
     {
         if (Rooms[i].y > midHallwayNum)
         {
+            move(0,0);
+            printw("room: %d\n", Rooms[i]);
             midHallwayNum = Rooms[i].y;
         }
        // temp += maxY;
     }
-    //move(0,30);
-    //printw("first %d", midHallwayNum);
+    move(0,0);
+    printw("first %d", midHallwayNum);
     
     midHallwayNum = midHallwayNum + 5;
    // move(0,50);
