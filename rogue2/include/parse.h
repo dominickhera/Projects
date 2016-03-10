@@ -3,13 +3,13 @@
 
 typedef struct item
 {
-	int itemX;
-	int itemY;
-	char itemType;
+    int itemX;
+    int itemY;
+    char itemType;
 }item;
 
 typedef struct roomStruct {
-    
+
     int x; 
     int y;
 

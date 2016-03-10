@@ -8,47 +8,47 @@
 
 typedef struct character
 {
-	int healthCount;
-	int potionCount;
-	int inventoryTotal;
-	int attackCount;
-	int goldTotal;
+    int healthCount;
+    int potionCount;
+    int inventoryTotal;
+    int attackCount;
+    int goldTotal;
 
 }player;
 
 typedef struct bat
 {
-	int batHealth;
-	int batAttackCount;
-	int batAttackSpeed;
+    int batHealth;
+    int batAttackCount;
+    int batAttackSpeed;
 }bat;
 
 typedef struct troll
 {
-	int trollHealth;
-	int trollAttackCount;
-	int trollAttackSpeed;
+    int trollHealth;
+    int trollAttackCount;
+    int trollAttackSpeed;
 }troll;
 
 typedef struct snake
 {
-	int snakeHealth;
-	int snakeAttackCount;
-	int snakeAttackSpeed;
+    int snakeHealth;
+    int snakeAttackCount;
+    int snakeAttackSpeed;
 }snake;
 
 typedef struct zombie
 {
-	int zombieHealth;
-	int zombieAttackCount;
-	int zombieAttackSpeed;
+    int zombieHealth;
+    int zombieAttackCount;
+    int zombieAttackSpeed;
 }zombie;
 
 typedef struct aquator
 {
-	int aquatorHealth;
-	int aquatorAttackCount;
-	int aquatorAttackSpeed;
+    int aquatorHealth;
+    int aquatorAttackCount;
+    int aquatorAttackSpeed;
 }aquator;
 
 void initCurses(room * Rooms);
@@ -69,7 +69,7 @@ int getMaxYBot(room * Rooms);
 int getTotalY(room * Rooms);
 int getTotalYTop(room * Rooms);
 int rightHallwayNum(room * Rooms);
-void getNotification(int event, int x);
+void getNotification(int event, int subEvent);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();

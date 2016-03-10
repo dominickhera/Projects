@@ -102,7 +102,7 @@ void initCurses(room * Rooms)
     hallwayOne = (getMaxYRoom(Rooms, 2) + (yOffset * 1.5));
     hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
     hallwayThree = (getMaxYRoom(Rooms, 4) + (yOffset * 1.5));
-    hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
+    hallwayFour = ((getMaxYRoom(Rooms, 5) + getMaxYRoom(Rooms, 4) + (yOffset * 2.75)) + 2);
     move(0,0);
     printw("bot offset is %d", hallwayOne);
     testOffset = ((yOffset * 4) + rightHallwayNum(Rooms));
@@ -115,6 +115,7 @@ void initCurses(room * Rooms)
     printVerticalHallway(midOffset, hallwayTwo);
 
     printVerticalHallway(botOffset, hallwayThree);
+    printVerticalHallway(botOffset, hallwayFour);
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
     move(charY, charX);
@@ -481,7 +482,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
                         printDeadEnds( (Rooms[i].doorPosition[j] + 5 + offset), (0 + yOffset), 0, -1, 3);
                         break;
                     case 's':
-                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 3);
+                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 5);
                         break;
                     case 'w':
                         printDeadEnds((1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 3);
@@ -809,12 +810,12 @@ void initPlayer(player * Player)
     Player->attackCount = 5;
 }
 
-void getNotification(int event, int x)
+void getNotification(int event, int subEvent)
 {
     switch (event) 
     {
         case 1:
-            switch (x)
+            switch (subEvent)
             {
                 case 1:
                     move(0,0);
