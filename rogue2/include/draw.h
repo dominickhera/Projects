@@ -55,6 +55,7 @@ void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
 void printHorizontalHallway(int x, int y);
 void printVerticalHallway(int x, int y);
+void printLowerVerticalHallway(int x, int y, int z);
 void connectDoors(char ** roomMake[], room * Rooms);
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum);
 void movePlayer(char input, int * posY, int * posX);

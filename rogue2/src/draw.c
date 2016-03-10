@@ -95,18 +95,14 @@ void initCurses(room * Rooms)
         }
 
     }
-    /*
-       move(0,0);
-       printw("max top is %d", getMaxYTop(Rooms));
-       move(0,30);
-       printw("offset is %d", maxTop);*/
+
     topOffset = (yOffset/2);
     midOffset = (getMaxYTop(Rooms) + (maxTop/2));
     botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
     hallwayOne = (getMaxYRoom(Rooms, 2) + (yOffset * 1.5));
     hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
-    //hallwayThree = 
-    //hallwayFour = 
+    hallwayThree = (getMaxYRoom(Rooms, 4) + (yOffset * 1.5));
+    hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
     move(0,0);
     printw("bot offset is %d", hallwayOne);
     testOffset = ((yOffset * 4) + rightHallwayNum(Rooms));
@@ -115,9 +111,10 @@ void initCurses(room * Rooms)
     printHorizontalHallway(testOffset, botOffset); //bot horizontal hallyway
     printVerticalHallway((botOffset), (yOffset / 2));//most left hallway
     printVerticalHallway((botOffset), (testOffset));//most right hallway
-
     printVerticalHallway(midOffset, hallwayOne);
-     printVerticalHallway(midOffset, hallwayTwo);
+    printVerticalHallway(midOffset, hallwayTwo);
+
+    printVerticalHallway(botOffset, hallwayThree);
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
     move(charY, charX);
@@ -390,6 +387,15 @@ void printVerticalHallway(int x, int y)
     }
 }
 
+void printLowerVerticalHallway(int x, int y, int z)
+{
+    move(y, z);
+    for(int i=2; i<x; i--)
+    {
+        mvaddch(i, y, '#');
+    }
+}
+
 void connectDoors(char ** roomMake[], room * Rooms)
 {
     int offset = 0;
@@ -434,7 +440,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
         }
         for(int j = 0; j < Rooms[i].totalDoors; j++)
         {
-            if(j == 0)
+           /* if(j == 0)
             {
                 switch(Rooms[i].doorLocation[j])
                 {
@@ -465,7 +471,8 @@ void connectDoors(char ** roomMake[], room * Rooms)
                         break;
                 }
             }
-            else if (j > 0)
+            else */
+            if (j > 0)
             {
 
                 switch(Rooms[i].doorLocation[j])
