@@ -16,7 +16,11 @@ void initCurses(room * Rooms)
     int maxX = 0;
     int maxY = 0;
     int charY = 6;
-    int charX = 6 ;
+    int charX = 6;
+    int testOffset = 0;
+    int midOffset = 0;
+    int topOffset = 0;
+    int botOffset = 0;
     srand(time(NULL));
     initscr();
     noecho();
@@ -87,17 +91,26 @@ void initCurses(room * Rooms)
         }
 
     }
-   
-    printHorizontalHallway(getMaxY(Rooms), 21);
-    printHorizontalHallway(getMaxY(Rooms), 43);
-    printHorizontalHallway(getMaxY(Rooms), 3);
-    printVerticalHallway((rows/1.3), (yOffset / 2));
+/*
+    move(0,0);
+    printw("max top is %d", getMaxYTop(Rooms));
+    move(0,30);
+    printw("offset is %d", maxTop);*/
+    topOffset = (yOffset/2);
+    midOffset = (getMaxYTop(Rooms) + (maxTop/2));
+    botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
+    move(0,0);
+    printw("bot offset is %d", botOffset);
+    testOffset = ((yOffset * 4) + rightHallwayNum(Rooms));
+    printHorizontalHallway(testOffset, topOffset); //top horizontal hallway
+    printHorizontalHallway(testOffset, midOffset); //middle horizontal hallway
+    printHorizontalHallway(testOffset, botOffset); //bot horizontal hallyway
+    printVerticalHallway((midOffset), (yOffset / 2));
+    printVerticalHallway((12), (testOffset));
     midHallwayNum(Rooms);
   //  printVerticalHallway(getMaxY(Rooms), 25);
    // printVerticalHallway(getMaxY(Rooms), 45);
     connectDoors(roomMake, Rooms);
-    //move((maxY * 3 + 10), 0);
-    // printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", healthCount, potionCount, attackCount, inventoryTotal, goldTotal);
     mvaddch(charY, charX, '@');
     move(charY, charX);
     refresh();
@@ -353,7 +366,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
 void printHorizontalHallway(int x, int y)
 {
     move(y, 0);
-    for(int i=0; i<x; i++)
+    for(int i=2; i<x; i++)
     {
         mvaddch(y, i, '#');  
     }
@@ -363,7 +376,7 @@ void printHorizontalHallway(int x, int y)
 void printVerticalHallway(int x, int y)
 {
     move(y, 0);
-    for(int i=0; i<x; i++)
+    for(int i=2; i<x; i++)
     {
         mvaddch(i, y, '#');
     }
@@ -450,16 +463,16 @@ void connectDoors(char ** roomMake[], room * Rooms)
                 switch(Rooms[i].doorLocation[j])
                 {
                     case 'n':
-                        printDeadEnds( (Rooms[i].doorPosition[j] - 1 + 5 + offset), (0 + yOffset), 0, -1, 4);
+                        printDeadEnds( (Rooms[i].doorPosition[j] - 1 + 5 + offset), (0 + yOffset), 0, -1, 3);
                         break;
                     case 's':
-                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y  + yOffset), 0, 1, 4);
+                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y  + yOffset), 0, 1, 3);
                         break;
                     case 'w':
-                        printDeadEnds((0 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 4);
+                        printDeadEnds((1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 3);
                         break;
                     case 'e':
-                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 4);
+                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 3);
                         break;
                 }
 
@@ -629,6 +642,45 @@ int getMaxX(room * Rooms)
 int getMaxY(room * Rooms)
 {
     int maxY = 0;
+    for(int i = 0; i<6; i++)
+    {
+        if (Rooms[i].y > maxY)
+        {
+            maxY = Rooms[i].y;
+        }
+    }
+    return maxY;
+}
+
+int getMaxYTop(room * Rooms)
+{
+    int maxY = 0;
+    for(int i = 0; i<3; i++)
+    {
+        if (Rooms[i].y > maxY)
+        {
+            maxY = Rooms[i].y;
+        }
+    }
+    return maxY;
+}
+
+int getMaxYBot(room * Rooms)
+{
+    int maxY = 0;
+    for(int i = 3; i<6; i++)
+    {
+        if (Rooms[i].y > maxY)
+        {
+            maxY = Rooms[i].y;
+        }
+    }
+    return maxY;
+}
+
+int getTotalY(room * Rooms)
+{
+    int maxY = 0;
     int temp = 0;
     for(int i = 0; i<6; i++)
     {
@@ -639,6 +691,75 @@ int getMaxY(room * Rooms)
         temp += maxY;
     }
     return temp;
+}
+
+int getTotalYTop(room * Rooms)
+{
+    int maxY = 0;
+    int temp = 0;
+    for(int i = 0; i<3; i++)
+    {
+        if (Rooms[i].y > maxY)
+        {
+            maxY = Rooms[i].y;
+        }
+        temp += maxY;
+    }
+    return temp;
+}
+
+int getTotalYBot(room * Rooms)
+{
+    int maxY = 0;
+    int temp = 0;
+    for(int i = 0; i<3; i++)
+    {
+        if (Rooms[i].y > maxY)
+        {
+            maxY = Rooms[i].y;
+        }
+        temp += maxY;
+    }
+    return temp;
+}
+
+int rightHallwayNum(room * Rooms)
+{
+
+    int maxYTop = 0;
+    int maxYBot = 0;
+    int tempTop = 0;
+    int tempBot = 0;
+    int finalTemp = 0;
+    for(int i = 0; i<3; i++)
+    {
+        if (Rooms[i].y > maxYTop)
+        {
+            maxYTop = Rooms[i].y;
+        }
+        tempTop += maxYTop;
+    }
+
+    for(int i = 3; i<6; i++)
+    {
+        if (Rooms[i].y > maxYBot)
+        {
+            maxYBot = Rooms[i].y;
+        }
+        tempBot += maxYBot;
+    }
+
+    if(tempTop > tempBot)
+    {
+        finalTemp = tempTop;
+    }
+    else
+    {
+        finalTemp = tempBot;
+    }
+
+    return finalTemp;
+
 }
 
 //clears the notification line
@@ -726,15 +847,10 @@ int midHallwayNum(room * Rooms)
     {
         if (Rooms[i].y > midHallwayNum)
         {
-            move(0,0);
-            printw("room: %d\n", Rooms[i]);
             midHallwayNum = Rooms[i].y;
         }
        // temp += maxY;
     }
-    move(0,0);
-    printw("first %d", midHallwayNum);
-    
     midHallwayNum = midHallwayNum + 5;
    // move(0,50);
     //printw("second %d", midHallwayNum);
@@ -755,7 +871,7 @@ int getNotifyY(room * Rooms)
 
     int notifyY = 0;
 
-    notifyY = (getMaxY(Rooms)/2);
+    notifyY = ((getTotalY(Rooms)/2) + 5);
     //move(0,30);
   //  printw("thing: %d", notifyY);
 
