@@ -62,6 +62,7 @@ void movePlayerInHallways(char input, int * posY, int * posX);
 int checkInput(char input, int posY, int posX);
 int getMaxX(room * Rooms);
 int getMaxY(room * Rooms);
+int getMaxYRoom(room * Rooms, int x);
 int getMaxYTop(room * Rooms);
 int getMaxYBot(room * Rooms);
 int getTotalY(room * Rooms);
