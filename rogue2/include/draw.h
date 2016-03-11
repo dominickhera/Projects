@@ -69,7 +69,7 @@ int getMaxYBot(room * Rooms);
 int getTotalY(room * Rooms);
 int getTotalYTop(room * Rooms);
 int rightHallwayNum(room * Rooms);
-void getNotification(int event, int subEvent);
+void getNotification(int event, int subEvent, int var);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();

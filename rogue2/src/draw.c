@@ -109,7 +109,7 @@ void initCurses(room * Rooms)
     printHorizontalHallway(testOffset, topOffset); //top horizontal hallway
     printHorizontalHallway(testOffset, midOffset); //middle horizontal hallway
     printHorizontalHallway(testOffset, botOffset); //bot horizontal hallyway
-    printVerticalHallway((botOffset), (yOffset / 2));//most left hallway
+    printVerticalHallway((botOffset), topOffset);//most left hallway
     printVerticalHallway((botOffset), (testOffset));//most right hallway
     printVerticalHallway(midOffset, hallwayOne);
     printVerticalHallway(midOffset, hallwayTwo);
@@ -147,7 +147,7 @@ void initCurses(room * Rooms)
                 Player.goldTotal += smallRandNum;
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 movePlayer(input,&charY,&charX);
-                getNotification(1,1);
+                getNotification(1,1, smallRandNum);
                 // move(0,0);
                 //printw("You picked up %d gold!", smallRandNum);
                 break;
@@ -156,7 +156,7 @@ void initCurses(room * Rooms)
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
-                getNotification(1,2);
+                getNotification(1,2,bigRandNum);
                 //move(0,0);
                 //printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -810,7 +810,7 @@ void initPlayer(player * Player)
     Player->attackCount = 5;
 }
 
-void getNotification(int event, int subEvent)
+void getNotification(int event, int subEvent, int var)
 {
     switch (event) 
     {
@@ -819,11 +819,11 @@ void getNotification(int event, int subEvent)
             {
                 case 1:
                     move(0,0);
-                    printw("Hero picked up a small gold pile!");
+                    printw("Hero picked up a small gold pile of %d gold!", var);
                     break;
                 case 2:
                     move(0,0);
-                    printw("Hero picked up a large gold pile!");
+                    printw("Hero picked up a large gold pile of %d gold!", var);
                     break;
                 case 3:
                     move(0,0);
