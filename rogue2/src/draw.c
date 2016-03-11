@@ -113,9 +113,9 @@ void initCurses(room * Rooms)
     printVerticalHallway((botOffset), (testOffset));//most right hallway
     printVerticalHallway(midOffset, hallwayOne);
     printVerticalHallway(midOffset, hallwayTwo);
-
     printVerticalHallway(botOffset, hallwayThree);
     printVerticalHallway(botOffset, hallwayFour);*/
+
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
     move(charY, charX);
@@ -199,8 +199,9 @@ void initCurses(room * Rooms)
                 {
                     movePlayer(input,&charY,&charX);  
                     Player.inventoryTotal++;
-                    move(0,0);
-                    printw("You added an item to your inventory");
+                    getNotification(1,3,0);
+                    //move(0,0);
+                    //printw("You added an item to your inventory");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else
@@ -830,35 +831,170 @@ void getNotification(int event, int subEvent, int var)
                     break;
                 case 3:
                     move(0,0);
-                    printw("Notification1");
-                    //default:
-                    //move(0,0);
-                    //printw("Error");
+                    printw("Hero picked up a common weapon!");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("Hero picked up a rare weapon!");
+                case 5:
+                    move(0,0);
+                    printw("Hero picked up some equipment!");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
             }
             break;
         case 2:
-            move(0,0);
-            printw("Notification2");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
         case 3:
-            move(0,0);
-            printw("Notification3");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
         case 4:
-            move(0,0);
-            printw("Notification4");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
         case 5:
-            move(0,0);
-            printw("Notification5");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
         case 6:
-            move(0,0);
-            printw("Notification6");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
         case 7:
-            move(0,0);
-            printw("Notification7");
+            switch(subEvent)
+            {
+                case 1:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 2:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 3:
+                    move(0,0);
+                    printw("error");
+                    break;
+                case 4:
+                    move(0,0);
+                    printw("error");
+                    break;
+                default:
+                    move(0,0);
+                    printw("error");
+                    break;
+            }
             break;
             //default:
             //move(0,0);
