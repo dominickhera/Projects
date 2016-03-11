@@ -17,14 +17,14 @@ void initCurses(room * Rooms)
     int maxY = 0;
     int charY = 6;
     int charX = 6;
-    int testOffset = 0;
+    /*int testOffset = 0;
     int midOffset = 0;
     int topOffset = 0;
     int botOffset = 0;
     int hallwayOne = 0;
     int hallwayTwo = 0;
     int hallwayThree = 0;
-    int hallwayFour = 0;
+    int hallwayFour = 0;*/
     srand(time(NULL));
     initscr();
     noecho();
@@ -95,7 +95,7 @@ void initCurses(room * Rooms)
         }
 
     }
-
+/*
     topOffset = (yOffset/2);
     midOffset = (getMaxYTop(Rooms) + (maxTop/2));
     botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
@@ -115,7 +115,7 @@ void initCurses(room * Rooms)
     printVerticalHallway(midOffset, hallwayTwo);
 
     printVerticalHallway(botOffset, hallwayThree);
-    printVerticalHallway(botOffset, hallwayFour);
+    printVerticalHallway(botOffset, hallwayFour);*/
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
     move(charY, charX);
@@ -331,18 +331,21 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
             int randomNum = 0;
             randomNum = rand() % 4;
 
-            switch (randomNum)
+            if (randomNum == 0)
             {
-                case 0:
-                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'A';
-                case 1:
-                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'B';
-                case 2:
-                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
-                case 3:
-                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'S';
-                default:
-                    curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
+                curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'A';
+            }
+            else if (randomNum == 1)
+            {
+                curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'B';
+            }
+            else if (randomNum == 2)
+            {
+                curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
+            }
+            else if (randomNum == 3)
+            {
+                curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'S';
             }
             randomNum = 0;
         }
@@ -441,7 +444,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
         }
         for(int j = 0; j < Rooms[i].totalDoors; j++)
         {
-           /* if(j == 0)
+            if(j == 0)
             {
                 switch(Rooms[i].doorLocation[j])
                 {
@@ -472,7 +475,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
                         break;
                 }
             }
-            else */
+            else 
             if (j > 0)
             {
 
