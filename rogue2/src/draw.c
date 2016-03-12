@@ -5,7 +5,7 @@
 //also handles the game loop that looks for user interaction and checks the input against another function to see how to respond
 void initCurses(room * Rooms)
 {
-    
+
     player Player;
     enemy * Enemy;
     char ** roomMake[6];
@@ -21,13 +21,13 @@ void initCurses(room * Rooms)
     int charX = 0;
     //Enemy->enemyCount = 0;
     /*int testOffset = 0;
-    int midOffset = 0;
-    int topOffset = 0;
-    int botOffset = 0;
-    int hallwayOne = 0;
-    int hallwayTwo = 0;
-    int hallwayThree = 0;
-    int hallwayFour = 0;*/
+      int midOffset = 0;
+      int topOffset = 0;
+      int botOffset = 0;
+      int hallwayOne = 0;
+      int hallwayTwo = 0;
+      int hallwayThree = 0;
+      int hallwayFour = 0;*/
     srand(time(NULL));
     initscr();
     noecho();
@@ -40,7 +40,7 @@ void initCurses(room * Rooms)
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i, Enemy);
     }
-    
+
     maxX = getMaxX(Rooms);
     maxY = getMaxY(Rooms);
     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -100,31 +100,31 @@ void initCurses(room * Rooms)
         }
 
     }
-    
+
 
     /*
-    topOffset = (yOffset/2);
-    midOffset = (getMaxYTop(Rooms) + (maxTop/2));
-    botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
-    hallwayOne = (getMaxYRoom(Rooms, 2) + (yOffset * 1.5));
-    hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
-    hallwayThree = (getMaxYRoom(Rooms, 4) + (yOffset * 1.5));
-    hallwayFour = ((getMaxYRoom(Rooms, 5) + getMaxYRoom(Rooms, 4) + (yOffset * 2.75)) + 2);
+       topOffset = (yOffset/2);
+       midOffset = (getMaxYTop(Rooms) + (maxTop/2));
+       botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
+       hallwayOne = (getMaxYRoom(Rooms, 2) + (yOffset * 1.5));
+       hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
+       hallwayThree = (getMaxYRoom(Rooms, 4) + (yOffset * 1.5));
+       hallwayFour = ((getMaxYRoom(Rooms, 5) + getMaxYRoom(Rooms, 4) + (yOffset * 2.75)) + 2);
+       move(0,0);
+       printw("bot offset is %d", hallwayOne);
+       testOffset = ((yOffset * 4) + rightHallwayNum(Rooms));
+       printHorizontalHallway(testOffset, topOffset); //top horizontal hallway
+       printHorizontalHallway(testOffset, midOffset); //middle horizontal hallway
+       printHorizontalHallway(testOffset, botOffset); //bot horizontal hallyway
+       printVerticalHallway((botOffset), topOffset);//most left hallway
+       printVerticalHallway((botOffset), (testOffset));//most right hallway
+       printVerticalHallway(midOffset, hallwayOne);
+       printVerticalHallway(midOffset, hallwayTwo);
+       printVerticalHallway(botOffset, hallwayThree);
+       printVerticalHallway(botOffset, hallwayFour);
+     */
     move(0,0);
-    printw("bot offset is %d", hallwayOne);
-    testOffset = ((yOffset * 4) + rightHallwayNum(Rooms));
-    printHorizontalHallway(testOffset, topOffset); //top horizontal hallway
-    printHorizontalHallway(testOffset, midOffset); //middle horizontal hallway
-    printHorizontalHallway(testOffset, botOffset); //bot horizontal hallyway
-    printVerticalHallway((botOffset), topOffset);//most left hallway
-    printVerticalHallway((botOffset), (testOffset));//most right hallway
-    printVerticalHallway(midOffset, hallwayOne);
-    printVerticalHallway(midOffset, hallwayTwo);
-    printVerticalHallway(botOffset, hallwayThree);
-    printVerticalHallway(botOffset, hallwayFour);
-    */
-        move(0,0);
-        printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
+    printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
     //move(0,0);
     //printw("hero x is %d, hero y is %d", Rooms->heroX, Rooms->heroY);
     charX = (Rooms->heroX);
@@ -189,11 +189,11 @@ void initCurses(room * Rooms)
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 7:
-               // clearNotifyLine();
+                // clearNotifyLine();
                 if(Player.healthCount == 50)
                 {
                     getNotification(7,1,0,'x');
-                   // move(0,0);
+                    // move(0,0);
                     //printw("You already have full health");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
@@ -218,7 +218,7 @@ void initCurses(room * Rooms)
                 //clearNotifyLine();
                 if (Player.inventoryTotal < 5)
                 {
-                   // movePlayer(input,&charY,&charX);  
+                    // movePlayer(input,&charY,&charX);  
                     clearNotifyLine();
                     Player.inventoryTotal++;
                     getNotification(1,3,0,'x');
@@ -276,8 +276,8 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
 
 
     curseRoom = malloc(sizeof(char*) *yVar);
-   // enemy = malloc(sizeof(int*)*60);
-   // Enemy = malloc(sizeof(enemy)*60);
+    // enemy = malloc(sizeof(int*)*60);
+    // Enemy = malloc(sizeof(enemy)*60);
     if(curseRoom == NULL)
     {
         printf("failed to allocate memory for room\n");
@@ -428,7 +428,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
         }
         else if (Rooms[index].roomItems[i].itemType == 'h')
             Rooms->heroY = Rooms[index].roomItems[i].itemY;
-            Rooms->heroX = Rooms[index].roomItems[i].itemX;
+        Rooms->heroX = Rooms[index].roomItems[i].itemX;
     }
     //printf("%d\n", Rooms[index].totalItems);
 
@@ -517,19 +517,19 @@ void connectDoors(char ** roomMake[], room * Rooms)
                         break;
                     case 'e':
                         /*if(i <= 2)
-                        {
-                            while(1)
-                            {
-                                countVar++; 
-                                printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 1, 0, countVar);
-                                yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
-                                spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
-                                if (spaceVar == '|')
-                                {
-                                    break;
-                                }
-                            }
-                        }*/
+                          {
+                          while(1)
+                          {
+                          countVar++; 
+                          printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 1, 0, countVar);
+                          yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
+                          spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
+                          if (spaceVar == '|')
+                          {
+                          break;
+                          }
+                          }
+                          }*/
                         break;
                     case 'n':
 
@@ -540,26 +540,26 @@ void connectDoors(char ** roomMake[], room * Rooms)
                 }
             }
             else 
-            if (j > 0)
-            {
-
-                switch(Rooms[i].doorLocation[j])
+                if (j > 0)
                 {
-                    case 'n':
-                        printDeadEnds( (Rooms[i].doorPosition[j] + 5 + offset), (0 + yOffset), 0, -1, 3);
-                        break;
-                    case 's':
-                        printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 5);
-                        break;
-                    case 'w':
-                        printDeadEnds((1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 3);
-                        break;
-                    case 'e':
-                        printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 3);
-                        break;
-                }
 
-            }
+                    switch(Rooms[i].doorLocation[j])
+                    {
+                        case 'n':
+                            printDeadEnds( (Rooms[i].doorPosition[j] + 5 + offset), (0 + yOffset), 0, -1, 3);
+                            break;
+                        case 's':
+                            printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 5);
+                            break;
+                        case 'w':
+                            printDeadEnds((1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), -1, 0, 3);
+                            break;
+                        case 'e':
+                            printDeadEnds((Rooms[i].x - 1 + 5 + offset), (Rooms[i].doorPosition[j] - 1 + yOffset), 1, 0, 3);
+                            break;
+                    }
+
+                }
 
         }
 
@@ -567,30 +567,30 @@ void connectDoors(char ** roomMake[], room * Rooms)
 
 }
 /*
-void randomizeHallway(char ** roomMake[], room * Rooms)
-{
-    int yHall = 0;
-    int xHall = 0;
-    char charFind;
+   void randomizeHallway(char ** roomMake[], room * Rooms)
+   {
+   int yHall = 0;
+   int xHall = 0;
+   char charFind;
 
-    for(int i = 0; i < 6; i++)
-    {
-        for(int j = 0; j < Rooms[i].totalDoors; j++)
-        {
-            switch(Rooms[index].doorLocation[i]) == 'e')
-            {
-                case 'e':
-                    while( != '|')
-                    {
-                      mvaddch( yHall, xHall,'#');
-                    }
-                    if ()
-                    break;
-            }
-        }
-    }
-}
-*/
+   for(int i = 0; i < 6; i++)
+   {
+   for(int j = 0; j < Rooms[i].totalDoors; j++)
+   {
+   switch(Rooms[index].doorLocation[i]) == 'e')
+   {
+   case 'e':
+   while( != '|')
+   {
+   mvaddch( yHall, xHall,'#');
+   }
+   if ()
+   break;
+   }
+   }
+   }
+   }
+ */
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum)
 {
     move((startY), (startX));
@@ -1038,27 +1038,27 @@ void getNotification(int event, int subEvent, int var, char letter)
 
 void combat(player * Player, enemy * Enemy)
 {
-int randomNum = 0;
-randomNum = ((rand() % 10)+1);
+    int randomNum = 0;
+    randomNum = ((rand() % 10)+1);
 
-if (randomNum > Enemy.enemyAttackSpeed)
-{
-    Enemy.enemyHealthCount -= Player.attackCount; 
-    getNotification(0,0,0,'x');
-}
-else
-{
-    Player.healthCount -= Enemy.enemyHealthCount;
-    getNotification(0,0,0,'x');
-}
-/*
-if random(1 to 10) > enemy.speed playerAttack()
-else
-enemyAttack()
- ero.health = hero.health - enemy.attack event(takeDamage)
-playerAttack() = {
-enemy.health = enemy.health - hero.attack event(giveDamage)
-}*/
+    if (randomNum > Enemy.enemyAttackSpeed)
+    {
+        Enemy.enemyHealthCount -= Player.attackCount; 
+        getNotification(0,0,0,'x');
+    }
+    else
+    {
+        Player.healthCount -= Enemy.enemyHealthCount;
+        getNotification(0,0,0,'x');
+    }
+    /*
+       if random(1 to 10) > enemy.speed playerAttack()
+       else
+       enemyAttack()
+       ero.health = hero.health - enemy.attack event(takeDamage)
+       playerAttack() = {
+       enemy.health = enemy.health - hero.attack event(giveDamage)
+       }*/
 
 }
 
