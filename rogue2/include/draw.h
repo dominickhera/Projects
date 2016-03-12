@@ -16,43 +16,17 @@ typedef struct character
 
 }player;
 
-typedef struct bat
+typedef struct enemy
 {
-    int batHealth;
-    int batAttackCount;
-    int batAttackSpeed;
-}bat;
+	int enemyCount;
+	int enemyHealthCount;
+	int enemyAttackCount;
+	int enemyAttackSpeed;
 
-typedef struct troll
-{
-    int trollHealth;
-    int trollAttackCount;
-    int trollAttackSpeed;
-}troll;
-
-typedef struct snake
-{
-    int snakeHealth;
-    int snakeAttackCount;
-    int snakeAttackSpeed;
-}snake;
-
-typedef struct zombie
-{
-    int zombieHealth;
-    int zombieAttackCount;
-    int zombieAttackSpeed;
-}zombie;
-
-typedef struct aquator
-{
-    int aquatorHealth;
-    int aquatorAttackCount;
-    int aquatorAttackSpeed;
-}aquator;
+}enemy;
 
 void initCurses(room * Rooms);
-char ** printRooms(int xVar, int yVar, room * Rooms, int index);
+char ** printRooms(int xVar, int yVar, room * Rooms, int index, enemy * Enemy);
 void printHorizontalHallway(int x, int y);
 void printVerticalHallway(int x, int y);
 void printLowerVerticalHallway(int x, int y, int z);

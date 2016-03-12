@@ -12,18 +12,20 @@ typedef struct roomStruct {
 
     int x; 
     int y;
+    int heroX;
+    int heroY;
 
     char * doorLocation;
     int  * doorPosition; 
     int totalDoors; 
     int totalItems;
+   // int enemyCount;
 
     item * roomItems;
 
 }room;
 
 room * parseFile(char * filename);
-room * parseRoom(char * line, int length);
 void realParse(room * Rooms, char * line, int length);
 
 #endif

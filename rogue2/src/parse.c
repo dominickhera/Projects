@@ -132,10 +132,44 @@ void realParse(room * Rooms, char * line, int length)
         {
 
 
-          //  if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
+            //  if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
             if (line[i - 1] != 'd')
             {
-                if(Rooms->totalItems == 0){
+                if (line[i] == 'h')
+                {
+                    if(line[i + 2] == ',')//e4,15
+                    {
+                        Rooms->heroX = atoi(&line[i + 1]); 
+                        if (isdigit(line[i + 4]))
+                        {
+                            Rooms->heroY = (line[i + 3] - '0') * 10 + (line[i +4] - '0');
+                        }
+                        else if (isdigit(line[i + 3]))
+                        {
+                            Rooms->heroY = atoi(&line[i + 3]);
+
+                        }
+                    }
+                    else if(isdigit(line[i + 2]))
+                    {
+                        //2 numbers
+                        if(line[i + 3] == ',')
+                        {
+                            Rooms->heroX = (line[i + 1] - '0') * 10 + (line[i + 2] - '0');
+                            if (isdigit(line[i + 5]))
+                            {
+                                Rooms->heroY = (line[i + 4] - '0') * 10 + (line[i + 5] - '0');
+                            }
+                            else if (isdigit(line[i + 4]))
+                            {
+                                Rooms->heroY = atoi(&line[i + 4]);
+
+                            }
+                        }
+                    }
+                    continue; 
+                }
+                else if(Rooms->totalItems == 0){
                     Rooms->roomItems = malloc(sizeof(item)* 1);
                 } else {
                     Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
@@ -184,17 +218,17 @@ void realParse(room * Rooms, char * line, int length)
         }
     }
 
-/*
+    /*
 
-    printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
+       printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
-    for(int i = 0; i < Rooms->totalDoors; i++)
-    {
-        printf("doorNum[%d] = d%c%d\n", i, Rooms->doorLocation[i], Rooms->doorPosition[i]);
-    }
+       for(int i = 0; i < Rooms->totalDoors; i++)
+       {
+       printf("doorNum[%d] = d%c%d\n", i, Rooms->doorLocation[i], Rooms->doorPosition[i]);
+       }
 
-    for (int i = 0; i < Rooms->totalItems; i++)
-    {
-        printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
-    }*/
+       for (int i = 0; i < Rooms->totalItems; i++)
+       {
+       printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
+       }*/
 }

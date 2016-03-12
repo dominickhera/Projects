@@ -6,6 +6,7 @@
 void initCurses(room * Rooms)
 {
     player Player;
+    enemy Enemy;
     char ** roomMake[6];
     char input, condition;
     int yRoom, xRoom;
@@ -15,9 +16,9 @@ void initCurses(room * Rooms)
     int bigRandNum = 0;
     int maxX = 0;
     int maxY = 0;
-    int charY = 6;
-    int charX = 6;
-    char nullChar;
+    int charY = 0;
+    int charX = 0;
+    Enemy.enemyCount = 0;
     /*int testOffset = 0;
     int midOffset = 0;
     int topOffset = 0;
@@ -34,7 +35,7 @@ void initCurses(room * Rooms)
     {
         xRoom = Rooms[i].x;
         yRoom = Rooms[i].y;
-        roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
+        roomMake[i] = printRooms(yRoom,xRoom, Rooms, i, &Enemy);
     }
     initPlayer(&Player);
     maxX = getMaxX(Rooms);
@@ -96,6 +97,9 @@ void initCurses(room * Rooms)
         }
 
     }
+    charX = (Rooms->heroX);
+    charY = (Rooms->heroY);
+
     /*
     topOffset = (yOffset/2);
     midOffset = (getMaxYTop(Rooms) + (maxTop/2));
@@ -117,6 +121,9 @@ void initCurses(room * Rooms)
     printVerticalHallway(botOffset, hallwayThree);
     printVerticalHallway(botOffset, hallwayFour);
     */
+
+    move(0,0);
+    printw("hero x is %d, hero y is %d", Rooms->heroX, Rooms->heroY);
 
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
@@ -231,6 +238,12 @@ void initCurses(room * Rooms)
                 move(0,0);
                 printw("you ran into a monster");
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
+            case 11:
+                clearNotifyLine();
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
+            case 12:
+            case 13:
+            case 14:
             default:
                 break;
         }
@@ -246,11 +259,14 @@ void initCurses(room * Rooms)
 // main function that actually prints out the rooms
 //mallocs and then begins to assign each character to the cureRoom file
 //prints out items, large switch case to determine what actual character to print out for each item
-char ** printRooms(int yVar, int xVar, room * Rooms, int index)
+char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
 {
     char ** curseRoom;
 
+
     curseRoom = malloc(sizeof(char*) *yVar);
+   // enemy = malloc(sizeof(int*)*60);
+    Enemy = malloc(sizeof(Enemy)*60);
     if(curseRoom == NULL)
     {
         printf("failed to allocate memory for room\n");
@@ -348,18 +364,34 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
             if (randomNum == 0)
             {
                 curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'A';
+                Enemy[Enemy->enemyCount].enemyHealthCount = 5;
+                Enemy[Enemy->enemyCount].enemyAttackCount = 1;
+                Enemy[Enemy->enemyCount].enemyAttackSpeed = 2;
+                Enemy->enemyCount++;
             }
             else if (randomNum == 1)
             {
                 curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'B';
+                Enemy[Enemy->enemyCount].enemyHealthCount = 2;
+                Enemy[Enemy->enemyCount].enemyAttackCount = 5;
+                Enemy[Enemy->enemyCount].enemyAttackSpeed = 4;
+                Enemy->enemyCount++;
             }
             else if (randomNum == 2)
             {
                 curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'Z';
+                Enemy[Enemy->enemyCount].enemyHealthCount = 15;
+                Enemy[Enemy->enemyCount].enemyAttackCount = 5;
+                Enemy[Enemy->enemyCount].enemyAttackSpeed = 2;
+                Enemy->enemyCount++;
             }
             else if (randomNum == 3)
             {
                 curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'S';
+                Enemy[Enemy->enemyCount].enemyHealthCount = 5;
+                Enemy[Enemy->enemyCount].enemyAttackCount = 5;
+                Enemy[Enemy->enemyCount].enemyAttackSpeed = 4;
+                Enemy->enemyCount++;
             }
             randomNum = 0;
         }
@@ -374,6 +406,10 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         else if (Rooms[index].roomItems[i].itemType == 'M')
         {
             curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = 'T';
+            Enemy[Enemy->enemyCount].enemyHealthCount = 50;
+            Enemy[Enemy->enemyCount].enemyAttackCount = 5;
+            Enemy[Enemy->enemyCount].enemyAttackSpeed = 3;
+            Enemy->enemyCount++;
         }
         else if (Rooms[index].roomItems[i].itemType == 'e')
         {
@@ -419,9 +455,9 @@ void connectDoors(char ** roomMake[], room * Rooms)
     int offset = 0;
     int maxTop = 0;
     int yOffset = 0;
-    int yVar = 0;
-    int countVar = 0;
-    char spaceVar;
+    //int yVar = 0;
+    //int countVar = 0;
+    //char spaceVar;
 
 
     for(int i = 0; i<6; i++)
@@ -466,7 +502,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
 
                         break;
                     case 'e':
-                       /* if(i <= 2)
+                        /*if(i <= 2)
                         {
                             while(1)
                             {
