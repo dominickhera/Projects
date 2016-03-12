@@ -17,6 +17,7 @@ void initCurses(room * Rooms)
     int maxY = 0;
     int charY = 6;
     int charX = 6;
+    char nullChar;
     /*int testOffset = 0;
     int midOffset = 0;
     int topOffset = 0;
@@ -114,7 +115,9 @@ void initCurses(room * Rooms)
     printVerticalHallway(midOffset, hallwayOne);
     printVerticalHallway(midOffset, hallwayTwo);
     printVerticalHallway(botOffset, hallwayThree);
-    printVerticalHallway(botOffset, hallwayFour);*/
+    printVerticalHallway(botOffset, hallwayFour);
+    
+    */
 
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
@@ -135,28 +138,30 @@ void initCurses(room * Rooms)
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 2:
+                clearNotifyLine();
                 move(0, 0);
                 printw("you walked through a door");
-                clearNotifyLine();
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 3:
+                clearNotifyLine();
                 smallRandNum = 0;
                 smallRandNum = (rand() % 50);
                 Player.goldTotal += smallRandNum;
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 movePlayer(input,&charY,&charX);
-                getNotification(1,1, smallRandNum);
+                getNotification(1,1, smallRandNum,'x');
                 // move(0,0);
                 //printw("You picked up %d gold!", smallRandNum);
                 break;
             case 4:
+                clearNotifyLine();
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
-                getNotification(1,2,bigRandNum);
+                getNotification(1,2,bigRandNum,'x');
                 //move(0,0);
                 //printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -166,6 +171,7 @@ void initCurses(room * Rooms)
                 input = 'q';
                 break;
             case 6:
+                clearNotifyLine();
                 movePlayer(input,&charY,&charX);
                 move(0, 0);
                 printw("You picked up a potion!");
@@ -173,33 +179,39 @@ void initCurses(room * Rooms)
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 7:
+               // clearNotifyLine();
                 if(Player.healthCount == 50)
                 {
-                    move(0,0);
-                    printw("You already have full health");
+                    getNotification(7,1,0,'x');
+                   // move(0,0);
+                    //printw("You already have full health");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else if (Player.potionCount > 0)
                 {
                     Player.potionCount--;
-                    move(0,0);
-                    printw("You now have full health");
+                    getNotification(7,2,0,'x');
+                    //move(0,0);
+                    //printw("You now have full health");
                     Player.healthCount = 50;
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 } 
                 else 
                 {
-                    move(0,0);
-                    printw("You have no potions left");
+                    getNotification(8,0,0,'x');
+                    //move(0,0);
+                    //printw("You have no potions left");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 break;
             case 8:
+                //clearNotifyLine();
                 if (Player.inventoryTotal < 5)
                 {
-                    movePlayer(input,&charY,&charX);  
+                   // movePlayer(input,&charY,&charX);  
+                    clearNotifyLine();
                     Player.inventoryTotal++;
-                    getNotification(1,3,0);
+                    getNotification(1,3,0,'x');
                     //move(0,0);
                     //printw("You added an item to your inventory");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -211,10 +223,12 @@ void initCurses(room * Rooms)
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
             case 9:
+                //clearNotifyLine();
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break; 
             case 10:
+                clearNotifyLine();
                 move(0,0);
                 printw("you ran into a monster");
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -814,11 +828,11 @@ void initPlayer(player * Player)
     Player->attackCount = 5;
 }
 
-void getNotification(int event, int subEvent, int var)
+void getNotification(int event, int subEvent, int var, char letter)
 {
     switch (event) 
     {
-        case 1:
+        case 1: // picking up event
             switch (subEvent)
             {
                 case 1:
@@ -846,7 +860,14 @@ void getNotification(int event, int subEvent, int var)
                     break;
             }
             break;
-        case 2:
+        case 2: //bag full
+            move(0,0);
+            printw("Hero's stepped on %c and broke it", letter);
+            break;
+        case 3: // take damage
+            move(0,0);
+            printw("Hero has taken %d damage!", var);
+        case 4: //give damage
             switch(subEvent)
             {
                 case 1:
@@ -871,7 +892,7 @@ void getNotification(int event, int subEvent, int var)
                     break;
             }
             break;
-        case 3:
+        case 5: //kill
             switch(subEvent)
             {
                 case 1:
@@ -896,7 +917,7 @@ void getNotification(int event, int subEvent, int var)
                     break;
             }
             break;
-        case 4:
+        case 6: //door
             switch(subEvent)
             {
                 case 1:
@@ -921,84 +942,23 @@ void getNotification(int event, int subEvent, int var)
                     break;
             }
             break;
-        case 5:
+        case 7: //pot use 
             switch(subEvent)
             {
                 case 1:
                     move(0,0);
-                    printw("error");
+                    printw("Hero already has full health");
                     break;
                 case 2:
                     move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
+                    printw("Hero used a potion to gain full health");
                     break;
             }
             break;
-        case 6:
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
-                    break;
-            }
+        case 8: //pot empty
+            move(0,0);
+            printw("Hero has no potions left");
             break;
-        case 7:
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
-                    break;
-            }
-            break;
-            //default:
-            //move(0,0);
-            // printw("Error");
     }
 }
 
