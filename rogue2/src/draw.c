@@ -31,7 +31,9 @@ void initCurses(room * Rooms)
     srand(time(NULL));
     initscr();
     noecho();
+
     Enemy = malloc(sizeof(enemy)*60);
+
     for (int i = 0; i < 6; i ++)
     {
         xRoom = Rooms[i].x;
@@ -275,7 +277,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
 
     curseRoom = malloc(sizeof(char*) *yVar);
    // enemy = malloc(sizeof(int*)*60);
-    Enemy = malloc(sizeof(enemy)*60);
+   // Enemy = malloc(sizeof(enemy)*60);
     if(curseRoom == NULL)
     {
         printf("failed to allocate memory for room\n");
@@ -1032,6 +1034,32 @@ void getNotification(int event, int subEvent, int var, char letter)
             printw("Hero has no potions left");
             break;
     }
+}
+
+void combat(player * Player, enemy * Enemy)
+{
+int randomNum = 0;
+randomNum = ((rand() % 10)+1);
+
+if (randomNum > Enemy.enemyAttackSpeed)
+{
+    Enemy.enemyHealthCount -= Player.attackCount; 
+    getNotification(0,0,0,'x');
+}
+else
+{
+    Player.healthCount -= Enemy.enemyHealthCount;
+    getNotification(0,0,0,'x');
+}
+/*
+if random(1 to 10) > enemy.speed playerAttack()
+else
+enemyAttack()
+ ero.health = hero.health - enemy.attack event(takeDamage)
+playerAttack() = {
+enemy.health = enemy.health - hero.attack event(giveDamage)
+}*/
+
 }
 
 int midHallwayNum(room * Rooms)

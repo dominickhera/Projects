@@ -37,6 +37,7 @@ void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int r
 void movePlayer(char input, int * posY, int * posX);
 void movePlayerInHallways(char input, int * posY, int * posX);
 int checkInput(char input, int posY, int posX);
+void combat(player * Player, enemy * Enemy);
 int getMaxX(room * Rooms);
 int getMaxY(room * Rooms);
 int getMaxYRoom(room * Rooms, int x);
