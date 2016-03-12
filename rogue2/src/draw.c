@@ -96,7 +96,7 @@ void initCurses(room * Rooms)
         }
 
     }
-/*
+    /*
     topOffset = (yOffset/2);
     midOffset = (getMaxYTop(Rooms) + (maxTop/2));
     botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
@@ -116,7 +116,6 @@ void initCurses(room * Rooms)
     printVerticalHallway(midOffset, hallwayTwo);
     printVerticalHallway(botOffset, hallwayThree);
     printVerticalHallway(botOffset, hallwayFour);
-    
     */
 
     connectDoors(roomMake, Rooms);
@@ -218,8 +217,8 @@ void initCurses(room * Rooms)
                 }
                 else
                 {
-                    move(0,0);
-                    printw("Your inventory is already full! You can't pick up anymore items");
+                    //move(0,0);
+                    //printw("Your inventory is already full! You can't pick up anymore items");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
             case 9:
@@ -381,7 +380,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
             curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = ']';
         }
     }
-    printf("%d\n", Rooms[index].totalItems);
+    //printf("%d\n", Rooms[index].totalItems);
 
 
     return curseRoom;
@@ -463,29 +462,29 @@ void connectDoors(char ** roomMake[], room * Rooms)
             {
                 switch(Rooms[i].doorLocation[j])
                 {
-                    case 'n':
-
-                        break;
-                    case 's':
-                        if(i <= 2)
-                        {
-                            while(1)
-                            {
-                                countVar++; 
-                                printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, countVar);
-                                yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
-                                spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
-                                if (spaceVar == '#')
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        break;
                     case 'w':
 
                         break;
                     case 'e':
+                       /* if(i <= 2)
+                        {
+                            while(1)
+                            {
+                                countVar++; 
+                                printDeadEnds((Rooms[i].doorPosition[j] - 1 + offset + 5) ,(Rooms[i].y - 1 + yOffset), 1, 0, countVar);
+                                yVar = (Rooms[i].y - 1 + yOffset + (countVar + 1));
+                                spaceVar = mvinch(yVar, (Rooms[i].doorPosition[j] - 1 + offset + 5)) & A_CHARTEXT;
+                                if (spaceVar == '|')
+                                {
+                                    break;
+                                }
+                            }
+                        }*/
+                        break;
+                    case 'n':
+
+                        break;
+                    case 's':
 
                         break;
                 }
@@ -517,7 +516,31 @@ void connectDoors(char ** roomMake[], room * Rooms)
     }
 
 }
+/*
+void randomizeHallway(char ** roomMake[], room * Rooms)
+{
+    int yHall = 0;
+    int xHall = 0;
+    char charFind;
 
+    for(int i = 0; i < 6; i++)
+    {
+        for(int j = 0; j < Rooms[i].totalDoors; j++)
+        {
+            switch(Rooms[index].doorLocation[i]) == 'e')
+            {
+                case 'e':
+                    while( != '|')
+                    {
+                      mvaddch( yHall, xHall,'#');
+                    }
+                    if ()
+                    break;
+            }
+        }
+    }
+}
+*/
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum)
 {
     move((startY), (startX));
@@ -852,7 +875,7 @@ void getNotification(int event, int subEvent, int var, char letter)
                     printw("Hero picked up a rare weapon!");
                 case 5:
                     move(0,0);
-                    printw("Hero picked up some equipment!");
+                    printw("Hero picked up equipment!");
                     break;
                 default:
                     move(0,0);
