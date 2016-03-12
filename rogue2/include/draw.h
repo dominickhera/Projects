@@ -16,12 +16,14 @@ typedef struct character
 
 }player;
 
-typedef struct enemy
+typedef struct enemyStruct
 {
 	int enemyCount;
 	int enemyHealthCount;
 	int enemyAttackCount;
 	int enemyAttackSpeed;
+	int enemyY;
+	int enemyX;
 
 }enemy;
 
@@ -44,7 +46,7 @@ int getTotalY(room * Rooms);
 int getTotalYTop(room * Rooms);
 int rightHallwayNum(room * Rooms);
 void getNotification(int event, int subEvent, int var, char letter);
-void initPlayer(player * Player);
+void initPlayer(player * Player, enemy * Enemy);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();
 int midHallwayNum(room * Rooms);

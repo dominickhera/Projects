@@ -135,7 +135,7 @@ void realParse(room * Rooms, char * line, int length)
             //  if (line[i] != 'e' && line[i] != 's' && line[i] != 'w' && line[i] != 'n')
             if (line[i - 1] != 'd')
             {
-                if (line[i] == 'h')
+                /*if (line[i] == 'h')
                 {
                     if(line[i + 2] == ',')//e4,15
                     {
@@ -168,8 +168,9 @@ void realParse(room * Rooms, char * line, int length)
                         }
                     }
                     continue; 
-                }
-                else if(Rooms->totalItems == 0){
+                }*/
+                //else 
+                    if(Rooms->totalItems == 0){
                     Rooms->roomItems = malloc(sizeof(item)* 1);
                 } else {
                     Rooms->roomItems = realloc(Rooms->roomItems, sizeof(item)* (Rooms->totalItems + 1));
@@ -218,7 +219,7 @@ void realParse(room * Rooms, char * line, int length)
         }
     }
 
-    /*
+    
 
        printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
@@ -230,5 +231,5 @@ void realParse(room * Rooms, char * line, int length)
        for (int i = 0; i < Rooms->totalItems; i++)
        {
        printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
-       }*/
+       }
 }

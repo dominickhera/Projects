@@ -5,8 +5,9 @@
 //also handles the game loop that looks for user interaction and checks the input against another function to see how to respond
 void initCurses(room * Rooms)
 {
+    
     player Player;
-    enemy Enemy;
+    enemy * Enemy;
     char ** roomMake[6];
     char input, condition;
     int yRoom, xRoom;
@@ -18,7 +19,7 @@ void initCurses(room * Rooms)
     int maxY = 0;
     int charY = 0;
     int charX = 0;
-    Enemy.enemyCount = 0;
+    //Enemy->enemyCount = 0;
     /*int testOffset = 0;
     int midOffset = 0;
     int topOffset = 0;
@@ -30,14 +31,14 @@ void initCurses(room * Rooms)
     srand(time(NULL));
     initscr();
     noecho();
-
+    Enemy = malloc(sizeof(enemy)*60);
     for (int i = 0; i < 6; i ++)
     {
         xRoom = Rooms[i].x;
         yRoom = Rooms[i].y;
-        roomMake[i] = printRooms(yRoom,xRoom, Rooms, i, &Enemy);
+        roomMake[i] = printRooms(yRoom,xRoom, Rooms, i, Enemy);
     }
-    initPlayer(&Player);
+    
     maxX = getMaxX(Rooms);
     maxY = getMaxY(Rooms);
     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
@@ -97,8 +98,7 @@ void initCurses(room * Rooms)
         }
 
     }
-    charX = (Rooms->heroX);
-    charY = (Rooms->heroY);
+    
 
     /*
     topOffset = (yOffset/2);
@@ -121,10 +121,12 @@ void initCurses(room * Rooms)
     printVerticalHallway(botOffset, hallwayThree);
     printVerticalHallway(botOffset, hallwayFour);
     */
-
-    move(0,0);
-    printw("hero x is %d, hero y is %d", Rooms->heroX, Rooms->heroY);
-
+        move(0,0);
+        printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
+    //move(0,0);
+    //printw("hero x is %d, hero y is %d", Rooms->heroX, Rooms->heroY);
+    charX = (Rooms->heroX);
+    charY = (Rooms->heroY);
     connectDoors(roomMake, Rooms);
     mvaddch(charY, charX, '@');
     move(charY, charX);
@@ -232,18 +234,25 @@ void initCurses(room * Rooms)
                 //clearNotifyLine();
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-                break; 
             case 10:
                 clearNotifyLine();
-                move(0,0);
-                printw("you ran into a monster");
+                //move(0,0);
+                //printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 11:
                 clearNotifyLine();
+                move(0,0);
+
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 12:
+                clearNotifyLine();
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 13:
+                clearNotifyLine();
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 14:
+                clearNotifyLine();
+                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             default:
                 break;
         }
@@ -266,7 +275,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
 
     curseRoom = malloc(sizeof(char*) *yVar);
    // enemy = malloc(sizeof(int*)*60);
-    Enemy = malloc(sizeof(Enemy)*60);
+    Enemy = malloc(sizeof(enemy)*60);
     if(curseRoom == NULL)
     {
         printf("failed to allocate memory for room\n");
@@ -415,6 +424,9 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index, enemy * Enemy)
         {
             curseRoom[Rooms[index].roomItems[i].itemY - 1][Rooms[index].roomItems[i].itemX - 1] = ']';
         }
+        else if (Rooms[index].roomItems[i].itemType == 'h')
+            Rooms->heroY = Rooms[index].roomItems[i].itemY;
+            Rooms->heroX = Rooms[index].roomItems[i].itemX;
     }
     //printf("%d\n", Rooms[index].totalItems);
 
@@ -878,13 +890,14 @@ void getStatus(player Player, int x, int y)
 }
 
 //initialises all the parts of the player struct to their starting amounts as specified by the requirements provided
-void initPlayer(player * Player)
+void initPlayer(player * Player, enemy * Enemy)
 {
     Player->healthCount = 50;
     Player->goldTotal = 0;
     Player->potionCount = 1;
     Player->inventoryTotal = 0;
     Player->attackCount = 5;
+    Enemy->enemyCount = 0;
 }
 
 void getNotification(int event, int subEvent, int var, char letter)
