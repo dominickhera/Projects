@@ -1,13 +1,15 @@
 #include "draw.h"
 #include "parse.h"
-
+#include <ctype.h> 
 //calls the room print function to print all the rooms, makes sure to print them at an offset so they all dont print right next to eachother
 //also handles the game loop that looks for user interaction and checks the input against another function to see how to respond
 void initCurses(room * Rooms)
 {
 
     player Player;
-   // enemy * Enemy;
+    initPlayer(&Player);
+    enemy * Enemy = malloc(sizeof(enemy) * 20);
+    // enemy * Enemy;
     char ** roomMake[6];
     char input, condition;
     int yRoom, xRoom;
@@ -29,10 +31,11 @@ void initCurses(room * Rooms)
       int hallwayThree = 0;
       int hallwayFour = 0;*/
     srand(time(NULL));
+
     initscr();
     noecho();
 
-//    Enemy = malloc(sizeof(enemy)*60);
+    //    Enemy = malloc(sizeof(enemy)*60);
 
     for (int i = 0; i < 6; i ++)
     {
@@ -44,12 +47,12 @@ void initCurses(room * Rooms)
     maxX = getMaxX(Rooms);
     maxY = getMaxY(Rooms);
     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-
     getmaxyx(stdscr, rows, cols);
 
     int offset = 0;
     int maxTop = 0;
     int yOffset = 5;
+    int enemyCounter = 0;
 
     for (int j = 0; j < 6; j++)
     {
@@ -73,6 +76,40 @@ void initCurses(room * Rooms)
             {
                 for(int k=0;k<Rooms[j].x;k++)
                 {
+
+                    // int yEnemy = i + yOffset + 6;
+                    //int xEnemy = k + offset;
+
+                    int yEnemy = i + yOffset;
+                    int xEnemy = k + 6;
+
+                    if (roomMake[j][i][k] == 'T')
+                    {
+                        //enemy initMonster(int x, int y, int health, int attack, int speed, char typeOfEnemy)
+                        //y int x, int y, int health, int attack, int speed, char typeOfEnemy)
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 50, 5, 3, 'T');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'A')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 5, 1, 2, 'A');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'B')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 50, 5, 4, 'B');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'S')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 5, 5, 4, 'S');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'Z')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 15, 5, 3, 'Z');
+                        enemyCounter++; 
+                    }
                     mvaddch(i + yOffset, k + offset + 6, roomMake[j][i] [k]);
                 }
             }
@@ -93,6 +130,42 @@ void initCurses(room * Rooms)
             {
                 for(int k=0;k<Rooms[j ].x;k++)
                 {
+
+
+                    //int yEnemy = k + offset + 6;
+                    //int xEnemy = i + (maxTop + (yOffset * 2));
+
+                    int yEnemy = k + offset;
+                    int xEnemy = i;
+
+                    if (roomMake[j][i][k] == 'T')
+                    {
+                        //enemy initMonster(int x, int y, int health, int attack, int speed, char typeOfEnemy)
+                        //y int x, int y, int health, int attack, int speed, char typeOfEnemy)
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 50, 5, 3, 'T');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'A')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 5, 1, 2, 'A');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'B')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 2, 5, 4, 'B');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'S')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 5, 5, 4, 'S');
+                        enemyCounter++; 
+                    }
+                    else if(roomMake[j][i][k] == 'Z')
+                    {
+                        Enemy[enemyCounter] = initMonster(xEnemy, yEnemy, 15, 5, 3, 'Z');
+                        enemyCounter++; 
+                    }
+
                     mvaddch(i + (maxTop + (yOffset * 2)), k + offset + 6, roomMake[j][i] [k]);
                 }
             }
@@ -102,11 +175,29 @@ void initCurses(room * Rooms)
     }
 
 
+
+    FILE * filestream; 
+    filestream = fopen("debug.txt", "w");
+
+    for (int i = 0; i < 20; i ++)
+    {
+        if (isalpha(Enemy[i].type))
+        {
+            fprintf(filestream, "Enemy %d: type %c x:%d y:%d\n", i, Enemy[i].type, Enemy[i].enemyX, Enemy[i].enemyY);
+        }
+
+    }
+
+    fclose(filestream);
+
+
+
     /*
        topOffset = (yOffset/2);
        midOffset = (getMaxYTop(Rooms) + (maxTop/2));
        botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
-       hallwayOne = (getMaxYRoom(Rooms, 2) + (yOffset * 1.5));
+       hallwayOne = (getMaxYRoom(Rooms,
+       2) + (yOffset * 1.5));
        hallwayTwo = ((getMaxYRoom(Rooms, 2) + getMaxYRoom(Rooms, 1) + (yOffset * 2.75)));
        hallwayThree = (getMaxYRoom(Rooms, 4) + (yOffset * 1.5));
        hallwayFour = ((getMaxYRoom(Rooms, 5) + getMaxYRoom(Rooms, 4) + (yOffset * 2.75)) + 2);
@@ -138,23 +229,24 @@ void initCurses(room * Rooms)
     {
         refresh();
         input = getch();
-        condition = checkInput(input, charY, charX);
+        //condition = checkInput(input, charY, charX);
+        condition = checkInput(input, charY, charX, Enemy, &Player);
         switch (condition)
         {
             case 1:
-                clearNotifyLine();
+                //clearNotifyLine();
                 movePlayer(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 2:
-                clearNotifyLine();
+                //clearNotifyLine();
                 move(0, 0);
                 printw("you walked through a door");
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 3:
-                clearNotifyLine();
+                //clearNotifyLine();
                 smallRandNum = 0;
                 smallRandNum = (rand() % 50);
                 Player.goldTotal += smallRandNum;
@@ -165,7 +257,7 @@ void initCurses(room * Rooms)
                 //printw("You picked up %d gold!", smallRandNum);
                 break;
             case 4:
-                clearNotifyLine();
+                //clearNotifyLine();
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
@@ -180,7 +272,7 @@ void initCurses(room * Rooms)
                 input = 'q';
                 break;
             case 6:
-                clearNotifyLine();
+                //clearNotifyLine();
                 movePlayer(input,&charY,&charX);
                 move(0, 0);
                 printw("You picked up a potion!");
@@ -218,7 +310,7 @@ void initCurses(room * Rooms)
                 if (Player.inventoryTotal < 5)
                 {
                     // movePlayer(input,&charY,&charX);  
-                    clearNotifyLine();
+                    //clearNotifyLine();
                     Player.inventoryTotal++;
                     getNotification(1,3,0,'x');
                     //move(0,0);
@@ -236,24 +328,31 @@ void initCurses(room * Rooms)
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 10:
-                clearNotifyLine();
+                //learNotifyLine();
                 //move(0,0);
                 //printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 11:
-                clearNotifyLine();
+                //clearNotifyLine();
                 move(0,0);
 
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 12:
-                clearNotifyLine();
+                //clearNotifyLine();
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 13:
-                clearNotifyLine();
+                //clearNotifyLine();
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 14:
-                clearNotifyLine();
-                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
+                //clearNotifyLine();
+                input = 'q';
+                printf("you done fucked up and died you son bitch");
+                //getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
+            case 15:
+                //movePlayer(input,&charY,&charX);
+                // input = 'q';
+                // printf("you done fucked up and died you son bitch");
+                break;
             default:
                 break;
         }
@@ -580,10 +679,20 @@ void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int r
     }
 }
 
+void notification(char * text)
+{
+    for (int i = 0; i < 50; i++)
+    {
+        mvaddch(0,i,' ');
+    }
+    mvprintw(0,0, text);
+    return; 
+}
+
 //checks the input of what character the user typed and responds accordingly
 //also deals with collision control to make sure the hero doesnt go through walls
 //also contains conditions for numerous possible items that the user can run into
-int checkInput(char input, int posY, int posX)
+int checkInput(char input, int posY, int posX, enemy * Enemy, player * Player)
 {
     char space;
     switch(input)
@@ -605,7 +714,51 @@ int checkInput(char input, int posY, int posX)
             break;
     }
 
+    char * s = malloc(sizeof(char) * 256);
     space = mvinch(posY, posX) & A_CHARTEXT;
+
+
+    //sprintf(s, "Enemy[0] = x%dy%d, your pos = x%dy%d", Enemy[1].enemyY ,Enemy[1].enemyX, posX, posY);
+    //notification(s);
+
+    for (int i = 0; i < 20; i++)
+    {
+        if (Enemy[i].enemyX == posX && Enemy[i].enemyY == posY)
+        {
+            int randomNum = ((rand() % 9)+1);
+
+            if (randomNum > Enemy[i].enemyAttackSpeed)
+            {
+                Enemy[i].enemyHealthCount -= Player->attackCount; 
+                move(0,0);
+                printw("enemy health is now %d", Enemy[i].enemyHealthCount);
+                getNotification(0,0,0,'x');
+            }
+            else
+            {
+                Player->healthCount -= Enemy[i].enemyAttackCount;
+                move(0,0);
+                printw("player health is now %d, enemy attack count is %d", Player->healthCount, Enemy[i].enemyAttackCount);
+                getNotification(0,0,0,'x');
+            }
+
+            if(Enemy[i].enemyHealthCount <= 0)
+            {
+                mvaddch(Enemy[i].enemyY, Enemy[i].enemyX, '.');
+                move(0,0);
+                printw("you killed the monster");
+            } 
+            else if(Player->healthCount <= 0)
+            {
+                return 14;
+            }
+
+
+            //sprintf(s, "incountering enemy");
+            //notification(s);
+        }
+
+    }
 
     switch(space)
     {
@@ -710,6 +863,7 @@ void movePlayerInHallways(char input, int * posY, int * posX)
     mvaddch(*posY, *posX, '@');
     move(*posY, *posX);
 }
+
 
 int getMaxX(room * Rooms)
 {
@@ -879,6 +1033,20 @@ void initPlayer(player * Player)
     Player->attackCount = 5;
 }
 
+enemy initMonster(int x, int y, int health, int attack, int speed, char typeOfEnemy)
+{
+    enemy * temp = malloc(sizeof(enemy)); 
+    temp->enemyX = x;
+    temp->enemyY = y;
+    temp->enemyHealthCount = health;
+    temp->enemyAttackCount = attack;
+    temp->enemyAttackSpeed = speed; 
+    temp->type = typeOfEnemy; 
+
+    return *temp; 
+
+}
+
 void getNotification(int event, int subEvent, int var, char letter)
 {
     switch (event) 
@@ -1013,24 +1181,9 @@ void getNotification(int event, int subEvent, int var, char letter)
     }
 }
 
-/*void combat(player * Player, enemy * Enemy)
-{
-    int randomNum = 0;
-    randomNum = ((rand() % 10)+1);
 
-    if (randomNum > Enemy.enemyAttackSpeed)
-    {
-        Enemy.enemyHealthCount -= Player.attackCount; 
-        getNotification(0,0,0,'x');
-    }
-    else
-    {
-        Player.healthCount -= Enemy.enemyHealthCount;
-        getNotification(0,0,0,'x');
-    }
-   
 
-}*/
+
 
 int midHallwayNum(room * Rooms)
 {

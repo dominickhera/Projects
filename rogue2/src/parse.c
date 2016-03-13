@@ -219,7 +219,7 @@ void realParse(room * Rooms, char * line, int length)
         }
     }
 
-    
+        /*    
 
        printf("x:%d,y:%d\n", Rooms->x, Rooms->y);
 
@@ -230,6 +230,6 @@ void realParse(room * Rooms, char * line, int length)
 
        for (int i = 0; i < Rooms->totalItems; i++)
        {
-       printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);
+       printf("item[%d] = %c%d,%d\n", i , Rooms->roomItems[i].itemType, Rooms->roomItems[i].itemX, Rooms->roomItems[i].itemY);*/
        }
-}
+

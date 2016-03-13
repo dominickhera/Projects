@@ -40,7 +40,7 @@ void initCurses(room * Rooms)
         xRoom = Rooms[i].x;
         yRoom = Rooms[i].y;
         roomMake[i] = printRooms(yRoom,xRoom, Rooms, i);
-
+    }
         maxX = getMaxX(Rooms);
         maxY = getMaxY(Rooms);
         getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));

@@ -1,0 +1,7 @@
+Enemy 0: type A x:9 y:8
+Enemy 1: type T x:11 y:10
+Enemy 2: type S x:10 y:9
+Enemy 3: type A x:5 y:28
+Enemy 4: type B x:9 y:32
+Enemy 5: type B x:7 y:55
+Enemy 6: type A x:11 y:59
