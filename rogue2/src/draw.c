@@ -22,14 +22,14 @@ void initCurses(room * Rooms)
     int charY = 0;
     int charX = 0;
     //Enemy->enemyCount = 0;
-    /*int testOffset = 0;
+    int testOffset = 0;
       int midOffset = 0;
       int topOffset = 0;
       int botOffset = 0;
       int hallwayOne = 0;
       int hallwayTwo = 0;
       int hallwayThree = 0;
-      int hallwayFour = 0;*/
+      int hallwayFour = 0;
     srand(time(NULL));
 
     initscr();
@@ -192,7 +192,7 @@ void initCurses(room * Rooms)
 
 
 
-    /*
+    
        topOffset = (yOffset/2);
        midOffset = (getMaxYTop(Rooms) + (maxTop/2));
        botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
@@ -213,7 +213,7 @@ void initCurses(room * Rooms)
        printVerticalHallway(midOffset, hallwayTwo);
        printVerticalHallway(botOffset, hallwayThree);
        printVerticalHallway(botOffset, hallwayFour);
-     */
+     
 
     //move(0,0);
     //printw("hero x is %d, hero y is %d", Rooms->heroX, Rooms->heroY);
@@ -345,8 +345,8 @@ void initCurses(room * Rooms)
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 14:
                 //clearNotifyLine();
-                input = 'q';
-                printf("you done fucked up and died you son bitch");
+                //input = 'q';
+                //printf("you done fucked up and died you son bitch");
                 //getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 15:
                 //movePlayer(input,&charY,&charX);
@@ -709,6 +709,9 @@ int checkInput(char input, int posY, int posX, enemy * Enemy, player * Player)
         case 'd':
             posX += 1;
             break;
+        case 'r':
+            clearNotifyLine();
+            break;
         case 'p':
             return 7;
             break;
@@ -750,7 +753,7 @@ int checkInput(char input, int posY, int posX, enemy * Enemy, player * Player)
             } 
             else if(Player->healthCount <= 0)
             {
-                return 14;
+                return 5;
             }
 
 
