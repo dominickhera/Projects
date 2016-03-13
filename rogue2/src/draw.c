@@ -171,25 +171,6 @@ void initCurses(room * Rooms)
 
     }
 
-
-
-    FILE * filestream; 
-    filestream = fopen("debug.txt", "w");
-
-    for (int i = 0; i < 20; i ++)
-    {
-        if (isalpha(enemy[i].type))
-        {
-            fprintf(filestream, "Enemy %d: type %c x:%d y:%d\n", i, enemy[i].type, enemy[i].enemyX, enemy[i].enemyY);
-        }
-
-    }
-
-    fclose(filestream);
-
-
-
-
     topOffset = (yOffset/2);
     midOffset = (getMaxYTop(Rooms) + (maxTop/2));
     botOffset = (getMaxYTop(Rooms) + getMaxYBot(Rooms) + (topOffset) + (midOffset/2));
@@ -252,16 +233,13 @@ void initCurses(room * Rooms)
                 //printw("You picked up %d gold!", smallRandNum);
                 break;
             case 4:
-                //clearNotifyLine();
+                clearNotifyLine();
                 bigRandNum = 0;
                 bigRandNum = rand()%(250-50 + 1) + 50;
                 Player.goldTotal += bigRandNum;
                 movePlayer(input,&charY,&charX);
                 sprintf(s, "You picked up %d gold!", bigRandNum);
                 notification(s);
-                //getNotification(1,2,bigRandNum,'x');
-                //move(0,0);
-                //printw("You picked up %d gold!", bigRandNum);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
             case 5:
@@ -269,7 +247,7 @@ void initCurses(room * Rooms)
                 input = 'q';
                 break;
             case 6:
-                //clearNotifyLine();
+                clearNotifyLine();
                 movePlayer(input,&charY,&charX);
                 sprintf(s, "You picked up a potion");
                 notification(s);
@@ -292,7 +270,7 @@ void initCurses(room * Rooms)
                 else if (Player.potionCount > 0)
                 {
                     Player.potionCount--;
-                   // getNotification(7,2,0,'x');
+                    // getNotification(7,2,0,'x');
                     sprintf(s, "You now have full health!");
                     notification(s);
                     //move(0,0);
@@ -304,7 +282,7 @@ void initCurses(room * Rooms)
                 {
                     sprintf(s, "You have no potions left!");
                     notification(s);
-                    getNotification(8,0,0,'x');
+                    // getNotification(8,0,0,'x');
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 break;
@@ -337,7 +315,7 @@ void initCurses(room * Rooms)
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 11:
                 //clearNotifyLine();
-                move(0,0);
+                //move(0,0);
 
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
             case 12:
@@ -508,7 +486,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         }
         else if (Rooms[index].roomItems[i].itemType == 'h')
             Rooms->heroY = Rooms[index].roomItems[i].itemY;
-            Rooms->heroX = Rooms[index].roomItems[i].itemX;
+        Rooms->heroX = Rooms[index].roomItems[i].itemX;
     }
 
     return curseRoom;
@@ -623,7 +601,7 @@ void connectDoors(char ** roomMake[], room * Rooms)
                 switch(Rooms[i].doorLocation[j])
                 {
                     case 'n':
-                        printDeadEnds( (Rooms[i].doorPosition[j] + 5 + offset), (0 + yOffset), 0, -1, 3);
+                        printDeadEnds((Rooms[i].doorPosition[j] + 5 + offset), (0 + yOffset), 0, -1, 3);
                         break;
                     case 's':
                         printDeadEnds((Rooms[i].doorPosition[j] + offset + 5) ,(Rooms[i].y - 1 + yOffset), 0, 1, 6);
@@ -726,6 +704,7 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
 
             if(enemy[i].enemyHealthCount <= 0)
             {
+                clearNotifyLine();
                 mvaddch(enemy[i].enemyY, enemy[i].enemyX, '.');
                 move(0,0);
                 printw("you killed the monster");
@@ -736,6 +715,7 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
             }
             else if (randomNum > enemy[i].enemyAttackSpeed)
             {
+                clearNotifyLine();
                 enemy[i].enemyHealthCount -= Player->attackCount; 
                 move(0,0);
                 printw("enemy health is now %d", enemy[i].enemyHealthCount);
@@ -745,17 +725,18 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
             {
                 Player->healthCount -= enemy[i].enemyAttackCount;
                 move(0,0);
-                printw("player health is now %d", Player->healthCount);       
+                printw("player lost %d health", enemy[i].enemyAttackCount);       
             }
         }
     }
 
     int enemyX = 0; 
     int enemyY = 0; 
+    int moveCount = 0;
 
     for (int i = 0; i < 20; i ++)
     {
-        if (enemy[i].kill == 0) //before it trys to move the monster it sees if it's alive
+        if (enemy[i].kill == 0)
         {
             if(enemy[i].type == 'B')
             {
@@ -765,23 +746,22 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
                 int random = rand() % 4 + 1; 
                 switch(random)
                 {
-                    case 0: //move up
+                    case 0: 
                         enemyX -= 1;
                         break;
-                    case 1: //move right 
+                    case 1: 
                         enemyY -= 1; 
                         break;
-                    case 2: //move down
+                    case 2:
                         enemyX += 1; 
                         break;
-                    case 3: //move up
+                    case 3: 
                         enemyY += 1; 
                         break;
                 } 
-                //based on where it is going see what it will be standing on
+                random = 0;
                 char next = mvinch(enemyY,enemyX) & A_CHARTEXT;
 
-                //doesn't move anything until it's sure that the next place is still in the room
                 if(next == '.')
                 {
                     mvaddch(enemy[i].enemyY, enemy[i].enemyX, '.');
@@ -791,535 +771,605 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
                 }
             }
         }
-        else if(enemy[i].type == 'B')
+        else if(enemy[i].type == 'T')
         {
             enemyX = enemy[i].enemyX;
             enemyY = enemy[i].enemyY;
-
-            int random = rand() % 4 + 1; 
-            switch(random)
+            moveCount = 0;
+            switch(moveCount)
             {
-                case 0: //move up
+                case 0: 
                     enemyX -= 1;
+                    moveCount++;
                     break;
-                case 1: //move right 
-                    enemyY -= 1; 
+                case 1: 
+                    enemyY -= 1;
+                    moveCount++; 
                     break;
-                case 2: //move down
-                    enemyX += 1; 
+                case 2: 
+                    enemyX += 1;
+                    moveCount++; 
                     break;
-                case 3: //move up
-                    enemyY += 1; 
+                case 3: 
+                    enemyY += 1;
+                    moveCount = 0;
                     break;
             } 
-            //based on where it is going see what it will be standing on
+
             char next = mvinch(enemyY,enemyX) & A_CHARTEXT;
 
-            //doesn't move anything until it's sure that the next place is still in the room
+
             if(next == '.')
             {
                 mvaddch(enemy[i].enemyY, enemy[i].enemyX, '.');
                 enemy[i].enemyY = enemyY;
                 enemy[i].enemyX = enemyX; 
-                mvaddch(enemy[i].enemyY, enemy[i].enemyX, 'B');
+                mvaddch(enemy[i].enemyY, enemy[i].enemyX, 'T');
             }
         }
-    }
-
-
-switch(space)
-{
-    case '#':
-        return 9;
-    case '.':
-        return 1;
-        break;
-    case '+':
-        return 2;
-    case '|':
-        return 0;
-    case '-':
-        return 0;
-    case '*':
-        return 3;
-    case '8':
-        return 4;
-    case '<':
-        return 5;
-    case '>':
-        return 5;
-    case '!':
-        return 6;
-    case ')':
-        return 8;
-    case '(':
-        return 8;
-    case ']':
-        return 8;
-    case ' ':
-        return 0;
-    case 'Z':
-        return 10;
-    case 'A':
-        return 10;
-    case 'B':
-        return 10;
-    case 'S':
-        return 10;
-    case 'T':
-        return 10;
-    default:
-        return 1;
-}
-
-return 0;
-}
-
-//basic move function to move player around in rooms
-void movePlayer(char input, int * posY, int * posX)
-{
-    switch(input)
-    {
-        case 'w':
-            mvaddch(*posY, *posX, '.');
-            *posY -= 1;
-            break;
-        case 'a':
-            mvaddch(*posY, *posX, '.');
-            *posX -= 1;
-            break;
-        case 's':
-            mvaddch(*posY, *posX, '.');
-            *posY += 1;
-            break;
-        case 'd':
-            mvaddch(*posY, *posX, '.');
-            *posX += 1;
-            break;
-        default:
-            return;
-    }
-    mvaddch(*posY, *posX, '@');
-    move(*posY, *posX);
-}
-
-//seperate move function to handle moving around within hallways
-void movePlayerInHallways(char input, int * posY, int * posX)
-{
-    switch(input)
-    {
-        case 'w':
-            mvaddch(*posY, *posX, '#');
-            *posY -= 1;
-            break;
-        case 'a':
-            mvaddch(*posY, *posX, '#');
-            *posX -= 1;
-            break;
-        case 's':
-            mvaddch(*posY, *posX, '#');
-            *posY += 1;
-            break;
-        case 'd':
-            mvaddch(*posY, *posX, '#');
-            *posX += 1;
-            break;
-        default:
-            return;
-    }
-    mvaddch(*posY, *posX, '@');
-    move(*posY, *posX);
-}
-
-
-int getMaxX(room * Rooms)
-{
-    int maxX = 0;
-    for(int i = 0; i<6; i++)
-    {
-        if (Rooms[i].x > maxX)
-        {
-            maxX = Rooms[i].x;
-        }
-    }
-    return maxX;
-}
-
-int getMaxY(room * Rooms)
-{
-    int maxY = 0;
-    for(int i = 0; i<6; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-    }
-    return maxY;
-}
-int getMaxYRoom(room * Rooms, int x)
-{
-    int maxY = 0;
-    maxY = Rooms[x].y;
-    Rooms[x].y = maxY;
-
-    return maxY;
-}
-
-int getMaxYTop(room * Rooms)
-{
-    int maxY = 0;
-    for(int i = 0; i<3; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-    }
-    return maxY;
-}
-
-int getMaxYBot(room * Rooms)
-{
-    int maxY = 0;
-    for(int i = 3; i<6; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-    }
-    return maxY;
-}
-
-int getTotalY(room * Rooms)
-{
-    int maxY = 0;
-    int temp = 0;
-    for(int i = 0; i<6; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-        temp += maxY;
-    }
-    return temp;
-}
-
-int getTotalYTop(room * Rooms)
-{
-    int maxY = 0;
-    int temp = 0;
-    for(int i = 0; i<3; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-        temp += maxY;
-    }
-    return temp;
-}
-
-int getTotalYBot(room * Rooms)
-{
-    int maxY = 0;
-    int temp = 0;
-    for(int i = 0; i<3; i++)
-    {
-        if (Rooms[i].y > maxY)
-        {
-            maxY = Rooms[i].y;
-        }
-        temp += maxY;
-    }
-    return temp;
-}
-
-int rightHallwayNum(room * Rooms)
-{
-
-    int maxYTop = 0;
-    int maxYBot = 0;
-    int tempTop = 0;
-    int tempBot = 0;
-    int finalTemp = 0;
-    for(int i = 0; i<3; i++)
-    {
-        if (Rooms[i].y > maxYTop)
-        {
-            maxYTop = Rooms[i].y;
-        }
-        tempTop += maxYTop;
-    }
-
-    for(int i = 3; i<6; i++)
-    {
-        if (Rooms[i].y > maxYBot)
-        {
-            maxYBot = Rooms[i].y;
-        }
-        tempBot += maxYBot;
-    }
-
-    if(tempTop > tempBot)
-    {
-        finalTemp = tempTop;
-    }
-    else
-    {
-        finalTemp = tempBot;
-    }
-
-    return finalTemp;
-
-}
-
-//clears the notification line
-void clearNotifyLine()
-{
-    move(0,0);
-    clrtoeol();
-}
-
-//prints the status bar with all the player information in it
-void getStatus(player Player, int x, int y)
-{
-    move(x, y);
-    printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
-}
-
-//initialises all the parts of the player struct to their starting amounts as specified by the requirements provided
-void initPlayer(player * Player)
-{
-    Player->healthCount = 50;
-    Player->goldTotal = 0;
-    Player->potionCount = 1;
-    Player->inventoryTotal = 0;
-    Player->attackCount = 5;
-}
-
-Enemy initMonster(int x, int y, int health, int attack, int speed, int kill, char typeOfEnemy)
-{
-    Enemy * temp = malloc(sizeof(Enemy)); 
-    temp->enemyX = x;
-    temp->enemyY = y;
-    temp->enemyHealthCount = health;
-    temp->enemyAttackCount = attack;
-    temp->enemyAttackSpeed = speed; 
-    temp->kill = 0;
-    temp->type = typeOfEnemy; 
-
-    return *temp; 
-
-}
-
-void getNotification(int event, int subEvent, int var, char letter)
-{
-    switch (event) 
-    {
-        case 1: // picking up event
-            switch (subEvent)
+        else 
+            if(enemy[i].type == 'Z')
             {
-                case 1:
-                    move(0,0);
-                    printw("Hero picked up a small gold pile of %d gold!", var);
+                moveCount = 0;
+                enemyX = enemy[i].enemyX;
+                enemyY = enemy[i].enemyY;
+
+                switch(moveCount)
+                {
+                    case 0: 
+                        enemyX -= 1;
+                        moveCount++;
+                        break;
+                    case 1: 
+                        enemyX += 1;
+                        moveCount = 0; 
+                        break;
+                } 
+
+                char next = mvinch(enemyY,enemyX) & A_CHARTEXT;
+
+
+                if(next == '.')
+                {
+                    mvaddch(enemy[i].enemyY, enemy[i].enemyX, '.');
+                    enemy[i].enemyY = enemyY;
+                    enemy[i].enemyX = enemyX; 
+                    mvaddch(enemy[i].enemyY, enemy[i].enemyX, 'Z');
+                }
+            }
+            else if(enemy[i].type == 'S')
+            {
+                enemyX = enemy[i].enemyX;
+                enemyY = enemy[i].enemyY;
+                moveCount = 0;
+                switch(moveCount)
+                {
+                    case 0:
+                        enemyY -= 1;
+                        moveCount++;
+                        break;
+                    case 1:
+                        enemyY -= 1;
+                        moveCount++; 
+                        break;
+                    case 2:
+                        enemyY += 1;
+                        moveCount++; 
+                        break;
+                    case 3: 
+                        enemyY += 1;
+                        moveCount = 0;
+                        break;
+                } 
+
+                char next = mvinch(enemyY,enemyX) & A_CHARTEXT;
+
+
+                if(next == '.')
+                {
+                    mvaddch(enemy[i].enemyY, enemy[i].enemyX, '.');
+                    enemy[i].enemyY = enemyY;
+                    enemy[i].enemyX = enemyX; 
+                    mvaddch(enemy[i].enemyY, enemy[i].enemyX, 'T');
+
+                }
+            }
+
+        }
+
+                switch(space)
+                {
+                    case '#':
+                        return 9;
+                    case '.':
+                        return 1;
+                        break;
+                    case '+':
+                        return 2;
+                    case '|':
+                        return 0;
+                    case '-':
+                        return 0;
+                    case '*':
+                        return 3;
+                    case '8':
+                        return 4;
+                    case '<':
+                        return 5;
+                    case '>':
+                        return 5;
+                    case '!':
+                        return 6;
+                    case ')':
+                        return 8;
+                    case '(':
+                        return 8;
+                    case ']':
+                        return 8;
+                    case ' ':
+                        return 0;
+                    case 'Z':
+                        return 10;
+                    case 'A':
+                        return 10;
+                    case 'B':
+                        return 10;
+                    case 'S':
+                        return 10;
+                    case 'T':
+                        return 10;
+                    default:
+                        return 1;
+                }
+
+                return 0;
+            }
+
+        //basic move function to move player around in rooms
+        void movePlayer(char input, int * posY, int * posX)
+        {
+            switch(input)
+            {
+                case 'w':
+                    mvaddch(*posY, *posX, '.');
+                    *posY -= 1;
                     break;
-                case 2:
-                    move(0,0);
-                    printw("Hero picked up a large gold pile of %d gold!", var);
+                case 'a':
+                    mvaddch(*posY, *posX, '.');
+                    *posX -= 1;
                     break;
-                case 3:
-                    move(0,0);
-                    printw("Hero picked up a common weapon!");
+                case 's':
+                    mvaddch(*posY, *posX, '.');
+                    *posY += 1;
                     break;
-                case 4:
-                    move(0,0);
-                    printw("Hero picked up a rare weapon!");
-                case 5:
-                    move(0,0);
-                    printw("Hero picked up equipment!");
+                case 'd':
+                    mvaddch(*posY, *posX, '.');
+                    *posX += 1;
                     break;
                 default:
-                    move(0,0);
-                    printw("error");
-                    break;
+                    return;
             }
-            break;
-        case 2: //bag full
+            mvaddch(*posY, *posX, '@');
+            move(*posY, *posX);
+        }
+
+        //seperate move function to handle moving around within hallways
+        void movePlayerInHallways(char input, int * posY, int * posX)
+        {
+            switch(input)
+            {
+                case 'w':
+                    mvaddch(*posY, *posX, '#');
+                    *posY -= 1;
+                    break;
+                case 'a':
+                    mvaddch(*posY, *posX, '#');
+                    *posX -= 1;
+                    break;
+                case 's':
+                    mvaddch(*posY, *posX, '#');
+                    *posY += 1;
+                    break;
+                case 'd':
+                    mvaddch(*posY, *posX, '#');
+                    *posX += 1;
+                    break;
+                default:
+                    return;
+            }
+            mvaddch(*posY, *posX, '@');
+            move(*posY, *posX);
+        }
+
+
+        int getMaxX(room * Rooms)
+        {
+            int maxX = 0;
+            for(int i = 0; i<6; i++)
+            {
+                if (Rooms[i].x > maxX)
+                {
+                    maxX = Rooms[i].x;
+                }
+            }
+            return maxX;
+        }
+
+        int getMaxY(room * Rooms)
+        {
+            int maxY = 0;
+            for(int i = 0; i<6; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+            }
+            return maxY;
+        }
+        int getMaxYRoom(room * Rooms, int x)
+        {
+            int maxY = 0;
+            maxY = Rooms[x].y;
+            Rooms[x].y = maxY;
+
+            return maxY;
+        }
+
+        int getMaxYTop(room * Rooms)
+        {
+            int maxY = 0;
+            for(int i = 0; i<3; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+            }
+            return maxY;
+        }
+
+        int getMaxYBot(room * Rooms)
+        {
+            int maxY = 0;
+            for(int i = 3; i<6; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+            }
+            return maxY;
+        }
+
+        int getTotalY(room * Rooms)
+        {
+            int maxY = 0;
+            int temp = 0;
+            for(int i = 0; i<6; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+                temp += maxY;
+            }
+            return temp;
+        }
+
+        int getTotalYTop(room * Rooms)
+        {
+            int maxY = 0;
+            int temp = 0;
+            for(int i = 0; i<3; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+                temp += maxY;
+            }
+            return temp;
+        }
+
+        int getTotalYBot(room * Rooms)
+        {
+            int maxY = 0;
+            int temp = 0;
+            for(int i = 0; i<3; i++)
+            {
+                if (Rooms[i].y > maxY)
+                {
+                    maxY = Rooms[i].y;
+                }
+                temp += maxY;
+            }
+            return temp;
+        }
+
+        int rightHallwayNum(room * Rooms)
+        {
+
+            int maxYTop = 0;
+            int maxYBot = 0;
+            int tempTop = 0;
+            int tempBot = 0;
+            int finalTemp = 0;
+            for(int i = 0; i<3; i++)
+            {
+                if (Rooms[i].y > maxYTop)
+                {
+                    maxYTop = Rooms[i].y;
+                }
+                tempTop += maxYTop;
+            }
+
+            for(int i = 3; i<6; i++)
+            {
+                if (Rooms[i].y > maxYBot)
+                {
+                    maxYBot = Rooms[i].y;
+                }
+                tempBot += maxYBot;
+            }
+
+            if(tempTop > tempBot)
+            {
+                finalTemp = tempTop;
+            }
+            else
+            {
+                finalTemp = tempBot;
+            }
+
+            return finalTemp;
+
+        }
+
+        //clears the notification line
+        void clearNotifyLine()
+        {
             move(0,0);
-            printw("Hero's stepped on %c and broke it", letter);
-            break;
-        case 3: // take damage
-            move(0,0);
-            printw("Hero has taken %d damage!", var);
-        case 4: //give damage
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
-                    break;
-            }
-            break;
-        case 5: //kill
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
-                    break;
-            }
-            break;
-        case 6: //door
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 3:
-                    move(0,0);
-                    printw("error");
-                    break;
-                case 4:
-                    move(0,0);
-                    printw("error");
-                    break;
-                default:
-                    move(0,0);
-                    printw("error");
-                    break;
-            }
-            break;
-        case 7: //pot use 
-            switch(subEvent)
-            {
-                case 1:
-                    move(0,0);
-                    printw("Hero already has full health");
-                    break;
-                case 2:
-                    move(0,0);
-                    printw("Hero used a potion to gain full health");
-                    break;
-            }
-            break;
-        case 8: //pot empty
-            move(0,0);
-            printw("Hero has no potions left");
-            break;
-    }
-}
-
-
-
-
-
-int midHallwayNum(room * Rooms)
-{
-    int midHallwayNum = 0;
-    //int temp = 0;
-    for(int i = 0; i<2; i++)
-    {
-        if (Rooms[i].y > midHallwayNum)
-        {
-            midHallwayNum = Rooms[i].y;
+            clrtoeol();
         }
-        // temp += maxY;
-    }
-    midHallwayNum = midHallwayNum + 5;
-    // move(0,50);
-    //printw("second %d", midHallwayNum);
-    return midHallwayNum;
-}
 
-//gets the x barring of the notifications
-int getNotifyX(room * Rooms)
-{
-    int notifyX = 0;
-
-    return notifyX;
-}
-
-//gets the y barring of the notifications
-int getNotifyY(room * Rooms)
-{
-
-    int notifyY = 0;
-
-    notifyY = ((getTotalY(Rooms)/2) + 5);
-    //move(0,30);
-    //  printw("thing: %d", notifyY);
-
-    return notifyY;
-
-}
-
-//frees all the memory used to prevent memory leaks if only the program compiled on pi that is
-void freeLevels(char ** curseRoom[], room * Rooms)
-{
-    for(int i=0;i<6;i++)
-    {
-        for(int j=0; j < Rooms[i].y; j++)
+        //prints the status bar with all the player information in it
+        void getStatus(player Player, int x, int y)
         {
-            free(curseRoom[i][j]);   
+            move(x, y);
+            printw(" Health: %d | Potions: %d | Attack: %d | Inventory: %d/5 | Gold: %d ", Player.healthCount, Player.potionCount, Player.attackCount, Player.inventoryTotal, Player.goldTotal);
         }
-        free(curseRoom[i]);
-    }
-    //free(curseRoom);
-}
 
-void freeRoom (room * Rooms)
-{
-    for (int i = 0; i < 6; i++)
-    {
-        free(Rooms[i].roomItems);
-        free(Rooms[i].doorPosition);
-        free(Rooms[i].doorLocation);
-    }
-    free(Rooms);
-}
+        //initialises all the parts of the player struct to their starting amounts as specified by the requirements provided
+        void initPlayer(player * Player)
+        {
+            Player->healthCount = 50;
+            Player->goldTotal = 0;
+            Player->potionCount = 1;
+            Player->inventoryTotal = 0;
+            Player->attackCount = 5;
+        }
 
-//merely ends the game and gets out of ncurses
-void endGame()
-{
-    endwin();
-}
+        Enemy initMonster(int x, int y, int health, int attack, int speed, int kill, char typeOfEnemy)
+        {
+            Enemy * temp = malloc(sizeof(Enemy)); 
+            temp->enemyX = x;
+            temp->enemyY = y;
+            temp->enemyHealthCount = health;
+            temp->enemyAttackCount = attack;
+            temp->enemyAttackSpeed = speed; 
+            temp->kill = 0;
+            temp->type = typeOfEnemy; 
+
+            return *temp; 
+
+        }
+
+        void getNotification(int event, int subEvent, int var, char letter)
+        {
+            switch (event) 
+            {
+                case 1: // picking up event
+                    switch (subEvent)
+                    {
+                        case 1:
+                            move(0,0);
+                            printw("Hero picked up a small gold pile of %d gold!", var);
+                            break;
+                        case 2:
+                            move(0,0);
+                            printw("Hero picked up a large gold pile of %d gold!", var);
+                            break;
+                        case 3:
+                            move(0,0);
+                            printw("Hero picked up a common weapon!");
+                            break;
+                        case 4:
+                            move(0,0);
+                            printw("Hero picked up a rare weapon!");
+                        case 5:
+                            move(0,0);
+                            printw("Hero picked up equipment!");
+                            break;
+                        default:
+                            move(0,0);
+                            printw("error");
+                            break;
+                    }
+                    break;
+                case 2: //bag full
+                    move(0,0);
+                    printw("Hero's stepped on %c and broke it", letter);
+                    break;
+                case 3: // take damage
+                    move(0,0);
+                    printw("Hero has taken %d damage!", var);
+                case 4: //give damage
+                    switch(subEvent)
+                    {
+                        case 1:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 2:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 3:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 4:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        default:
+                            move(0,0);
+                            printw("error");
+                            break;
+                    }
+                    break;
+                case 5: //kill
+                    switch(subEvent)
+                    {
+                        case 1:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 2:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 3:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 4:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        default:
+                            move(0,0);
+                            printw("error");
+                            break;
+                    }
+                    break;
+                case 6: //door
+                    switch(subEvent)
+                    {
+                        case 1:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 2:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 3:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        case 4:
+                            move(0,0);
+                            printw("error");
+                            break;
+                        default:
+                            move(0,0);
+                            printw("error");
+                            break;
+                    }
+                    break;
+                case 7: //pot use 
+                    switch(subEvent)
+                    {
+                        case 1:
+                            move(0,0);
+                            printw("Hero already has full health");
+                            break;
+                        case 2:
+                            move(0,0);
+                            printw("Hero used a potion to gain full health");
+                            break;
+                    }
+                    break;
+                case 8: //pot empty
+                    move(0,0);
+                    printw("Hero has no potions left");
+                    break;
+            }
+        }
+
+
+
+
+
+        int midHallwayNum(room * Rooms)
+        {
+            int midHallwayNum = 0;
+            //int temp = 0;
+            for(int i = 0; i<2; i++)
+            {
+                if (Rooms[i].y > midHallwayNum)
+                {
+                    midHallwayNum = Rooms[i].y;
+                }
+                // temp += maxY;
+            }
+            midHallwayNum = midHallwayNum + 5;
+            // move(0,50);
+            //printw("second %d", midHallwayNum);
+            return midHallwayNum;
+        }
+
+        //gets the x barring of the notifications
+        int getNotifyX(room * Rooms)
+        {
+            int notifyX = 0;
+
+            return notifyX;
+        }
+
+        //gets the y barring of the notifications
+        int getNotifyY(room * Rooms)
+        {
+
+            int notifyY = 0;
+
+            notifyY = ((getTotalY(Rooms)/2) + 5);
+            //move(0,30);
+            //  printw("thing: %d", notifyY);
+
+            return notifyY;
+
+        }
+
+        //frees all the memory used to prevent memory leaks if only the program compiled on pi that is
+        void freeLevels(char ** curseRoom[], room * Rooms)
+        {
+            for(int i=0;i<6;i++)
+            {
+                for(int j=0; j < Rooms[i].y; j++)
+                {
+                    free(curseRoom[i][j]);   
+                }
+                free(curseRoom[i]);
+            }
+            //free(curseRoom);
+        }
+
+        void freeRoom (room * Rooms)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                free(Rooms[i].roomItems);
+                free(Rooms[i].doorPosition);
+                free(Rooms[i].doorLocation);
+            }
+            free(Rooms);
+        }
+
+        //merely ends the game and gets out of ncurses
+        void endGame()
+        {
+            endwin();
+        }

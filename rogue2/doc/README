@@ -1,9 +1,9 @@
-§§§§§§§§§§§§§§§§§§§§§§§
+======================
 a3
 5/3/16
 dominick hera
 dhera@mail.uoguelph.ca
-§§§§§§§§§§§§§§§§§§§§§§
+======================
 
 
 to run
@@ -23,7 +23,7 @@ program limitations
 - when transitioning from room to hallway, it turns the doorway into a # character
 - when picking up an item, the area of the item becomes a # character
 - hallways designed for the lower rooms runs directly over top level rooms
-- 
+- bats will move around randomly but will spawn again after dying
 
 testing
 =======
