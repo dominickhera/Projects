@@ -1,8 +1,8 @@
 Enemy 0: type B x:10 y:9
-Enemy 1: type T x:11 y:29
-Enemy 2: type B x:49 y:10
-Enemy 3: type S x:11 y:24
-Enemy 4: type S x:35 y:24
-Enemy 5: type Z x:39 y:24
-Enemy 6: type A x:62 y:24
-Enemy 7: type S x:66 y:24
+Enemy 1: type T x:12 y:11
+Enemy 2: type S x:11 y:10
+Enemy 3: type A x:4 y:5
+Enemy 4: type S x:6 y:29
+Enemy 5: type S x:10 y:33
+Enemy 6: type Z x:8 y:56
+Enemy 7: type A x:12 y:60
