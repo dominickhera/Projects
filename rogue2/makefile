@@ -4,7 +4,7 @@ EXE = rogue
 all: $(EXE)
 
 $(EXE): main.o parse.o draw.o BIN
-		gcc -g main.o draw.o parse.o -lncurses -o ./bin/$(EXE)
+		gcc main.o draw.o parse.o -lncurses -o ./bin/$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;

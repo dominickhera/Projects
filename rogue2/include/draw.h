@@ -24,9 +24,10 @@ typedef struct enemyStruct
 	int enemyAttackSpeed;
 	int enemyY;
 	int enemyX;
+	int kill;
 	char type; 
 
-}enemy;
+}Enemy;
 
 void initCurses(room * Rooms);
 char ** printRooms(int xVar, int yVar, room * Rooms, int index);
@@ -37,10 +38,8 @@ void connectDoors(char ** roomMake[], room * Rooms);
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum);
 void movePlayer(char input, int * posY, int * posX);
 void movePlayerInHallways(char input, int * posY, int * posX);
-//int checkInput(char input, int posY, int posX);
-int checkInput(char input, int posY, int posX, enemy * Enemy, player * Player);
-enemy initMonster(int x, int y, int health, int attack, int speed, char typeOfEnemy);
-void combat(player * Player, enemy * Enemy);
+int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player);
+Enemy initMonster(int x, int y, int health, int attack, int speed, int kill, char typeOfEnemy);
 int getMaxX(room * Rooms);
 int getMaxY(room * Rooms);
 int getMaxYRoom(room * Rooms, int x);
@@ -49,6 +48,7 @@ int getMaxYBot(room * Rooms);
 int getTotalY(room * Rooms);
 int getTotalYTop(room * Rooms);
 int rightHallwayNum(room * Rooms);
+void notification(char * text);
 void getNotification(int event, int subEvent, int var, char letter);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
