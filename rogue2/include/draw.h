@@ -49,7 +49,7 @@ int getTotalY(room * Rooms);
 int getTotalYTop(room * Rooms);
 int rightHallwayNum(room * Rooms);
 void notification(char * text);
-void getNotification(int event, int subEvent, int var, char letter);
+//void getNotification(int event, int subEvent, int var, char letter);
 void initPlayer(player * Player);
 void getStatus(player Player, int x, int y);
 void clearNotifyLine();

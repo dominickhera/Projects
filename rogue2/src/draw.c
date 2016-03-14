@@ -251,8 +251,6 @@ void initCurses(room * Rooms)
                 movePlayer(input,&charY,&charX);
                 sprintf(s, "You picked up a potion");
                 notification(s);
-                // move(0, 0);
-                // printw("You picked up a potion!");
                 Player.potionCount++;
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 break;
@@ -260,21 +258,15 @@ void initCurses(room * Rooms)
                 // clearNotifyLine();
                 if(Player.healthCount == 50)
                 {
-                    //getNotification(7,1,0,'x');
                     sprintf(s, "You already have full health!");
                     notification(s);
-                    // move(0,0);
-                    //printw("You already have full health");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else if (Player.potionCount > 0)
                 {
                     Player.potionCount--;
-                    // getNotification(7,2,0,'x');
                     sprintf(s, "You now have full health!");
                     notification(s);
-                    //move(0,0);
-                    //printw("You now have full health");
                     Player.healthCount = 50;
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 } 
@@ -282,58 +274,33 @@ void initCurses(room * Rooms)
                 {
                     sprintf(s, "You have no potions left!");
                     notification(s);
-                    // getNotification(8,0,0,'x');
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 break;
             case 8:
-                clearNotifyLine();
+                //clearNotifyLine();
                 if (Player.inventoryTotal < 5)
                 {
                     // movePlayer(input,&charY,&charX);  
                     //clearNotifyLine();
                     Player.inventoryTotal++;
-                    getNotification(1,3,0,'x');
-                    //move(0,0);
-                    //printw("You added an item to your inventory");
+                    sprintf(s, "You add the item to your inventory");
+                    notification(s);
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
                 else
                 {
+                    sprintf(s, "You trip over the item and break it. good going.");
+                    notification(s);
+                    movePlayer(input,&charY,&charX);
                     //move(0,0);
                     //printw("Your inventory is already full! You can't pick up anymore items");
                     getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
                 }
             case 9:
-                //clearNotifyLine();
+                clearNotifyLine();
                 movePlayerInHallways(input,&charY,&charX);
                 getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 10:
-                //learNotifyLine();
-                //move(0,0);
-                //printw("health: %d attackCount: %d, attackSpeed: %d", Enemy[1].enemyHealthCount, Enemy[1].enemyAttackCount, Enemy[1].enemyAttackSpeed);
-                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 11:
-                //clearNotifyLine();
-                //move(0,0);
-
-                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 12:
-                //clearNotifyLine();
-                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 13:
-                //clearNotifyLine();
-                getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 14:
-                //clearNotifyLine();
-                // input = 'q';
-                //printf("you done fucked up and died you son bitch");
-                //getStatus(Player, getNotifyY(Rooms), getNotifyX(Rooms));
-            case 15:
-                //movePlayer(input,&charY,&charX);
-                // input = 'q';
-                // printf("you done fucked up and died you son bitch");
-                break;
             default:
                 break;
         }
@@ -486,7 +453,7 @@ char ** printRooms(int yVar, int xVar, room * Rooms, int index)
         }
         else if (Rooms[index].roomItems[i].itemType == 'h')
             Rooms->heroY = Rooms[index].roomItems[i].itemY;
-        Rooms->heroX = Rooms[index].roomItems[i].itemX;
+            Rooms->heroX = Rooms[index].roomItems[i].itemX;
     }
 
     return curseRoom;
@@ -1165,7 +1132,7 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
 
         }
 
-        void getNotification(int event, int subEvent, int var, char letter)
+   /*     void getNotification(int event, int subEvent, int var, char letter)
         {
             switch (event) 
             {
@@ -1297,7 +1264,7 @@ int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player)
                     printw("Hero has no potions left");
                     break;
             }
-        }
+        }*/
 
 
 
