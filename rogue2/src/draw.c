@@ -1013,11 +1013,8 @@ int getNotifyY(Room * rooms)
     int notifyY = 0;
 
     notifyY = ((getTotalY(rooms)/2) + 5);
-    //move(0,30);
-    //  printw("thing: %d", notifyY);
 
     return notifyY;
-
 }
 
 //frees all the memory used to prevent memory leaks if only the program compiled on pi that is
