@@ -23,9 +23,9 @@ typedef struct roomStruct {
 
     item * roomItems;
 
-}room;
+}Room;
 
-room * parseFile(char * filename);
-void realParse(room * Rooms, char * line, int length);
+Room * parseFile(char * filename);
+void realParse(Room * rooms, char * line, int length);
 
 #endif

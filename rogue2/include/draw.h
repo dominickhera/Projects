@@ -14,7 +14,7 @@ typedef struct character
     int attackCount;
     int goldTotal;
 
-}player;
+}Player;
 
 typedef struct enemyStruct
 {
@@ -29,35 +29,29 @@ typedef struct enemyStruct
 
 }Enemy;
 
-void initCurses(room * Rooms);
-char ** printRooms(int xVar, int yVar, room * Rooms, int index);
+void initCurses(Room * rooms);
+char ** printRooms(int xVar, int yVar, Room * rooms, int index);
 void printHorizontalHallway(int x, int y);
 void printVerticalHallway(int x, int y);
-void printLowerVerticalHallway(int x, int y, int z);
-void connectDoors(char ** roomMake[], room * Rooms);
+void connectDoors(char ** roomMake[], Room * rooms);
 void printDeadEnds(int startX, int startY, int xIncrement, int yIncrement, int randNum);
 void movePlayer(char input, int * posY, int * posX);
 void movePlayerInHallways(char input, int * posY, int * posX);
-int checkInput(char input, int posY, int posX, Enemy * enemy, player * Player);
+int checkInput(char input, int posY, int posX, Enemy * enemy, Player * player);
 Enemy initMonster(int x, int y, int health, int attack, int speed, int kill, char typeOfEnemy);
-int getMaxX(room * Rooms);
-int getMaxY(room * Rooms);
-int getMaxYRoom(room * Rooms, int x);
-int getMaxYTop(room * Rooms);
-int getMaxYBot(room * Rooms);
-int getTotalY(room * Rooms);
-int getTotalYTop(room * Rooms);
-int rightHallwayNum(room * Rooms);
+int getMaxYRoom(Room * rooms, int x);
+int getMaxYTop(Room * rooms);
+int getMaxYBot(Room * rooms);
+int getTotalY(Room * rooms);
+int rightHallwayNum(Room * rooms);
 void notification(char * text);
-//void getNotification(int event, int subEvent, int var, char letter);
-void initPlayer(player * Player);
-void getStatus(player Player, int x, int y);
+void initPlayer(Player * player);
+void getStatus(Player player, int x, int y);
 void clearNotifyLine();
-int midHallwayNum(room * Rooms);
-int getNotifyY(room * Rooms);
-int getNotifyX(room * Rooms);
-void freeLevels(char ** curseRoom[], room * Rooms);
-void freeRoom (room * Rooms);
+int getNotifyY(Room * rooms);
+int getNotifyX(Room * rooms);
+void freeLevels(char ** curseRoom[], Room * rooms);
+void freeRoom (Room * rooms);
 void endGame();
 
 #endif

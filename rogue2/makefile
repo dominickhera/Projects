@@ -11,7 +11,7 @@ BIN:
 
 
 main.o: ./src/main.c
-		gcc -c $(CFLAGS) ./src/main.c -Iinclude
+	gcc -c $(CFLAGS) ./src/main.c -Iinclude
 
 draw.o: ./src/draw.c
 	gcc -c $(CFLAGS) ./src/draw.c -Iinclude

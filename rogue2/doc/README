@@ -5,18 +5,18 @@ dominick hera
 dhera@mail.uoguelph.ca
 ======================
 
-
+======
 to run
-=====
+======
 ./bin/rogue ./assets/hard.txt
 
-
+==========
 to compile
-=========
+==========
 type 'make' to run the makeFile
 
-
-program limitations
+====================
+known limitations
 ====================
 - hallway offsets are messed up and some print far off the screen
 - combat seems to only work on enemies within the first room but fails to work in any other room
@@ -29,6 +29,7 @@ program limitations
 - picking up equiptment or items doesn't print the coded notification
 - only bats will listen to the patrol calls, none of the other enemies will move around
 
+=======
 testing
 =======
 - bat enemy was spawning with 50 health, turns out it was a typing error in the code 
