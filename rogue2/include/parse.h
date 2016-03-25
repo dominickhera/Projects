@@ -19,7 +19,7 @@ typedef struct roomStruct {
     int  * doorPosition; 
     int totalDoors; 
     int totalItems;
-   // int enemyCount;
+
 
     item * roomItems;
 
