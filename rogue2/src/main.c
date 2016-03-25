@@ -8,11 +8,11 @@
 int main(int argc, char* argv[]) 
 {
 
-	room * Rooms;
+    Room * rooms;
     char * filename = argv[1]; 
 
-    Rooms = parseFile(filename); 
-    initCurses(Rooms);
+    rooms = parseFile(filename); 
+    initCurses(rooms);
 
     return 0;
 }
