@@ -31,8 +31,7 @@ Food * createRecord(char * name, char * group, int calories, char theType)
 
     if(Food * temp == NULL)
     {
-        printf("failed to allocate memory for record\n");
-        exit(1);
+        reutrn NULL;
     }
     else
     {
@@ -164,7 +163,7 @@ void printList(Food * theList)
  * following the format specified for printRecord seperated by newlines.
  * @param theList Food* representing head of the list
  */
- 
+
 }
 
 void destroyList(Food * theList)
