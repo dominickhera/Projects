@@ -42,7 +42,7 @@ void deleteList(Node * head)
 
 void printList(Node * head)
 {
-	Node *tmp = jead;
+	Node *tmp = head;
 	while (tmp != NULL)
 	{
 		
