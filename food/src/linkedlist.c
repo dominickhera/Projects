@@ -4,7 +4,6 @@
 
 Food * createRecord(char * name, char * group, int calories, char theType)
 {
-
     Food * temp = malloc(sizeof(Food));
     temp->name = malloc(sizeof(char)*50);
     temp->group = malloc(sizeof(char)*50);
@@ -18,7 +17,6 @@ Food * createRecord(char * name, char * group, int calories, char theType)
     }
 
     return temp;
-
 }
 
 char * printRecord(Food * toPrint)
@@ -37,11 +35,9 @@ char * printRecord(Food * toPrint)
 
 void destroyRecord(Food * toDie)
 {
-
-     free(toDie->name);
-     free(toDie->group);
-     free(toDie);
-
+    free(toDie->name);
+    free(toDie->group);
+    free(toDie);
 }
 
 Food * addToFront(Food * theList, Food * toBeAdded)
@@ -56,7 +52,6 @@ Food * addToFront(Food * theList, Food * toBeAdded)
 
 Food * addToBack(Food * theList, Food * toBeAdded)
 {
-
     Food * temp;
     temp = theList;
 
@@ -70,74 +65,64 @@ Food * addToBack(Food * theList, Food * toBeAdded)
         temp = temp->next;
     }
 
-    temp->next = ToBeAdded;
+    temp->next = toBeAdded;
     temp->next->next = NULL;
 
     return theList;
-
 }
 
 Food * removeFromFront(Food * theList)
 {
     Food * temp;
-    temp = theList;
-    head = head->next;
-    free(temp);
+    temp = getFirstItem(theList);
+    theList = theList->next;
+    destroyRecord(temp);
+
     return theList;
 }
 
 Food * removeFromBack(Food * theList)
 {
 
-    /**
-     * removeFromBack
-     * Takes a pointer to the head of the list. Removes the front
-     * item from the list. Does not free the memory for
-     * the item removed. You will need to have previously gotten it
-     * with getFirstItem, so that you can free it after removal.
-     * @param  theList Food* representing the head of the list
-     * @return         Food* new head of the list
-     */
+    Food * temp;
+    temp = theList;
 
+    getLastItem(theList);
+    destroyRecord(temp);
+
+    return theList;  
 }
 
 Food * getLastItem(Food * theList)
 {
-    /**
-     * getLastItem
-     * Takes a pointer to the head of the list. Returns the last item in the list.
-     * Does not remove the item from the list. Do not destroy the record until
-     * it is removed from the list.
-     * @param  theList Food* representing the head of the list
-     * @return         Food* last item in the list.
-     */
+    Food * temp;
+    temp = theList;
+
+    while(temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+
+    return temp;
 }
 
 Food * getFirstItem(Food * theList)
 {
+    if(theList == NULL)
+    {
+        return NULL;
+    }
 
-    /**
-     * getFirstItem
-     * Takes a pointer to the head of the list. Returns the first item in the list.
-     * Does not remove the item from the list. Do not destroy the record until
-     * it is removed from the list.
-     * @param  theList Food* representing the head of the list
-     * @return         Food* first item in the list.
-     */
-
+    return theList;
 }
 
 int isEmpty(Food * theList)
 {
+    if(theList == NULL)
+        return 1;
+}
 
-    /**
-     * isEmpty
-     * Takes a pointer to a list, and checks if it's empty
-     * @param  theList Food* representing the head of the list
-     * @return         1 if list is empty
-     *                 0 if list has elements
-     */
-
+return 0;
 }
 
 void printList(Food * theList)
@@ -150,23 +135,31 @@ void printList(Food * theList)
      * @param theList Food* representing head of the list
      */
 
+    while(temp != NULL)
+    {
+        printf("%s (%s): %d[%c]\n",  theList->name, theList->group, theList->calories, theList->type);
+    }
+
 }
 
 void destroyList(Food * theList)
 {
 
-    // Food * temp;
-    // while(head != NULL)
-    // {
-    //     temp = head;
-    //     head = head->next;
-    //     free(temp->name);
-    //     free(temp->group);
-    //     free(temp->calories);
-    //     free(temp->theType);
-    //     free(temp);
-    // }
-    // return NULL;
-    // printf("list has been destroyed\n");
+    /**
+     * Takes a pointer to the list and frees the memory for each struct in the list.
+     * @param theList Food* representing head of the list
+     */
+
+    Food * temp;
+    while(temp->next != NULL)
+    {
+        temp = theList;
+        theList = theList->next;
+        free(temp->name);
+        free(temp->group);
+        free(temp);
+    }
+    return NULL;
+    printf("list has been destroyed\n");
 
 }
