@@ -24,30 +24,23 @@ Food * createRecord(char * name, char * group, int calories, char theType)
 char * printRecord(Food * toPrint)
 {
 
-    /**
-     * printRecord
-     * Returns allocated memory containing a string filled with Food data in the
-     * following format:
-     * Name (Food Group):calories[type]
-     * Note: The string should not contain a newline.
-     * The string memory is allocated in this function and must be freed by the
-     * caller.
-     * @param  toPrint Food* (not NULL)
-     * @return         char* to malloc'd memory
-     *                 NULL on failure
-     */
+    char foodString = malloc(sizeof(char)*256);
+    sprintf(foodString, "%s (%s): %d[%c]",  toPrint->name, toPrint->foodGroup, toPrint->calories, toPrint->type);
 
+    if(foodString == NULL)
+    {
+        return NULL;
+    }
+
+    return foodString;
 }
 
 void destroyRecord(Food * toDie)
 {
 
-    /**
-     * destroyRecord
-     * Frees memory associated with a Food* record
-     * Note: This function also frees the internal variables
-     * @param toDie Address to memory that should be freed (not NULL)
-     */
+     free(toDie->name);
+     free(toDie->group);
+     free(toDie);
 
 }
 
@@ -162,18 +155,18 @@ void printList(Food * theList)
 void destroyList(Food * theList)
 {
 
-    Food * temp;
-    while(head != NULL)
-    {
-        temp = head;
-        head = head->next;
-        free(temp->name);
-        free(temp->group);
-        free(temp->calories);
-        free(temp->theType);
-        free(temp);
-    }
-    return NULL;
-    printf("list has been destroyed\n");
+    // Food * temp;
+    // while(head != NULL)
+    // {
+    //     temp = head;
+    //     head = head->next;
+    //     free(temp->name);
+    //     free(temp->group);
+    //     free(temp->calories);
+    //     free(temp->theType);
+    //     free(temp);
+    // }
+    // return NULL;
+    // printf("list has been destroyed\n");
 
 }
