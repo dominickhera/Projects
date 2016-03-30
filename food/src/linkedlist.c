@@ -1,3 +1,4 @@
+#include "linkedList.h"
 #include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
@@ -127,32 +128,16 @@ return 0;
 
 void printList(Food * theList)
 {
-
-    /**
-     * printList
-     * Takes a pointer to the head of the list. Prints each element to stdout,
-     * following the format specified for printRecord seperated by newlines.
-     * @param theList Food* representing head of the list
-     */
-
-
      Food * temp;
      temp = theList;
     while(temp != NULL)
     {
         printf("%s (%s): %d[%c]\n",  temp->name, temp->group, temp->calories, temp->type);
     }
-
 }
 
 void destroyList(Food * theList)
 {
-
-    /**
-     * Takes a pointer to the list and frees the memory for each struct in the list.
-     * @param theList Food* representing head of the list
-     */
-
     Food * temp;
     while(temp->next != NULL)
     {
@@ -162,7 +147,7 @@ void destroyList(Food * theList)
         free(temp->group);
         free(temp);
     }
+
     return NULL;
     printf("list has been destroyed\n");
-
 }
