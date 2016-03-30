@@ -135,9 +135,12 @@ void printList(Food * theList)
      * @param theList Food* representing head of the list
      */
 
+
+     Food * temp;
+     temp = theList;
     while(temp != NULL)
     {
-        printf("%s (%s): %d[%c]\n",  theList->name, theList->group, theList->calories, theList->type);
+        printf("%s (%s): %d[%c]\n",  temp->name, temp->group, temp->calories, temp->type);
     }
 
 }
