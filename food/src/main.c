@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
     char line[500];
     char name[50];
     char group[50];
+    char calorie[10];
+    char tempType[2];
     char type;
     int calorieCount = 0;
     char word[25];
@@ -19,6 +21,7 @@ int main(int argc, char* argv[])
     int wordLength = 0;
     int commaCheck = 0;
     int newStart = 0;
+    int otherStart = 1;
 
     openFile = fopen(argv[1], "r");
     if(openFile == NULL)
@@ -50,9 +53,13 @@ int main(int argc, char* argv[])
                     argLength = i;
                     i++;
                     argNum++;
+                    newStart++; 
+                    // printf("%d\n",argNum);
                 }
-                strncpy(newWord, line, argLength + 1);
-                printf("%s\n", newWord);
+                strncpy(name, line, argLength + 1);
+                printf("%s\n", name);
+                // argNum++;
+                newStart++;
                 commaCheck++;
             }
             else if(commaCheck == 1)
@@ -62,35 +69,51 @@ int main(int argc, char* argv[])
                     argLength = i;
                     i++;
                     argNum++;
+                    otherStart++;
+                    // newStart++;
+                    // printf(" new start %d  argNum %d\n", newStart, argNum);
                 }
-                strncpy(newWord, line, argLength + 1);
-                printf("%s\n", newWord);
+                strncpy(group, line + newStart, argNum - newStart + 1);
+                printf("%s\n", group);
+                otherStart++;
                 commaCheck++;
+                // otherStart++;
+                // argNum++;
+
             }
-            else if(commaCheck == 2)
+              else if(commaCheck == 2)
             {
-                while(line[i] != ',')
+                  while(line[i] != ',')
                 {
                     argLength = i;
                     i++;
                     argNum++;
+                    newStart++;
+                    // printf("%d\n", newStart);
                 }
-                strncpy(newWord, line, argLength + 1);
-                printf("%s\n", newWord);
+                strncpy(calorie, line + argNum, argNum - otherStart + 1);
+                printf("%s\n", calorie);
                 commaCheck++;
+                argNum++;
             }
+
             else if(commaCheck == 3)
             {
-                while(line[i] != ',')
-                {
-                    argLength = i;
-                    i++;
-                    argNum++;
-                }
-                strncpy(newWord, line, argLength + 1);
-                printf("%s\n", newWord);
-                commaCheck++;
+                // newStart = 0;
+                // while(line[i] != ',')
+                // {
+                //     argLength = i;
+                //     i++;
+                //     argNum++;
+                //     newStart++;
+                //     // printf("%d\n", newStart);
+                // }
+                // strncpy(tempType, line + newStart + otherStart, argNum - otherStart);
+                // printf("%s\n", tempType);
+                // commaCheck++;
+                // argNum++;
             }
+          
 
         }
 
