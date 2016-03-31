@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
                 }
                 strncpy(name, line, argLength + 1);
                 printf("%s\n", name);
-                // argNum++;
+                 argNum++;
                 newStart++;
                 commaCheck++;
             }
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
                 otherStart++;
                 commaCheck++;
                 // otherStart++;
-                // argNum++;
+                 argNum++;
 
             }
               else if(commaCheck == 2)
@@ -91,7 +91,8 @@ int main(int argc, char* argv[])
                     newStart++;
                     // printf("%d\n", newStart);
                 }
-                strncpy(calorie, line + argNum, argNum - otherStart + 1);
+                printf("argNum %d otherstart %d\n", argNum, otherStart);
+                strncpy(calorie, line + newStart, argNum - newStart);
                 printf("%s\n", calorie);
                 commaCheck++;
                 argNum++;
