@@ -73,7 +73,12 @@ int main(int argc, char* argv[])
         char newWord[256];
         char otherWord[26];
         length = strlen(line);
-        line[length + 1] = '\0';
+
+        if (line[length - 1] == '\n')
+        {
+        	line[length - 1] = '\0';
+        }
+        
 
         for (int i = 0; i < length; i++)
         {
