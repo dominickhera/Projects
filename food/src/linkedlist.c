@@ -7,12 +7,12 @@ Food * createRecord(char * name, char * group, int calories, char theType)
 {
     Food * temp = malloc(sizeof(Food));
     temp->name = malloc(sizeof(char)*50);
-    temp->group = malloc(sizeof(char)*50);
+    temp->foodGroup = malloc(sizeof(char)*50);
     temp->calories = calories;
-    temp->theType = theType;
+    temp->type = theType;
     temp->next = NULL;
 
-    if(temp == NULL || temp->name == NULL || temp->group == NULL)
+    if(temp == NULL || temp->name == NULL || temp->foodGroup == NULL)
     {
         return NULL;
     }
@@ -23,7 +23,7 @@ Food * createRecord(char * name, char * group, int calories, char theType)
 char * printRecord(Food * toPrint)
 {
 
-    char foodString = malloc(sizeof(char)*256);
+    char * foodString = malloc(sizeof(char)*256);
     sprintf(foodString, "%s (%s): %d[%c]",  toPrint->name, toPrint->foodGroup, toPrint->calories, toPrint->type);
 
     if(foodString == NULL)
@@ -37,7 +37,7 @@ char * printRecord(Food * toPrint)
 void destroyRecord(Food * toDie)
 {
     free(toDie->name);
-    free(toDie->group);
+    free(toDie->foodGroup);
     free(toDie);
 }
 
@@ -120,34 +120,37 @@ Food * getFirstItem(Food * theList)
 int isEmpty(Food * theList)
 {
     if(theList == NULL)
+    {
         return 1;
-}
+    }
+
 
 return 0;
 }
 
 void printList(Food * theList)
 {
-     Food * temp;
-     temp = theList;
+    Food * temp;
+    temp = theList;
     while(temp != NULL)
     {
-        printf("%s (%s): %d[%c]\n",  temp->name, temp->group, temp->calories, temp->type);
+        printf("%s (%s): %d[%c]\n",  temp->name, temp->foodGroup, temp->calories, temp->type);
     }
 }
 
 void destroyList(Food * theList)
 {
     Food * temp;
+    temp = theList;
     while(temp->next != NULL)
     {
-        temp = theList;
+        // temp = theList;
         theList = theList->next;
         free(temp->name);
-        free(temp->group);
+        free(temp->foodGroup);
         free(temp);
     }
 
-    return NULL;
+    // return NULL;
     printf("list has been destroyed\n");
 }
