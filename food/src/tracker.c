@@ -9,7 +9,8 @@
 Food * parseFile(char * file)
 {
     FILE * openFile;
-    Food * foodArray;
+    Food * foodList;
+    Food * foodVar = NULL;
     char line[500];
     char * items[4];
     int calorieCounter = 0;
@@ -57,7 +58,16 @@ Food * parseFile(char * file)
         }
 
         //sending the parsed data to created into struct
-        foodArray = createRecord(items[0], items[1], atoi(items[2]), items[3][0]);
+        foodList = createRecord(items[0], items[1], atoi(items[2]), items[3][0]);
+
+        if(foodList->type == 'j')
+        {
+            foodVar = addToBack(foodVar, foodList);
+        }
+        else 
+        {
+            foodVar = addToFront(foodVar, foodList);
+        }
 
         if(strcmp(items[1], "vegfruit") == 0)
         {
@@ -129,8 +139,10 @@ Food * parseFile(char * file)
     printf("%.2lf\n", fatAverage);
     printf("%d\n", listLength);
 
+    printList(foodVar);
+
     // printf("this shit worked brah\n");
     fclose(openFile);
-    return foodArray;
+    return foodList;
 
 }

@@ -8,8 +8,10 @@ Food * createRecord(char * name, char * group, int calories, char theType)
     Food * temp = malloc(sizeof(Food));
     temp->name = malloc(sizeof(char)*50);
     temp->foodGroup = malloc(sizeof(char)*50);
-    temp->calories = calories;
+    temp->calories =  calories;
     temp->type = theType;
+    strcpy(temp->name, name);
+    strcpy(temp->foodGroup, group);
     temp->next = NULL;
 
     if(temp == NULL || temp->name == NULL || temp->foodGroup == NULL)
@@ -43,7 +45,7 @@ void destroyRecord(Food * toDie)
 
 Food * addToFront(Food * theList, Food * toBeAdded)
 {
-    if(!isEmpty(theList))
+    if(isEmpty(theList) == 0)
     {
         toBeAdded->next = theList;
     }
@@ -56,7 +58,7 @@ Food * addToBack(Food * theList, Food * toBeAdded)
     Food * temp;
     temp = theList;
 
-    if(isEmpty(theList))
+    if(isEmpty(theList) == 1)
     {
         return toBeAdded;
     }
@@ -126,6 +128,7 @@ int isEmpty(Food * theList)
 
 
 return 0;
+
 }
 
 void printList(Food * theList)
@@ -134,7 +137,8 @@ void printList(Food * theList)
     temp = theList;
     while(temp != NULL)
     {
-        printf("%s (%s): %d[%c]\n",  temp->name, temp->foodGroup, temp->calories, temp->type);
+        printf("%s\n", printRecord(temp));
+        temp = temp->next;
     }
 }
 
