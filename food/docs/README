@@ -1,1 +1,33 @@
-hello world
+======================
+a4
+2/4/16
+dominick hera
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+./bin/tracker ./assets/test.csv
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+====================
+known limitations
+====================
+- numbers round up automatically for some reason.
+
+=======
+testing
+=======
+- name and group name were not printing initially and then i realised that i needed to change my createRecord function in linkedList.c to actually use the name and foodGroup instead of just mallocing room for it
+- there was an issue where if the last food in the .csv was "j" then it would only print out the last line so then I realised that i was calling print list with the array instead of the head
+
+==========
+references 
+==========
+
+NONE
