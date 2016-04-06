@@ -1,5 +1,5 @@
-#include "main.h"
 #include "open.h"
+#include "scan.h"
 
 char parseData (FILE * openData)
 {
@@ -43,7 +43,7 @@ char parseData (FILE * openData)
         memset(key, 0, length);
         memset(value, 0, length);
     }
-    // checks to make sure that all variables were found and stored correctly, terminates program if not correct.
+  
     if (sucNum != 1) 
     {
         printf(" Unsufficient Amount of Variables Found");
@@ -54,10 +54,10 @@ char parseData (FILE * openData)
     return sucNum;
 }
 
-void parseTemplate(FILE * openTemplate, FILE * outputFile)
+void parseTemplate(FILE * openTemplate, FILE * outputFile, char * key, char * value)
 {
 
-   char word[25];
+   char * word = malloc(sizeof(char) * 256);
    char line[255];
    int updateCounter = 0;
    int length = 0;
@@ -65,9 +65,11 @@ void parseTemplate(FILE * openTemplate, FILE * outputFile)
     while(fgets(line, 256, openTemplate) != NULL) 
     {
         char finalLine[256]; 
-        char wordUpdate[256];;
+        char * wordUpdate = malloc(sizeof(char) * 256);
+
         int counter = 0;
-        memset(word, '\0', strlen(word));
+        memset(word, '\0', 256);
+         memset(wordUpdate, '\0', 256);
         length = strlen(line);
         line[length - 1] = '\0';
 
@@ -76,20 +78,26 @@ void parseTemplate(FILE * openTemplate, FILE * outputFile)
             if (line[i] == '{') 
             {
                 i++;
-                printf("i work\n");
+                 // printf("i work\n");
 
                 while (line[i] != '}') 
                 {
-                    printf("i also work\n");
+                     // printf("i also work\n");
                     word[wordLength] = line[i];
                     wordLength++;
                     i++;
 
                 }
+
+                // printf("word = %sn", word);
+
                 strcpy(wordUpdate, getValue(word));
+
+                // printf("i even strcpied\n");
                 wordUpdate[strlen(wordUpdate) - 1] = '\0'; 
                 for (int j = 0; j < strlen(wordUpdate); j++)
                 {
+                  // printf("im here now\n");
                     finalLine[counter] = wordUpdate[j];
                     counter++; 
                 }
@@ -107,10 +115,3 @@ void parseTemplate(FILE * openTemplate, FILE * outputFile)
     } 
     printf("done\n");
 }
-
-// void closeFiles(FILE * templateFile, FILE * dataFile, FILE * outputFile)
-// {
-//     fclose(templateFile);
-//     fclose(dataFile);
-//     fclose(outputFile);
-// }

@@ -1,7 +1,8 @@
+#include "scan.h"
 #include "open.h"
-#include "main.h"
 
-void dataOpen(char * openData)
+
+void dataOpen(char * openData, char * key, char * value)
 {
 	FILE * newOpenData;
  newOpenData = fopen(openData, "r");
@@ -11,11 +12,11 @@ void dataOpen(char * openData)
         exit(1);
     }
 
-    parseData(newOpenData);
+    parseData(newOpenData, key, value);
     fclose(newOpenData);
 }
 
-void templateOpen(char * openTemplate, char * outputFile)
+void templateOpen(char * openTemplate, char * outputFile, char * key, char * value)
 {
 	FILE * newOpenTemplate;
 	FILE * newOutputFile;
@@ -33,7 +34,7 @@ void templateOpen(char * openTemplate, char * outputFile)
         exit(1);
     }
 
-    parseTemplate(newOpenTemplate, newOutputFile);
+    parseTemplate(newOpenTemplate, newOutputFile, key, value);
     fclose(newOpenTemplate);
     fclose(newOutputFile);
 }
