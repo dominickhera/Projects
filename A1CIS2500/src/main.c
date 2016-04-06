@@ -56,14 +56,37 @@ int main(int argc, char* argv[])
         {
             while(line[i] == '=') 
             {
+                // printf("%c\n", line[argLength]);
+                // if(line[argLength] == ' ')
+                // {
+                //     printf("thing is empty\n");
+                // }
+                // else
+                // {
                 argLength = i;
                 i++;
                 argNum++;
+                 // printf("%c\n", line[argLength + 1]);
+                 // if(!isalpha(line[argLength+1]))
+                 // {
+                 //    printf("this is empty\n");
+                 // }
+                // printf("%d is the length\n", argLength);
+            // }
             }
         }
 
         strncpy(key, line, argLength);
+        printf("%s\n", key);
+        if(!isalpha(line[argLength + 1])){
+        strncpy(value, "MISSING_DATA ", 15);
+        argNum--;
+        }
+        else
+        {
         strncpy(value, line + (argLength + 1), (length + 1));
+        }
+        printf("%s\n", value);
         sucNum = setValue(key, value);
         memset(key, 0, length);
         memset(value, 0, length);
