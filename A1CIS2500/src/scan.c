@@ -1,6 +1,7 @@
-#include"main.h"
+#include "main.h"
+#include "open.h"
 
-char parseData (FILE * openData, char * value, char * key)
+char parseData (FILE * openData)
 {
 
     int argNum = 0;
@@ -8,6 +9,8 @@ char parseData (FILE * openData, char * value, char * key)
     int sucNum = 0;
     int length = 0;
     char line [256];
+    char value[255];
+    char key[255];
 
     while(fgets(line, 256, openData) != NULL)
     {
@@ -54,7 +57,7 @@ char parseData (FILE * openData, char * value, char * key)
 void parseTemplate(FILE * openTemplate, FILE * outputFile)
 {
 
-  char word[25];
+   char word[25];
    char line[255];
    int updateCounter = 0;
    int length = 0;
@@ -102,11 +105,12 @@ void parseTemplate(FILE * openTemplate, FILE * outputFile)
         }
         fprintf(outputFile, "%s\n", finalLine);
     } 
+    printf("done\n");
 }
 
-void closeFiles(FILE * templateFile, FILE * dataFile, FILE * outputFile)
-{
-    fclose(templateFile);
-    fclose(dataFile);
-    fclose(outputFile);
-}
+// void closeFiles(FILE * templateFile, FILE * dataFile, FILE * outputFile)
+// {
+//     fclose(templateFile);
+//     fclose(dataFile);
+//     fclose(outputFile);
+// }

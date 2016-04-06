@@ -8,7 +8,7 @@
 #include <ctype.h>
 
  // scans the data.txt file for the variables and variable values based on the = sign, and assigns them to char arrays key or value based on which one they are, and then puts it into storeValue. also resets the memory for key and value.
-char parseData (FILE * openData, char * value, char * key);
+char parseData (FILE * openData);
 void parseTemplate(FILE * openTemplate, FILE * outputFile);
 //closes all files that were opened to prevent memory leaks
 void closeFiles(FILE * templateFile, FILE * dataFile, FILE * outputFile);
