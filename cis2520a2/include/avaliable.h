@@ -1,0 +1,4 @@
+#ifndef __AVALIABLE_LINKEDLIST__
+#define __AVALIABLE_LINKEDLIST__
+
+#endif	
