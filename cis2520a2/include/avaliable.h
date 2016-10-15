@@ -4,13 +4,16 @@
 struct Avaliable{
 	char * avaliablePlateNum;
 	int avaliableMileage;
-	int avaliableExpectedReturnDate;
+	// int avaliableExpectedReturnDate;
 	struct Avaliable * next;
 };
 
 typedef struct Avaliable Avaliable;
 
 
-char * printList(Avaliable * to)
+Avaliable * createRecord(char * avaliablePlateNum, int avaliableMileage);
+char * printAvaliableRecord(Avaliable * toPrintAvaliable);
+int isAvaliableEmpty(Avaliable * avaliableList);
+// char * printList(Avaliable * to)
 
 #endif	

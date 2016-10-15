@@ -10,4 +10,7 @@ struct Rented{
 
 typedef struct Rented Rented;
 
+Rented * createRecord(char * rentedPlateNum, int rentedMileage, int rentedExpectedReturnDate);
+char * printRentedRecord(Rented * toPrintRented);
+
 #endif

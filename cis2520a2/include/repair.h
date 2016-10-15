@@ -4,10 +4,14 @@
 struct Repair{
 	char * repairPlateNum;
 	int repairMileage;
-	int repairExpectedReturnDate;
+	// int repairExpectedReturnDate;
 	struct Repair * next;
 };
 
 typedef struct Repair Repair;
+
+Repair * createRecord(char * repairPlateNum, int repairMileage);
+char * printRepairRecord(Repair * toPrintRepair);
+int isRepairEmpty(Repair * repairList);
 
 #endif
