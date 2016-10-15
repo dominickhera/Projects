@@ -34,6 +34,17 @@ char * printRepairRecord(Repair * toPrintRepair)
 	return repairString;
 }
 
+void printRepairList(Repair * repairList)
+{
+	Repair * temp;
+	temp = repairList;
+	while(temp != NULL)
+	{
+		printf("%s\n", printRepairRecord(temp));
+		temp = temp->next;
+	}
+}
+
 int isRepairEmpty(Repair * repairList)
 {
 	if(repairList == NULL)

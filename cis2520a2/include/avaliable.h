@@ -2,17 +2,19 @@
 #define __AVALIABLE_LINKEDLIST__
 
 struct Avaliable{
-	char * avaliablePlateNum;
-	int avaliableMileage;
-	// int avaliableExpectedReturnDate;
-	struct Avaliable * next;
+	char * avaliableInd;
+    char * avaliablePlateNum;
+    int avaliableMileage;
+    // int avaliableExpectedReturnDate;
+    struct Avaliable * next;
 };
 
 typedef struct Avaliable Avaliable;
 
 
-Avaliable * createRecord(char * avaliablePlateNum, int avaliableMileage);
+Avaliable * createRecord(char * avaliableInd, char * avaliablePlateNum, int avaliableMileage);
 char * printAvaliableRecord(Avaliable * toPrintAvaliable);
+void printAvaliableList(Avaliable * avaliableList);
 int isAvaliableEmpty(Avaliable * avaliableList);
 // char * printList(Avaliable * to)
 

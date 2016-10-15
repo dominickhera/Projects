@@ -3,44 +3,57 @@
 #include <string.h>
 #include "avaliable.h"
 
-Avaliable * createRecord(char * avaliablePlateNum, int avaliableMileage)
+Avaliable * createRecord(char * avaliableInd, char * avaliablePlateNum, int avaliableMileage)
 {
 
-	Avaliable * temp = malloc(sizeof(Avaliable));
-	temp->avaliablePlateNum = malloc(char)*99);
-	temp->avaliableMileage = avaliableMileage;
-	strcpy(temp->avaliablePlateNum, avaliablePlateNumber);
-	temp->next = NULL;
+    Avaliable * temp = malloc(sizeof(Avaliable));
+    temp->avaliableInd = (malloc(char)*50);
+    temp->avaliablePlateNum = (malloc(char)*99);
+    temp->avaliableMileage = avaliableMileage;
+    strcpy(temp->avaliablePlateNum, avaliablePlateNumber);
+    temp->next = NULL;
 
-	if(temp == NULL || temp->avaliablePlateNum == NULL || temp->avaliableMileage)
-	{
-		return NULL;
-	}
+    if(temp == NULL || temp->avaliablePlateNum == NULL || temp->avaliableMileage)
+    {
+        return NULL;
+    }
 
-	return temp;
+    return temp;
 
 }
 
+
 char * printAvaliableRecord(Avaliable * toPrintAvaliable)
 {
-	char * avaliableString = malloc(sizeof(char)*256);
-	sprintf(avaliableString, "Plate Number: %s - Mileage: %d", toPrintAvaliable->avaliablePlateNum, toPrintAvaliable->avaliableMileage);
+    char * avaliableString = malloc(sizeof(char)*256);
+    sprintf(avaliableString, "Plate Number: %s - Mileage: %d", toPrintAvaliable->avaliablePlateNum, toPrintAvaliable->avaliableMileage);
 
-	if(avaliableString == NULL)
+    if(avaliableString == NULL)
+    {
+        return NULL;
+    }
+
+    return avaliableString;
+}
+
+void printAvaliableList(Avaliable * avaliableList)
+{
+	Avaliable * temp;
+	temp = avaliableList;
+	while(temp != NULL)
 	{
-		return NULL;
+		printf("%s\n", printAvaliableRecord(temp));
+		temp = temp->next;
 	}
-
-	return avaliableString;
 }
 
 int isAvaliableEmpty(Avaliable * avaliableList)
 {
-	if(avaliableList == NULL)
-	{
-		return 1;
+    if(avaliableList == NULL)
+    {
+        return 1;
 
-	}
+    }
 
-	return 0;
+    return 0;
 }
