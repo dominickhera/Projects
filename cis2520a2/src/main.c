@@ -1,10 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "avaliable.h"
-#include "rented.h"
-#include "repair.h"
+// #include "avaliable.h"
+// #include "rented.h"
+// #include "repair.h"
 
+typedef struct Available
+{
+	// char * availableInd;
+    char * availablePlateNum;
+    int availableMileage;
+    struct Available * next;
+}Available;
 
 int main()
 {
@@ -12,6 +19,9 @@ int main()
 
 
     int inputNum = 0;
+    char availablePlateNumString[256];
+    int availableMileageInt = 0;
+
     while (inputNum != 7)
     {
         printf("(1) add a new car to the avaliable-for rent list\n(2) add a returned car to the avaliable-for-rent list\n(3) add a returned car to the repair list\n(4) transfer a car from the repair list to the avaliable-for-rent list\n(5) rent the first avaliable car\n(6) print all the lists\n(7) quit\n\n");
@@ -19,14 +29,16 @@ int main()
         switch(inputNum)
         {
             case 1:
-            	char avaliablePlateNumString[256];
-            	int avaliableMileageInt = 0;
+            	// char avaliablePlateNumString[256];
+            	// int avaliableMileageInt = 0;
                 printf("Enter the Plate Number of the car: ");
-                scanf("%s", &avaliablePlateNumString);
+                scanf("%s", availablePlateNumString);
+                printf("inputed string = %s", availablePlateNumString);
                 printf("\nEnter the mileage of the car: ");
-                scanf("%d", &avaliableMileageInt);
+                scanf("%d", &availableMileageInt);
+                printf("inputted mileage = %d\n", availableMileageInt);
 
-                addToAvaliableList("A", avaliablePlateNumString, avaliableMileageInt);
+                // addToAvaliableList("A", avaliablePlateNumString, avaliableMileageInt);
 
                 break;
             case 2:
@@ -42,9 +54,9 @@ int main()
                 printf("you pressed 5\n");
                 break;
             case 6:
-                printAvaliableList();
-                printRentedList();
-                print
+                // printAvaliableList();
+                // printRentedList();
+            printf("you pressed 6\n");
                 break;
             case 7:
                 printf("goodbye\n");
