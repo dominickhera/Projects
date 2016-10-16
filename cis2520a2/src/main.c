@@ -4,19 +4,49 @@
 // #include "avaliable.h"
 // #include "rented.h"
 // #include "repair.h"
-
+typedef struct Available *ptr;
 typedef struct Available
 {
-	// char * availableInd;
     char * availablePlateNum;
     int availableMileage;
     struct Available * next;
 }Available;
 
+
+// Available * addToAvaliableList(Available *head, int mileage){
+//     Available new;
+//     new = *head;
+//     Available T = (Available)malloc(sizeof(Available));
+
+//     T->availableMileage = mileage;
+//     while (new->next)
+//     {
+//     	new = new->next;
+//     }
+//     new->next = T;
+//     // new = list_nodes(mileage);
+//     // head->next = new;
+//     // printf("%d\n%d\n", new->availableMileage, new);
+//     // return(new);
+// }
+
+void addToAvaliableList(ptr *head, int mileage)
+{
+	while(*head)
+	{
+		head = &(*head)->next;
+	}
+	*head = malloc(sizeof(**head));
+	(*head)->availableMileage = mileage;
+	(*head)->next = NULL;
+
+}
+
+
 int main()
 {
     // char * file = argv[1];
-
+	Available * head;
 
     int inputNum = 0;
     char availablePlateNumString[256];
@@ -29,6 +59,7 @@ int main()
         switch(inputNum)
         {
             case 1:
+            	head = malloc(sizeof(Available));
             	// char avaliablePlateNumString[256];
             	// int avaliableMileageInt = 0;
                 printf("Enter the Plate Number of the car: ");
@@ -37,6 +68,9 @@ int main()
                 printf("\nEnter the mileage of the car: ");
                 scanf("%d", &availableMileageInt);
                 printf("inputted mileage = %d\n", availableMileageInt);
+
+                addToAvaliableList(&head, availableMileageInt);
+                printf("%d is the mileage\n", head->availableMileage);
 
                 // addToAvaliableList("A", avaliablePlateNumString, avaliableMileageInt);
 
