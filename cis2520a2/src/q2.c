@@ -2,33 +2,50 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-// #include "q2Stack.h"
+#include "q2Stack.h"
 
-struct stack 
+/*typedef struct Stack 
 {
     float info;
-    struct stack * next;
-};
+    struct Stack * next;
 
-typedef struct stack stack;
+}Stack;
 
-
-void push(float input)
+void push(Stack ** top, float input)
 {
-	stack * newTop = malloc(sizeof(newTop));
-	newTop->next = newTop;
-	newTop->info = input;
-
-	printf("pushed into stack\n");
+	Stack * new = malloc(sizeof(Stack));
+	if (!new) exit(-1);
+	new->info = input;
+	new->next = *top; 
+	*top = new; 
+	printf("=");
 }
 
-int pop(stack)
+float pop(Stack** top)
 {
+	float tempData = 0.0;
 
-}
+	Stack* temp;
+
+	if(temp == NULL)
+	{
+		printf("nothing is on the stack.\n");
+		return 0.0;
+	}
+
+	temp = *top;
+	*top = temp->next;
+	tempData = temp->info;
+	free(temp);
+
+	return tempData;
+}*/
 
 int main(int argc, char* argv[])
 {
+	// struct mainStruct * stack;
+	Stack * stack; 
+
 
 	if(argc != 1)
 	{
@@ -40,26 +57,43 @@ int main(int argc, char* argv[])
 
 				if(isdigit(argv[i][j]))
 				{
-					printf("%c is a number\n", argv[i][j]);
-					push(atof(&argv[i][j]));
+					char tempNum = argv[i][j];
+					push(&stack, atof(&tempNum));
 				}
 				else
 				{
 					if(argv[i][j] == '+')
 					{
-						printf("%c is a addition sign\n", argv[i][j]);
+						float num1 = pop(&stack); 
+						float num2 = pop(&stack);
+						float answer = num1 + num2;
+
+						push(&stack, answer);
+
 					}
 					else if(argv[i][j] == '-')
 					{
-						printf("%c is a subtraction sign\n", argv[i][j]);
+						float num1 = pop(&stack);
+						float num2 = pop(&stack);
+						float answer = num2 - num1;
+
+						push(&stack, answer);
 					}
 					else if(argv[i][j] == '*')
 					{
-						printf("%c is a multiplication sign\n", argv[i][j]);
+						float num1 = pop(&stack);
+						float num2 = pop(&stack);
+						float answer = num1 * num2;
+
+						push(&stack, answer);
 					}
 					else if(argv[i][j] == '/')
 					{
-						printf("%c is a division sign\n", argv[i][j]);
+						float num1 = pop(&stack);
+						float num2 = pop(&stack);
+						float answer = num1 / num2;
+
+						push(&stack, answer);
 					}
 
 				}
@@ -72,6 +106,7 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
-	return 0;
+	printf("\nAnswer: %.2lf\n", stack->info);
 
+	return 0;
 }

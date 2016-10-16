@@ -1,14 +1,14 @@
 #ifndef __DHERA_STACK__
 #define __DHERA_STACK__
 
-struct stack 
+typedef struct Stack 
 {
     float info;
-    struct stack * next;
-};
+    struct Stack * next;
 
-typedef struct stack stack;
+}Stack;
 
-
+void push(Stack ** top, float input);
+float pop(Stack** top);
 
 #endif 
