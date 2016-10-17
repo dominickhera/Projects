@@ -4,6 +4,19 @@
 #include <ctype.h>
 #include "q2Stack.h"
 
+
+/*
+
+main function:
+parses the command line arguement to see 
+if they are a digit or a basic sign (+/-/x//)
+then pushes number to stack if it's a number
+or pops off the stack if its a symbol and does
+the following math and then goes through
+the entire line repeating itself.
+
+*/
+
 int main(int argc, char* argv[])
 {
 

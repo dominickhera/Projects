@@ -53,6 +53,15 @@ void addtoAvailableList(node** head, int mileage, char * plate )
 
 }
 
+void printList(node * head)
+{
+	if(head)
+	{
+		printf("Plate Number: %s, Mileage: %d\n", head->availablePlateNum, head->availableMileage);
+		printList(head->next);
+	}
+}
+
 // void printList(node* head)
 // {
 //     while (head)
@@ -92,7 +101,7 @@ int main()
 			case 2:
 				// printf("you pressed 2\n");
 				// printList(H);
-				// printList(&head);
+				 printList(head);
 				break;
 			case 3:
 				printf("you pressed 3\n");

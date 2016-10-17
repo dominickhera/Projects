@@ -1,6 +1,11 @@
 #ifndef __DHERA_STACK__
 #define __DHERA_STACK__
 
+
+/*
+defines stack, pop and push fucntions.
+*/
+
 typedef struct Stack 
 {
     float info;

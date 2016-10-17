@@ -4,6 +4,13 @@
 #include <ctype.h>
 #include "q2Stack.h"
 
+
+/*
+takes the input value onto the top of the stack 
+and pushes the previous top of the sack
+down below it
+*/ 
+
 void push(Stack ** top, float input)
 {
 	Stack * new = malloc(sizeof(Stack));
@@ -14,11 +21,18 @@ void push(Stack ** top, float input)
 	printf("=");
 }
 
+
+/*
+takes the top of the stack and removes it,
+pushing the value below it to the top 
+of the stack and then frees the stack.
+*/
+
 float pop(Stack** top)
 {
 	float tempData = 0.0;
 
-	Stack* temp;
+	Stack* temp = NULL;
 
 	if(temp == NULL)
 	{

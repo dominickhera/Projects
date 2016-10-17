@@ -4,8 +4,8 @@ EXE2 = q2
 
 all: $(EXE1) $(EXE2)
 
-$(EXE1): main.o parse.o avaliable.o rented.o repair.o BIN
-	gcc main.o parse.o avaliable.o rented.o repair.o -o ./bin/$(EXE1)
+$(EXE1): main.o BIN
+	gcc main.o -o ./bin/$(EXE1)
 
 $(EXE2): q2.o q2Stack.o BIN
 	gcc q2.o q2Stack.o -o ./bin/$(EXE2)
@@ -13,21 +13,17 @@ $(EXE2): q2.o q2Stack.o BIN
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
 
+main.o: ./src/main.c
+	gcc -c $(CFLAGS) ./src/main.c -Iinclude
 
-# run.o: ./src/run.c
-# 	gcc -c $(CFLAGS) ./src/run.c -Iinclude
+avaliable.o: ./src/avaliable.c
+	gcc -c $(CFLAGS) ./src/avaliable.c -Iinclude
 
-# functions.o: ./src/functions.c
-# 	gcc -c $(CFLAGS) ./src/functions.c -Iinclude
+q2.o: ./src/q2.c
+	gcc -c $(CFLAGS) ./src/q2.c -Iinclude
 
-# carbon.o: ./src/carbon.c
-# 	gcc -c $(CFLAGS) ./src/carbon.c -Iinclude
-
-# ackermann.o: ./src/ackermann.c
-# 	gcc -c $(CFLAGS) ./src/ackermann.c -Iinclude
-
-# newton.o: ./src/newton.c
-# 	gcc -c $(CFLAGS) ./src/newton.c -Iinclude
+q2Stack.o: ./src/q2Stack.c
+	gcc -c $(CFLAGS) ./src/q2Stack.c -Iinclude
 
 clean:
 	rm *.o
