@@ -62,15 +62,6 @@ void printList(node * head)
 	}
 }
 
-// void printList(node* head)
-// {
-//     while (head)
-//     {
-//         printf("Plate Num: %s \nMileage: %d\n", head->availablePlateNum, head->availableMileage);
-//         head=head->next;
-//     }
-// }
-
 int main()
 {
 
@@ -94,14 +85,11 @@ int main()
 				scanf("%d", &availableMileageInt);
 				printf("\n");
 				addtoAvailableList(&head, availableMileageInt, availablePlateNumString);
-				// addtoAvailableList(&H, availableMileageInt, availablePlateNumString);
-				printf("%s is the available plate num\n%d is the mileage\n\n", head->availablePlateNum, head->availableMileage);
+				// printf("%s is the available plate num\n%d is the mileage\n\n", head->availablePlateNum, head->availableMileage);
 
 				break;
 			case 2:
-				// printf("you pressed 2\n");
-				// printList(H);
-				 printList(head);
+				printf("you pressed 2\n");
 				break;
 			case 3:
 				printf("you pressed 3\n");
@@ -113,9 +101,7 @@ int main()
 				printf("you pressed 5\n");
 				break;
 			case 6:
-				// printAvaliableList();
-				// printRentedList();
-				printf("you pressed 6\n");
+				printList(head);
 				break;
 			case 7:
 				printf("goodbye\n");
@@ -127,7 +113,7 @@ int main()
 	}
 
 
-	printf("call print all lists function here\n");
+	// printf("call print all lists function here\n");
 
 	return 0;
 }
