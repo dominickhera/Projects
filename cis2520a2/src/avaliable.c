@@ -3,57 +3,41 @@
 #include <string.h>
 #include "avaliable.h"
 
-Avaliable * createRecord(char * avaliableInd, char * avaliablePlateNum, int avaliableMileage)
+node * createNewNode(int miles, char * plate)
 {
+	node * newNode = malloc(sizeof(*newNode)); 
+	newNode->availablePlateNum = malloc(sizeof(char) * (strlen(plate)) + 1);
+	strcpy(newNode->availablePlateNum, plate);
+	newNode->availableMileage = miles;
 
-    Avaliable * temp = malloc(sizeof(Avaliable));
-    temp->avaliableInd = (malloc(char)*50);
-    temp->avaliablePlateNum = (malloc(char)*99);
-    temp->avaliableMileage = avaliableMileage;
-    strcpy(temp->avaliablePlateNum, avaliablePlateNumber);
-    temp->next = NULL;
-
-    if(temp == NULL || temp->avaliablePlateNum == NULL || temp->avaliableMileage)
-    {
-        return NULL;
-    }
-
-    return temp;
-
+	return newNode; 	
 }
 
-
-char * printAvaliableRecord(Avaliable * toPrintAvaliable)
+void addtoAvailableList(node** head, int mileage, char * plate )
 {
-    char * avaliableString = malloc(sizeof(char)*256);
-    sprintf(avaliableString, "Plate Number: %s - Mileage: %d", toPrintAvaliable->avaliablePlateNum, toPrintAvaliable->avaliableMileage);
+	node dummy, *new, *p;
 
-    if(avaliableString == NULL)
-    {
-        return NULL;
-    }
+	new = createNewNode(mileage, plate);
+	p = &dummy;
+	dummy.next = *head;
 
-    return avaliableString;
-}
-
-void printAvaliableList(Avaliable * avaliableList)
-{
-	Avaliable * temp;
-	temp = avaliableList;
-	while(temp != NULL)
+	while(p->next && mileage > p->next->availableMileage)
 	{
-		printf("%s\n", printAvaliableRecord(temp));
-		temp = temp->next;
-	}
+		p = p->next;
+	} 
+
+	new->next = p->next;
+	p->next = new;
+	*head = dummy.next;
+
 }
 
-int isAvaliableEmpty(Avaliable * avaliableList)
+
+void printList(node * head)
 {
-    if(avaliableList == NULL)
-    {
-        return 1;
-
-    }
-
-    return 0;
+	if(head)
+	{
+		printf("Plate Number: %s, Mileage: %d\n", head->availablePlateNum, head->availableMileage);
+		printList(head->next);
+	}
 }

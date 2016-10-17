@@ -1,66 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include "avaliable.h"
-// #include "rented.h"
-// #include "repair.h"
-
-
-typedef struct Available
-{
-	int availableMileage;
-	char * availablePlateNum;
-	struct Available * next;
-} node;
-
-typedef struct list
-{
-	node * next;
-}list;
-
-typedef struct Top
-{
-	list * listHead;
-}head;
-
-
-node * createNewNode(int miles, char * plate)
-{
-	node * newNode = malloc(sizeof(*newNode)); 
-	newNode->availablePlateNum = malloc(sizeof(char) * (strlen(plate)) + 1);
-	strcpy(newNode->availablePlateNum, plate);
-	newNode->availableMileage = miles;
-
-	return newNode; 	
-}
-
-void addtoAvailableList(node** head, int mileage, char * plate )
-{
-	node dummy, *new, *p;
-
-	new = createNewNode(mileage, plate);
-	p = &dummy;
-	dummy.next = *head;
-
-	while(p->next && mileage > p->next->availableMileage)
-	{
-		p = p->next;
-	} 
-
-	new->next = p->next;
-	p->next = new;
-	*head = dummy.next;
-
-}
-
-void printList(node * head)
-{
-	if(head)
-	{
-		printf("Plate Number: %s, Mileage: %d\n", head->availablePlateNum, head->availableMileage);
-		printList(head->next);
-	}
-}
+ #include "avaliable.h"
 
 int main()
 {
@@ -85,8 +26,6 @@ int main()
 				scanf("%d", &availableMileageInt);
 				printf("\n");
 				addtoAvailableList(&head, availableMileageInt, availablePlateNumString);
-				// printf("%s is the available plate num\n%d is the mileage\n\n", head->availablePlateNum, head->availableMileage);
-
 				break;
 			case 2:
 				printf("you pressed 2\n");
@@ -101,7 +40,12 @@ int main()
 				printf("you pressed 5\n");
 				break;
 			case 6:
+				printf("Available:\n========\n\n");
 				printList(head);
+				printf("Rented:\n========\n\n");
+				printf("None.\n");
+				printf("Repair:\n========\n\n");
+				printf("None.\n");
 				break;
 			case 7:
 				printf("goodbye\n");
