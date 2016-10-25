@@ -4,8 +4,8 @@ EXE2 = q2
 
 all: $(EXE1) $(EXE2)
 
-$(EXE1): main.o BIN
-	gcc main.o -o ./bin/$(EXE1)
+$(EXE1): main.o avaliable.o BIN
+	gcc main.o avaliable.o -o ./bin/$(EXE1)
 
 $(EXE2): q2.o q2Stack.o BIN
 	gcc q2.o q2Stack.o -o ./bin/$(EXE2)

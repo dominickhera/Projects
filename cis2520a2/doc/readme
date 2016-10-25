@@ -2,31 +2,55 @@
 a2
 12/10/16
 dominick hera
+0943778
 dhera@mail.uoguelph.ca
 ======================
 
 ======
 to run
 ======
+q1: ./bin/q1
 
+q2: ./bin/q2 "INSERT EQUATION HERE"
 
 ==========
 to compile
 ==========
 type 'make' to run the makeFile
 
+or
+
+q1: gcc ./src/main.c ./src/avaliable.c -o ./bin/q1 -Iinclude
+
+q2: gcc ./src/q2.c ./src/q2Stack.c -o ./bin/q2 -Iinclude
+
 ====================
 known limitations
 ====================
+
+q1
+
+- only function 1 works and function 6 partially works only for printing out the available list 
+- entering numbers into mileage will cause the program to break.
+
+q2
+- running q2 without the command line arguements will cause it to not work.
 
 
 =======
 testing
 =======
 
+q1
+- ran into many errors with q1, could only manage to get function 1 working
+- don't start a project with 4 days before it is due, and at 8 AM, you will burn. i have learned.
+
+q2
+- push was originally pushing to a struct made in the function and then the function was deleted
+fixed by recreating the push function so now it properly pushes to the pre created stack.
 
 ==========
 references 
 ==========
 
-NONE
+Referenced code bits from class lecture slides to help.
