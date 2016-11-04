@@ -9,6 +9,7 @@ int main(int argc, char* argv[])
 	int numArray[20][10];
 	int i = 0;
 	int j = 0;
+    int numCount = 0;
 	char *token;
 	const char space[2] = " ";
 	FILE *openFile;
@@ -40,12 +41,13 @@ int main(int argc, char* argv[])
     		{
     			j = 0;
     			token = strtok(NULL, space);
-    			printf("\n");
+    			// printf("\n");
     		}
     		else
     		{
+
     			numArray[i][j] = atoi(token);
-    			printf( "numArray[%d][%d]: %s\n", i, j, token );
+    			// printf( "numArray[%d][%d]: %d\n", i, j, numArray[i][j] );
     			j++;
     			if (j > 9)
     			{
@@ -56,6 +58,21 @@ int main(int argc, char* argv[])
      		}
     	}
 
+    }
+
+    for(int i = 0; i < 20; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (j < 3)
+            {
+                numCount += numArray[i][j];
+                // printf("%d is the num count for array [%d]\n", numCount, i);
+            }
+            
+        }
+        printf("%d is the num count for array [%d]\n", numCount, i);
+        numCount = 0;
     }
 
 
