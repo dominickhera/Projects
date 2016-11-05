@@ -2,10 +2,67 @@
 #include <stdlib.h>
 #include <string.h>
 
+int heap[200];
+int hSize;
+
+void createHeap()
+{
+    hSize = 0;
+    heap[0] = 1000;
+} 
+
+void addToHeap(int item)
+{
+    hSize++;
+    heap[hSize] = item;
+    int sortSize = hSize;
+
+    while(heap[sortSize/2] > item)
+    {
+        heap[sortSize] = heap[sortSize/2];
+        sortSize /= 2;
+    }
+
+    heap[sortSize] = item;
+}
+
+int removeMin()
+{
+    int minItem;
+    int lastItem;
+    int child;
+    int sortSize;
+
+    minItem = heap[1];
+    lastItem = heap[hSize--];
+
+    for ( sortSize = 1; sortSize*2 <= hSize; sortSize = child)
+    {
+        child = sortSize * 2;
+
+        if( child != hSize && heap[child + 1] < heap[child])
+        {
+            child++;
+        }
+        if (lastItem > heap[child])
+        {
+            heap[sortSize] = heap[child];
+        }
+        else
+        {
+            break;
+        }
+
+    }
+    heap[sortSize] = lastItem;
+    return minItem;
+}
+
 int main(int argc, char* argv[])
 {
 	char * file = argv[1]; 
 	char line[256];
+    int keyArray[256];
 	int numArray[20][10];
 	int i = 0;
 	int j = 0;
@@ -67,14 +124,23 @@ int main(int argc, char* argv[])
             if (j < 3)
             {
                 numCount += numArray[i][j];
+                keyArray[i] = numCount;
+                // addToHeap(keyArray[i]);
                 // printf("%d is the num count for array [%d]\n", numCount, i);
             }
             
         }
-        printf("%d is the num count for array [%d]\n", numCount, i);
+        addToHeap(keyArray[i]);
+        printf("%d is the num count for array [%d]\n", keyArray[i], i);
         numCount = 0;
     }
 
+    for (int i = 0; i < 20; i++)
+    {
+        
+        printf("%d ", removeMin());
+    }
+    printf("\n");
 
 	return 0;
 }
