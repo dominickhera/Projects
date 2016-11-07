@@ -5,12 +5,16 @@
 int heap[200];
 int hSize;
 
+
+//creates the heap used
 void createHeap()
 {
     hSize = 0;
     heap[0] = 1000;
 } 
 
+
+//adds the number inputted into the actual heap
 void addToHeap(int item)
 {
     hSize++;
@@ -26,6 +30,8 @@ void addToHeap(int item)
     heap[sortSize] = item;
 }
 
+
+//finds smallest value and returns it first
 int removeMin()
 {
     int minItem;
@@ -66,7 +72,10 @@ int main(int argc, char* argv[])
     int numArray[20][10];
     int i = 0;
     int j = 0;
+    int heapFindNum = 0;
+    int xAmount = 0;
     int numCount = 0;
+    int newHigh[100];
     char *token;
     const char space[2] = " ";
     FILE *openFile;
@@ -90,7 +99,6 @@ int main(int argc, char* argv[])
 
     while(fgets(line, 256, openFile))
     {
-        // printf("%s", line);
         token = strtok(line, space);
         while(token != NULL)
         {
@@ -98,13 +106,11 @@ int main(int argc, char* argv[])
             {
                 j = 0;
                 token = strtok(NULL, space);
-                // printf("\n");
             }
             else
             {
 
                 numArray[i][j] = atoi(token);
-                // printf( "numArray[%d][%d]: %d\n", i, j, numArray[i][j] );
                 j++;
                 if (j > 9)
                 {
@@ -125,22 +131,35 @@ int main(int argc, char* argv[])
             {
                 numCount += numArray[i][j];
                 keyArray[i] = numCount;
-                // addToHeap(keyArray[i]);
-                // printf("%d is the num count for array [%d]\n", numCount, i);
             }
 
         }
         addToHeap(keyArray[i]);
-        printf("%d is the num count for array [%d]\n", keyArray[i], i);
         numCount = 0;
     }
 
     for (int i = 0; i < 20; i++)
     {
-
-        printf("%d ", removeMin());
+        newHigh[i] = removeMin();
     }
     printf("\n");
+
+
+//compares the smallest number to the key array and prints the rest of the data line in the specific order
+    for (int i = 0; i < 20; i++)
+    {
+        xAmount = numArray[i][0] + numArray[i][1] + numArray[i][2];
+        heapFindNum = 0;
+        while(keyArray[heapFindNum] != newHigh[i])
+        { 
+            heapFindNum++;
+        }
+        for(int k = 0;k < 10; k++)
+        {
+            printf("%02d ",  numArray[heapFindNum][k]);
+        }
+        printf("\n");
+    }
 
     return 0;
 }

@@ -1,0 +1,53 @@
+======================
+a3
+7/11/16
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+q1: ./bin/q1 "INSERT EQUATION HERE"
+
+q2: ./bin/q2 ./assets/f.dat
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+or
+
+q1: gcc ./src/q1.c ./src/q1Functions.c -o ./bin/q1 -Iinclude
+
+q2: gcc ./src/q2.c -o ./bin/q2 -Iinclude
+
+====================
+known limitations
+====================
+
+q1
+
+- does everything except print actual tree
+
+q2
+- none
+
+
+=======
+testing
+=======
+
+q1
+- couldnt figure out how to get tree printing in time, so left it out and worked on the rest of the project
+
+q2
+- none
+
+==========
+references 
+==========
+
+Referenced code bits from class lecture slides to help.
