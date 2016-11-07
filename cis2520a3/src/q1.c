@@ -311,6 +311,33 @@ void inorderFunction(treeNode *temp)
     }
 }
 
+void searchInorderFunction( treeNode *temp, char tempVal, float tempValue)
+{
+	if(!temp)
+	{
+		return;
+	}
+
+	searchInorderFunction(temp->leftBranch, tempVal, tempValue);
+
+	if(temp->type == VARIABLE && temp->nodeID == VALUE)
+	{
+		if(temp->num == 0)
+		{
+			printf("value replaced with %f\n", tempValue);
+			temp->num = tempValue;
+			temp->type = VALUE;
+		}
+		else
+		{
+			printf("value replaced with (%f*%f) which is equal to %f\n", temp->num, tempValue, (temp->num * tempValue));
+			temp->num = (temp->num * tempValue);
+			temp->type = VALUE;
+		}
+	}
+	searchInorderFunction(temp->rightBranch, tempVal, tempValue);
+}
+
 void postorderFunction(treeNode *temp)
 {
     if(temp)
@@ -337,11 +364,46 @@ void postorderFunction(treeNode *temp)
 
 float checkExpression(treeNode * temp)
 {
-	if(temp->type == VALUE)
+	if (temp->type  == VARIABLE)
+	{
+		printf("no variables to evaluate, returning to main menu...\n");
+		exit(0);
+	}
+	else if(temp->type == VALUE)
 	{
 		return temp->num;
 	}
-	
+	else
+	{
+		float yVal = 0;
+		float xVal = 0;
+		yVal = checkExpression(temp->rightBranch);
+		xVal = checkExpression(temp->leftBranch);
+
+		if(temp->operator == '*')
+		{
+			return xVal*yVal;
+		}
+		else if (temp->operator == '/')
+		{
+			return xVal/yVal;
+		}
+		else if(temp->operator == '+')
+		{
+			return xVal+yVal;
+		}
+		else if(temp->operator == '-')
+		{
+			return xVal-yVal;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
+
+
 }
 
 int main(int argc, char* argv[])
@@ -362,9 +424,7 @@ int main(int argc, char* argv[])
         switch(userInput)
         {
             case 1:
-                // printf("enter expression input:\n");
-                // scanf("%s", expressionInput);
-                // printf("%s is your input\n", expressionInput);
+                
                 break;
             case 2:
                 preorderFunction(start);
