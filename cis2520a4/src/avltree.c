@@ -7,7 +7,8 @@ struct avlNode
 {
     struct avlNode *leftBranch;
     struct avlNode *rightBranch;
-    char avlNodeValue[256];
+    int height;
+    char * avlNodeValue;
 };
 
 typedef struct avlNode avlNodeInit;
@@ -18,24 +19,6 @@ struct avlTree
 };
 
 typedef struct avlTree avlTreeInit;
-
-void initialize (FILE * fp)
-{
-    char line[256];
-    char * key;
-
-    while(fgets(line, sizeof(line), fp))
-    {
-            key = strtok(line, " ");
-            printf("%s\n", key);
-            while((key = strtok(NULL, " ")) != NULL)
-            {
-                
-                printf("%s\n", key );
-            }   
-            memset(line, '\0', strlen(line));
-    }
-}
 
 avlTreeInit *createAVL()
 {
@@ -49,7 +32,7 @@ avlTreeInit *createAVL()
     return tree; 
 }
 
-avlNodeInit *createAVLNode()
+avlNodeInit *createAVLNode(char *avlNodeValue)
 {
     avlNodeInit *node = NULL;
     if((node = malloc(sizeof(avlNodeInit))) == NULL)
@@ -58,7 +41,104 @@ avlNodeInit *createAVLNode()
     }
     node->leftBranch = NULL;
     node->rightBranch = NULL;
+    node->height = 1;
+    node->avlNodeValue = strdup(avlNodeValue);
     return node;
+}
+
+
+avlNodeInit * balanceAVLNode (avlNodeInit *node)
+{
+
+    printf("poop nuts\n");
+
+    return 0;
+
+}
+
+
+void balanceAVLTree(avlTreeInit *tree)
+{
+    avlNodeInit *tempRoot = NULL;
+
+    tempRoot = balanceAVLNode(tree->avlRoot);
+
+    if(tempRoot != tree->avlRoot)
+    {
+        tree->avlRoot = tempRoot;
+    }
+}
+
+void insert(avlTreeInit *tree, char * avlNodeValue)
+{
+    avlNodeInit *node = NULL;
+    avlNodeInit *last = NULL;
+    avlNodeInit *next = NULL;
+
+    if(tree->avlRoot == NULL)
+    {
+        node = createAVLNode(avlNodeValue);
+        node->avlNodeValue = avlNodeValue;
+        tree->avlRoot = node;
+    }
+    else
+    {
+        next = tree->avlRoot;
+        while(next != NULL)
+        {
+            last = next;
+            if(strcmp(avlNodeValue, next->avlNodeValue) > 0)
+            {
+                next = next->leftBranch;
+            }
+            else if(strcmp(avlNodeValue, next->avlNodeValue) < 0)
+            {
+                next = next->rightBranch;
+            }
+            else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
+            {
+                printf("error\n");
+            }
+        }
+        node = createAVLNode(avlNodeValue);
+        node->avlNodeValue = avlNodeValue;
+
+        if(strcmp(avlNodeValue, last->avlNodeValue) > 0)
+        {
+            last->leftBranch = node;
+        }
+        if(strcmp(avlNodeValue, last->avlNodeValue) < 0)
+        {
+            last->rightBranch = node;
+        }
+        else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
+        {
+            printf("error 2\n");
+        }
+    }
+
+    // balanceAVLTree(tree);
+}
+
+void initialize (FILE * fp)
+{
+    char line[256];
+    char * key;
+    avlTreeInit *tree = NULL;
+    tree = createAVL();
+
+    while(fgets(line, sizeof(line), fp))
+    {
+            key = strtok(line, " ");
+            printf("%s\n", key);
+            insert(tree, key);
+            while((key = strtok(NULL, " ")) != NULL)
+            {
+                printf("%s\n", key );
+                insert(tree, key);
+            }   
+            memset(line, '\0', strlen(line));
+    }
 }
 
 int main()
@@ -70,6 +150,7 @@ int main()
     char keyRemove[25];
     char keyInsert[25];
     char keySearch[25];
+    // avlTreeInit *tree = NULL;
 
     while(userInput != 7)
     {
@@ -78,16 +159,17 @@ int main()
         switch(userInput)
         { 
             case 1:
+            
                 printf("filename: ");
                 scanf("%s", fileName); 
                 FILE *fp;
                 fp = fopen(fileName, "r");
-
                 if(fp == NULL)
                 {
                     printf("could not find file\n");
                     return 0;
                 }
+                // tree = createAVL();
                 initialize(fp);	
                 break;
             case 2:
@@ -119,7 +201,5 @@ int main()
                 break;
         }
     }
-
-
     return 0;
 }
