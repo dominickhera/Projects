@@ -30,6 +30,7 @@ void initialize (FILE * fp)
             printf("%s\n", key);
             while((key = strtok(NULL, " ")) != NULL)
             {
+                
                 printf("%s\n", key );
             }   
             memset(line, '\0', strlen(line));
@@ -65,7 +66,6 @@ int main()
 
     int userInput = 0;
     char fileName[256];
-    char line[256]; 
     char frequencyCompare[10];
     char keyRemove[25];
     char keyInsert[25];
@@ -89,10 +89,6 @@ int main()
                     return 0;
                 }
                 initialize(fp);	
-                /*while(fgets(line, sizeof(line), fp))
-                  {
-                  printf("%s", line);
-                  }*/
                 break;
             case 2:
                 printf("find key: ");
