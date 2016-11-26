@@ -35,6 +35,7 @@ avlTreeInit *createAVL()
 avlNodeInit *createAVLNode(char *avlNodeValue)
 {
     avlNodeInit *node = NULL;
+
     if((node = malloc(sizeof(avlNodeInit))) == NULL)
     {
         return NULL;
@@ -42,7 +43,8 @@ avlNodeInit *createAVLNode(char *avlNodeValue)
     node->leftBranch = NULL;
     node->rightBranch = NULL;
     node->height = 1;
-    node->avlNodeValue = strdup(avlNodeValue);
+    // strcpy(node->avlNodeValue, avlNodeValue);
+
     return node;
 }
 
@@ -97,8 +99,12 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
             {
+<<<<<<< HEAD
                 printf("%s - error\n", avlNodeValue);
                 exit(1);
+=======
+                printf("you shouldn't be getting this value fam\n");
+>>>>>>> 68d1ea0a861b9eaf5674f8b4a4b2d3493c7de142
             }
         }
         node = createAVLNode(avlNodeValue);
