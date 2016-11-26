@@ -97,7 +97,8 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
             {
-                printf("error\n");
+                printf("%s - error\n", avlNodeValue);
+                exit(1);
             }
         }
         node = createAVLNode(avlNodeValue);
