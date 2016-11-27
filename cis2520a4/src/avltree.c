@@ -5,9 +5,9 @@
 
 struct avlNode
 {
+    char * avlNodeValue;
     struct avlNode *leftBranch;
     struct avlNode *rightBranch;
-    char * avlNodeValue;
     int frequency;
     int height;
 };
@@ -51,6 +51,51 @@ avlNodeInit *createAVLNode(char *avlNodeValue)
     return node;
 }
 
+avlNodeInit * doubleRightRotation(avlNodeInit * node)
+{
+    avlNodeInit* a = node->leftBranch;
+    a->leftBranch = node->rightBranch;
+    node->rightBranch = a;
+
+    return a;
+}
+
+avlNodeInit * doubleLeftRotation(avlNodeInit * node)
+{
+    avlNodeInit* a = node->rightBranch;
+    a->rightBranch = node->leftBranch;
+    node->leftBranch = a;
+
+    return a;
+}
+
+avlNodeInit * rightLeftRotation(avlNodeInit * node)
+{
+
+    avlNodeInit* a = node->leftBranch;
+    avlNodeInit* b = a->rightBranch;
+    node->leftBranch = b->rightBranch;
+    a->rightBranch = b->leftBranch;
+    b->leftBranch = a;
+    b->rightBranch = node;
+
+    return b;
+
+}
+
+avlNodeInit * leftRightRotation(avlNodeInit * node)
+{
+
+    avlNodeInit* a = node->rightBranch;
+    avlNodeInit* b = a->leftBranch;
+    node->rightBranch = b->leftBranch;
+    a->leftBranch = b->rightBranch;
+    b->rightBranch = a;
+    b->leftBranch = node;
+
+    return b;
+}
+
 
 avlNodeInit * balanceAVLNode (avlNodeInit *node)
 {
@@ -83,40 +128,38 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
     if(tree->avlRoot == NULL)
     {
         node = createAVLNode(avlNodeValue);
-        node->avlNodeValue = avlNodeValue;
+        strcpy(node->avlNodeValue, avlNodeValue);
         tree->avlRoot = node;
     }
     else
     {
         next = tree->avlRoot;
+        // printf("1\n");
         while(next != NULL)
         {
             last = next;
             if(strcmp(avlNodeValue, next->avlNodeValue) > 0)
             {
-                printf("1\n");
                 next = next->leftBranch;
-                printf("%s\n", next->avlNodeValue);
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) < 0)
             {
-                printf("2\n");
                 next = next->rightBranch;
-                printf("%s\n", next->avlNodeValue);
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
             {
-                printf("3\n");
-               next->frequency++;
+                printf("the frequency of %s is %d\n", last->avlNodeValue, next->frequency);
+               last->frequency++;
+               // node->frequency = next->frequency;
 
                return;
             }
+            // printf("15\n");
         }
-        printf("next avl node is %s, last avl node is %s\n", next->avlNodeValue, last->avlNodeValue);
-        printf("16\n");
+        // printf("16\n");
         node = createAVLNode(avlNodeValue);
         // printf("17\n");
-        node->avlNodeValue = avlNodeValue;
+        strcpy(node->avlNodeValue, avlNodeValue);
         // printf("18\n");
         if(strcmp(avlNodeValue, last->avlNodeValue) > 0)
         {
@@ -124,14 +167,10 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
             last->leftBranch = node;
             // printf("20\n");
         }
-        else if(strcmp(avlNodeValue, last->avlNodeValue) < 0)
+        if(strcmp(avlNodeValue, last->avlNodeValue) < 0)
         {
             // printf("21\n");
             last->rightBranch = node;
-        }
-        else if(strcmp(avlNodeValue, last->avlNodeValue) == 0)
-        {
-            // return;
         }
         // printf("23\n");
     }
@@ -156,8 +195,6 @@ void initialize (FILE * fp)
             }   
             memset(line, '\0', strlen(line));
     }
-
-    fclose(fp);
 }
 
 int main()
@@ -195,11 +232,13 @@ int main()
                 printf("find key: ");
                 scanf("%s", keySearch);
                 printf("key: %s, frequency: someNumber\n", keySearch);
+                // insert(tree, keySearch);
                 break;
             case 3:
                 printf("insert key: ");
                 scanf("%s", keyInsert);
-                insert(tree, keyInsert);
+                // printf("key: %s, frequency: someNumber\n", keyInsert);
+                insert(tree, keySearch);
                 break;
             case 4:
                 printf("remove key: ");
