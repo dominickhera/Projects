@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
+
+//struct for the nodes for the avl tree
 struct avlNode
 {
     char * avlNodeValue;
@@ -11,9 +13,9 @@ struct avlNode
     int frequency;
     int height;
 };
-
 typedef struct avlNode avlNodeInit;
 
+//struct for the avl tree and root
 struct avlTree
 {
     struct avlNode *avlRoot; 
@@ -21,6 +23,8 @@ struct avlTree
 
 typedef struct avlTree avlTreeInit;
 
+
+//creates the actual avl tree when the program is initiated, 
 avlTreeInit *createAVL()
 {
     avlTreeInit *tree = NULL;
@@ -33,6 +37,7 @@ avlTreeInit *createAVL()
     return tree; 
 }
 
+//called by the insert function that uses the inputed values to create a new node on the avl search tree
 avlNodeInit *createAVLNode(char *avlNodeValue)
 {
     avlNodeInit *node = NULL;
@@ -51,6 +56,9 @@ avlNodeInit *createAVLNode(char *avlNodeValue)
     return node;
 }
 
+
+//used to keep track of height while inserting the nodes into the avl tree
+//wasnt able to figure out how to implement this into option 5 on the main menu though
 int avlHeight(avlNodeInit *node)
 {
 
@@ -69,6 +77,7 @@ int avlHeight(avlNodeInit *node)
     return rightBranchHeight > leftBranchHeight ? ++rightBranchHeight : ++leftBranchHeight;
 }
 
+//keeps track of the avl tree balance and makes sure both sides are evenly split.
 int balanceTrack(avlNodeInit *node)
 {
 
@@ -87,6 +96,8 @@ int balanceTrack(avlNodeInit *node)
 
 }
 
+
+//takes the node inputted and does a right right rotation and returns it
 avlNodeInit * doubleRightRotation(avlNodeInit * node)
 {
 
@@ -99,6 +110,7 @@ avlNodeInit * doubleRightRotation(avlNodeInit * node)
     return b;
 }
 
+//takes the node inputted and does a left left rotation and returns it
 avlNodeInit * doubleLeftRotation(avlNodeInit * node)
 {
 
@@ -111,6 +123,7 @@ avlNodeInit * doubleLeftRotation(avlNodeInit * node)
     return b;
 }
 
+//takes the node inputted and does a right left rotation and returns it
 avlNodeInit * rightLeftRotation(avlNodeInit * node)
 {
 
@@ -126,6 +139,7 @@ avlNodeInit * rightLeftRotation(avlNodeInit * node)
     return c;
 }
 
+//takes the node inputted and does a left right rotation and returns it
 avlNodeInit * leftRightRotation(avlNodeInit * node)
 {
 
@@ -142,6 +156,8 @@ avlNodeInit * leftRightRotation(avlNodeInit * node)
 }
 
 
+//main brain for balancing the avl tree which recursively calls itself calling the 
+//aforementioned rotation functions as needed until the avl tree nodes are properly balanced
 avlNodeInit * balanceAVLNode (avlNodeInit *node)
 {
     avlNodeInit * tempRoot = NULL;
@@ -186,6 +202,8 @@ avlNodeInit * balanceAVLNode (avlNodeInit *node)
     return tempRoot;
 }
 
+
+//balances the avl search tree and it's nodes that are inputted into the function
 void balanceAVLTree(avlTreeInit *tree)
 {
     avlNodeInit *tempRoot = NULL;
@@ -198,105 +216,77 @@ void balanceAVLTree(avlTreeInit *tree)
     }
 }
 
+//main function that inserts all the parsed values into the avl search tree and creates the avl search tree
+//if it wasnt already there and keeps track of the frequency of each node entered and then proceeds
+//to call the main balancing function to balane the tree.
 void insert(avlTreeInit *tree, char * avlNodeValue)
 {
-    // printf("1\n");
     avlNodeInit *node = NULL;
     avlNodeInit *last = NULL;
     avlNodeInit *next = NULL;
 
-    // printf("2\n");
     if(tree->avlRoot == NULL)
     {
-        // printf("3\n");
         node = createAVLNode(avlNodeValue);
-        // printf("4\n");
         strcpy(node->avlNodeValue, avlNodeValue);
-        // printf("5\n");
         tree->avlRoot = node;
     }
     else
     {
-        // printf("6\n");
         next = tree->avlRoot;
-        // printf("7\n");
         while(next != NULL)
         {
-            // printf("8\n");
             last = next;
-            // printf("8.5\n");
             if(strcmp(avlNodeValue, next->avlNodeValue) > 0)
             {
-                // printf("9\n");
-                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next = next->rightBranch;
-                // return;
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) < 0)
             {
-                // printf("10\n");
-                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next = next->leftBranch;
-                // return;
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) == 0)
             {
-                // printf("11\n");
-                // printf("found a duplicate\n");
-                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next->frequency++;
-                printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
+                printf("Key: %s frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 return;
             }
-            // printf("12\n");
         }
-        // printf("13\n");
         node = createAVLNode(avlNodeValue);
-        // printf("14\n");
         strcpy(node->avlNodeValue, avlNodeValue);
-        // printf("15\n");
         if(strcmp(avlNodeValue, last->avlNodeValue) > 0)
         {
-            // printf("16\n");
-            printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
+            printf("Key: %s frequency: %d\n", avlNodeValue, last->frequency);
             last->rightBranch = node;
-            // last->frequency++;
         }
         else if(strcmp(avlNodeValue, last->avlNodeValue) < 0)
         {
-            // printf("17\n");
-            printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
+            printf("Key: %s frequency: %d\n", avlNodeValue, last->frequency);
             last->leftBranch = node;
-            // last->frequency++;
         }
         else if(strcmp(avlNodeValue, last->avlNodeValue) == 0)
         {
-            // printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
             last->frequency++;
             return;
         }
-        // printf("18\n");
     }
-    // printf("19\n");
-
     balanceAVLTree(tree);
 }
 
+
+//parses through the text file of data and recursively calls the insert function while parsing each node
+//have it set to skip over empty lines in order to prevent seg faults
 void initialize (FILE * fp, avlTreeInit * tree)
 {
     char line[500];
     char * key;
-    // printf("1\n");
 
     while(fgets(line, sizeof(line), fp))
     {
-        // printf("2\n");
         if (line[strlen(line) - 1] == '\n')
         {
-            // printf("3\n");
             line[strlen(line) - 1] = '\0';
         }
-        // printf("4\n");
 
         key = strtok(line, " ");
 
@@ -309,25 +299,27 @@ void initialize (FILE * fp, avlTreeInit * tree)
         {
             insert(tree, key);
         }   
-        // printf("1\n");
+
         memset(line, '\0', strlen(line));
     }
-    // printf("1\n");
 
     printf("file successfully inserted and initialized\n");
 }
 
+
+//searches through the entire tree to find the matching value inputted and displays the frequency of that value
 void search(avlTreeInit *tree, char * searchValue)
 {
-    // printf("1\n");
     int tempFrequency = -1;
-    // printf("2\n");
     avlNodeInit * tempRoot = tree->avlRoot;
-    // printf("3\n"); 
     while( tempRoot != NULL && (strcmp(tempRoot->avlNodeValue, searchValue) != 0))
     {
         if(strcmp(tempRoot->avlNodeValue, searchValue) < 0)
         {
+            if(tempRoot->rightBranch == NULL)
+            {
+                break;
+            }
             tempRoot = tempRoot->rightBranch;
             if(strcmp(tempRoot->avlNodeValue, searchValue) == 0)
             {
@@ -335,12 +327,13 @@ void search(avlTreeInit *tree, char * searchValue)
                 tempFrequency = tempRoot->frequency;
                 break;
             }
-
-
         }
         else if(strcmp(tempRoot->avlNodeValue, searchValue) > 0)
         {
-
+            if(tempRoot->leftBranch == NULL)
+            {
+                break;
+            }
             tempRoot = tempRoot->leftBranch;
             if(strcmp(tempRoot->avlNodeValue, searchValue) == 0)
             {
@@ -349,72 +342,103 @@ void search(avlTreeInit *tree, char * searchValue)
 
                 break;
             }
-
-            // printf("12\n");
         }
     }
-
-    // printf("14\n");
     if(tempFrequency > 0)
     {
-        // printf("15\n");
         printf("key: %s, frequency: %d\n", tempRoot->avlNodeValue, tempFrequency);
     }
     else
     {
-        // printf("16\n");
         printf("no_such_key\n");
     }
 }
 
-
-// void frequencySearch(avlTreeInit *tree, int frequencySearch)
-// {
-//     int tempFrequency = 0;
-//     avlNodeInit * tempRoot = tree->avlRoot;
-//     while(tempRoot && (strcmp(tempRoot->avlNodeValue, searchValue) != 0))
-//     {
-//         if(strcmp(tempRoot->avlNodeValue, searchValue) < 0)
-//         {
-//             tempFrequency = 0;
-//             tempFrequency = tempRoot->frequency;
-//             tempRoot = tempRoot->rightBranch;
-//         }
-//         else if(strcmp(tempRoot->avlNodeValue, searchValue) > 0)
-//         {
-//             tempFrequency = 0;
-//             tempFrequency = tempRoot->frequency;
-//             tempRoot = tempRoot->leftBranch;
-//         }
-//     }
-//     printf("key: %s, frequency: %d\n", searchValue, tempFrequency);
-// }
-
-void printNodeTest( avlNodeInit *node, int depth ) 
+//searches through the avl search tree to find values that have higher frequencies
+//and prints them out for the user (not fully functional)
+void frequencySearch(avlTreeInit *tree, int frequencyCompare)
 {
-    int i = 0;
-    if( node->leftBranch ) printNodeTest( node->leftBranch, depth + 2 );
-    for( i = 0; i < depth; i++ ) putchar( ' ' );
-    printf( "%s: %d\n", node->avlNodeValue, balanceTrack( node ) );
-    if( node->rightBranch ) printNodeTest( node->rightBranch, depth + 2 );
-}
-/* Do a depth first traverse of a tree. */
-void printTreeTest( avlTreeInit *tree ) {
-    printNodeTest( tree->avlRoot, 0 );
+    avlNodeInit *tempRoot = tree->avlRoot;
+
+    while (tempRoot != NULL)
+    {
+        if(frequencyCompare < tempRoot->frequency)
+        {
+            printf("key: %s, frequency: %d\n", tempRoot->avlNodeValue, tempRoot->frequency);
+            tempRoot = tempRoot->rightBranch;
+
+        }
+        else
+        {
+            tempRoot = tempRoot->leftBranch;
+        }
+    }
 }
 
+//searches through the avl search tree to find the inputted value by the user and removes it
+//from the avl search tree, reducing the frequency by 1 (not fully functional)
+void delete(avlTreeInit *tree, char * keyRemove)
+{
+    int tempFrequency = -1;
+    avlNodeInit * tempRoot = tree->avlRoot;
+    while( tempRoot != NULL && (strcmp(tempRoot->avlNodeValue, keyRemove) != 0))
+    {
+        if(strcmp(tempRoot->avlNodeValue, keyRemove) < 0)
+        {
+            if(tempRoot->rightBranch == NULL)
+            {
+                break;
+            }
+            tempRoot = tempRoot->rightBranch;
+            if(strcmp(tempRoot->avlNodeValue, keyRemove) == 0)
+            {
+                tempFrequency = 0;
+                tempFrequency = tempRoot->frequency - 1;
+                tempRoot->frequency--;
+                free(tempRoot);
+                break;
+            }
+        }
+        else if(strcmp(tempRoot->avlNodeValue, keyRemove) > 0)
+        {
+            if(tempRoot->leftBranch == NULL)
+            {
+                break;
+            }
+            tempRoot = tempRoot->leftBranch;
+            if(strcmp(tempRoot->avlNodeValue, keyRemove) == 0)
+            {
+                tempFrequency = 0;
+                tempFrequency = tempRoot->frequency - 1;
+                tempRoot->frequency--;
+                free(tempRoot);
+                break;
+            }
+        }
+    }
+    if(tempFrequency > -1)
+    {
+        printf("key: %s, frequency: %d\n", tempRoot->avlNodeValue, tempFrequency);
+    }
+    else
+    {
+        printf("no_such_key\n");
+    }   
+}
+
+//main function that holds the switch case that controls all the different functions
 int main()
 {
 
     int userInput = 0;
     char fileName[256];
-    char frequencyCompare[10];
-    char keyRemove[256];
+    int frequencyCompare = 0;
+    char keyRemove[25];
     char keyInsert[25];
     char keySearch[25];
     avlTreeInit *tree = NULL;
     tree = createAVL();
-    insert(tree, "initiate");
+    insert(tree, "");
 
     while(userInput != 7)
     {
@@ -434,7 +458,6 @@ int main()
                     return 0;
                 }
                 printf("loading...\n");
-                // insert(tree, "initiate");
                 initialize(fp, tree);	
                 fclose(fp);
                 break;
@@ -451,16 +474,15 @@ int main()
             case 4:
                 printf("remove key: ");
                 scanf("%s", keyRemove);
-                printf("key: %s, frequency: someNumber-1\n", keyRemove);
+                delete(tree, keyRemove);
                 break;
             case 5:
-                printTreeTest(tree);
+                printf("could not figure out how to implement in time.\n");
                 break;
             case 6:
                 printf("frequency: ");
-                scanf("%s", frequencyCompare);
-                // frequencySearch(tree, frequencyCompare);
-                // printf("key: someKey, frequency: someNumber\n");
+                scanf("%d", &frequencyCompare);
+                frequencySearch(tree, frequencyCompare);
                 break;
             case 7:
                 printf("goodbye!\n"); 

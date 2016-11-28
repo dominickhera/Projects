@@ -1,0 +1,45 @@
+======================
+a4
+11/28/16
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/avltree ./assets/data.dat
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+or
+
+q2: gcc ./src/avltree.c -o ./src/avltree
+
+====================
+known limitations
+====================
+
+- does not display the height and size of the avl search tree as requested for option 5
+- only partially finds higher frequencies in option 6
+- only partially deletes nodes in option 4
+
+
+=======
+testing
+=======
+
+- had left and right branches flipped while inserting which caused issues in other functions
+- parsing was parsing the new line symbol as it's own key which was causing a mismatch of information
+- fixing the previous issue lead to the program seg faulting when it came upon a blank line, was fixed quickly with a small if then statement that skips over the key if it's NULL
+
+==========
+references 
+==========
+
+- Class Slides
