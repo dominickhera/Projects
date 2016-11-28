@@ -205,6 +205,12 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
     avlNodeInit *last = NULL;
     avlNodeInit *next = NULL;
 
+    // if(avlNodeValue != NULL)
+    // {
+    //     ;
+    //     // printf("that shits empty\n");
+    // }
+
 // printf("2\n");
     if(tree->avlRoot == NULL)
     {
@@ -228,14 +234,14 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
             if(strcmp(avlNodeValue, next->avlNodeValue) > 0)
             {
                 // printf("9\n");
-                printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
+                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next = next->leftBranch;
                 // return;
             }
             else if(strcmp(avlNodeValue, next->avlNodeValue) < 0)
             {
                 // printf("10\n");
-                printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
+                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next = next->rightBranch;
                 // return;
             }
@@ -243,8 +249,9 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
             {
                 // printf("11\n");
                 // printf("found a duplicate\n");
-                printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
+                // printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 next->frequency++;
+                 printf("Key: [%s] frequency: [%d]\n", next->avlNodeValue, next->frequency);
                 return;
             }
             // printf("12\n");
@@ -257,20 +264,22 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
         if(strcmp(avlNodeValue, last->avlNodeValue) > 0)
         {
             // printf("16\n");
-            // printf("Key: [%s] frequency: [%d]\n", last->avlNodeValue, last->frequency);
+            printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
             last->leftBranch = node;
-            last->frequency++;
+            // last->frequency++;
         }
         else if(strcmp(avlNodeValue, last->avlNodeValue) < 0)
         {
             // printf("17\n");
-            // printf("Key: [%s] frequency: [%d]\n", last->avlNodeValue, last->frequency);
+            printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
             last->rightBranch = node;
-            last->frequency++;
+            // last->frequency++;
         }
         else if(strcmp(avlNodeValue, last->avlNodeValue) == 0)
         {
+            // printf("Key: [%s] frequency: [%d]\n", avlNodeValue, last->frequency);
             last->frequency++;
+            return;
         }
         // printf("18\n");
     }
@@ -281,26 +290,51 @@ void insert(avlTreeInit *tree, char * avlNodeValue)
 
 void initialize (FILE * fp, avlTreeInit * tree)
 {
-    char line[256];
+    char line[500];
     char * key;
+    // printf("1\n");
 
     while(fgets(line, sizeof(line), fp))
     {
+        // printf("2\n");
         if (line[strlen(line) - 1] == '\n')
         {
+            // printf("3\n");
             line[strlen(line) - 1] = '\0';
         }
+        // printf("4\n");
 
         key = strtok(line, " ");
-        // printf("key: %s\n", key);
-        insert(tree, key);
+        // printf("1\n");
+        // printf("init key: %s\n", key);
+
+        if( key != NULL)
+        {
+            // printf("error\n");
+        //     break;
+            insert(tree, key);
+        }
+        // else
+        // {
+        // printf("%lu is the length \n", strlen(key));
+        // insert(tree, key);
+        // }
+        // printf("1\n");
+        // memset(line, '\0', strlen(line));
         while((key = strtok(NULL, " ")) != NULL)
         {
-            // printf("key: %s\n", key);
+            // printf("1\n");
+            // printf("follow up key: %s\n", key);
+            // if (key == NULL)
+            // {
+            //     break;
+            // }
             insert(tree, key);
         }   
+        // printf("1\n");
         memset(line, '\0', strlen(line));
     }
+    // printf("1\n");
 
     printf("file successfully inserted and initialized\n");
 }
@@ -323,8 +357,22 @@ void search(avlTreeInit *tree, char * searchValue)
             tempFrequency = tempRoot->frequency;
             tempRoot = tempRoot->leftBranch;
         }
+
+        // if(tempRoot + 1 == NULL && (strcmp(tempRoot->avlNodeValue, searchValue) != 0))
+        // {
+        //     printf("no_such_key\n");
+        //     break;
+        // }
     }
+
+    if(tempFrequency > 0)
+    {
     printf("key: %s, frequency: %d\n", searchValue, tempFrequency);
+    }
+    else
+    {
+        printf("no_such_key\n");
+    }
 }
 
 
@@ -375,6 +423,7 @@ int main()
     avlTreeInit *tree = NULL;
     // avlNodeInit *searchNode = NULL;
     tree = createAVL();
+    insert(tree, "initiate");
 
     while(userInput != 7)
     {
@@ -394,6 +443,7 @@ int main()
                     return 0;
                 }
                 printf("loading...\n");
+                // insert(tree, "initiate");
                 initialize(fp, tree);	
                 fclose(fp);
                 break;
