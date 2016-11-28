@@ -10,7 +10,7 @@ dhera@mail.uoguelph.ca
 to run
 ======
 
-./bin/avltree ./assets/data.dat
+./bin/avltree ./assets/data.txt
 
 ==========
 to compile
