@@ -6,19 +6,14 @@ int main()
 {
     char filename[256];
     char line[256];
-    char word[256];
-    char character[256];
-    int charCount;
-    int i = 0;
+    int length;
+    char * classReplace;
+    char buffer[500];
 
     printf("enter filename: ");
     scanf("%s", filename);
 
     FILE *fp;
-    char * stringThing;
-
-
-    stringThing = malloc(1000);
 
     fp = fopen(filename, "r");
 
@@ -28,42 +23,33 @@ int main()
         return 0;
     }
 
-    while((charCount = fgetc(fp)) != EOF)
+    while(fgets(line, sizeof(line), fp) != NULL)
     {
 
-    	stringThing[i++] = (char) charCount;
+        if (line[strlen(line) - 1] == '\n')
+        {
+            line[strlen(line) - 1] = '\0';
+        }
 
-    	if(charCount == '{')
-    	{
-    		printf("found a bracket\n");
-    	}
-    	else
-    	{
-    	printf("%c\n", charCount);
-    	}
+        length = strlen(line);
+
+        	if((classReplace = strstr(line, "class ")))
+        	{
+        		// printf("found a class ");
+        		// printf("%ld cr is\n", classReplace - line);
+        		strncpy(buffer, line, classReplace-line);
+        		buffer[classReplace-line] = 0;
+        		// printf("%s\n", line);
+        		sprintf(buffer+(classReplace-line), "%s%s", line, classReplace + strlen("class "));
+        	}
+        	else
+        	{
+        		printf("%s\n", line);
+        	}
+
+        memset(line, '\0', strlen(line));
+
     }
-
-    stringThing[i] = '\0';
-
-    // while(fgets(line, sizeof(line), fp) != NULL)
-    // {
-
-    //     if (line[strlen(line) - 1] == '\n')
-    //     {
-    //         line[strlen(line) - 1] = '\0';
-    //     }
-    //     stringThing = strtok(line, " ");
-
-    //     while(stringThing != NULL)
-    //     {
-    //         printf("%s\n", stringThing);
-
-    //         stringThing = strtok(NULL, " ");
-    //     }
-
-    //     memset(line, '\0', strlen(line));
-
-    // }
 
     fclose(fp);
 
