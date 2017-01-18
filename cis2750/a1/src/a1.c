@@ -33,17 +33,17 @@ int main()
 
         length = strlen(line);
 
-        	if((classReplace = strstr(line, "class ")))
-        	{
-        		strncpy(buffer, line, classReplace-line);
-        		buffer[classReplace-line] = 0;
-        		sprintf(buffer+(classReplace-line), "%s%s", "struct ", classReplace + strlen("class "));
-        	   printf("%s\n", buffer);
-            }
-        	else
-        	{
-        		printf("%s\n", line);
-        	}
+        if((classReplace = strstr(line, "class ")))
+        {
+            strncpy(buffer, line, classReplace-line);
+            buffer[classReplace-line] = 0;
+            sprintf(buffer+(classReplace-line), "%s%s", "struct ", classReplace + strlen("class "));
+            printf("%s\n", buffer);
+        }
+        else
+        {
+            printf("%s\n", line);
+        }
 
         memset(line, '\0', strlen(line));
 
