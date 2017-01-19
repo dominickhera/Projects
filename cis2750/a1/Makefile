@@ -17,5 +17,4 @@ a1.o: ./src/a1.c
 	$(CC) -c $(CFLAGS) $(FILE)a1.c
 		
 clean:
-	rm -rf ./BIN
 	rm *.o
