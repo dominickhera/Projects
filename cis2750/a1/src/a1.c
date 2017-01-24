@@ -14,16 +14,32 @@ int main()
     char * classReplace;
     char * structCheck;
     //char * functionCheck;
-    //char * openBracketCheck;
+    char * openBracketCheck;
     char * mainCheck;
     char * intCheck;
     //char * floatCheck;
    // char * charCheck;
     char buffer[500];
    // char lineBuffer[500];
-    //char lineSave[500]; 
-   // char **functionArray;
+    char * lineSave = malloc(sizeof(char) * 5000); 
+    char **functionArray = malloc(sizeof(char *) * 500);
 
+    for(int i = 0; i < 500; i++)
+    {
+        functionArray[i] = malloc(sizeof(char) * 100);
+    }
+
+    for(int i = 0; i < 500; i++)
+    {
+        sprintf(functionArray[i], "%d", i);
+    }
+/*
+    for(int i = 0; i < 500; i++)
+    {
+        printf("%d %s\n", i, functionArray[i]);
+    }
+
+*/
     printf("enter filename: ");
     scanf("%s", filename);
 
@@ -37,14 +53,16 @@ int main()
         return 0;
     }
 
+    //strcpy(lineSave, "");
+
     while(fgets(line, sizeof(line), fp) != NULL)
     {
 
-        if (line[strlen(line) - 1] == '\n')
+     /*   if (line[strlen(line) - 1] == '\n')
         {
             line[strlen(line) - 1] = '\0';
         }
-
+*/
         if((classReplace = strstr(line, "class ")) && (structCheck = strstr(line, "{")))
         {
             strncpy(buffer, line, classReplace - line);
@@ -58,6 +76,9 @@ int main()
         }
         else if((structCheck = strstr(line, ") {")) && (!(mainCheck = strstr(line, "int main"))) &&  (structOpen <= 1))
         {
+               strcpy(lineSave, " ");
+               strcat(lineSave, line);
+               //printf("%s\n", lineSave); 
             /*strcpy(lineSave, line); 
             strncpy(lineBuffer, line, structCheck - line);
             lineBuffer[structCheck - line] = 0;
@@ -65,14 +86,14 @@ int main()
             printf("%s\n", lineBuffer);
             printf("the saved line is %s\n", lineSave);
             structOpen++;
-            */
             
-            while(intCheck = strstr(line, "int"))
+            
+            while((intCheck = strstr(line, "int")) != NULL)
             { 
                 intCount++;
                 printf("intCount: %d\n", intCount);
             }           
-           /*
+           
               while ((charCheck = strstr(line, "char")))
               {
               charCount++;
@@ -94,11 +115,14 @@ int main()
         else if((structCheck = strstr(line, "}")))
         {
             structOpen--;
-            printf("%s\n", line);
-        }
+            //printf("%s\n", line);
+            strcat(lineSave, line);
+            printf("%s", lineSave); 
+         }
         else
         {
-            printf("%s\n", line);
+           // printf("%s\n", line);
+            strcat(lineSave, line);
         }
 
         memset(line, '\0', strlen(line));
