@@ -114,7 +114,6 @@ int main()
         }
         else if((structCheck = strstr(line, "}")) && (structOpen == 0))
         {
-            printf("hi\n");
             // structOpen--;
             //printf("%s\n", line);
             strcat(lineSave, line);
