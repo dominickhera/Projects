@@ -7,7 +7,7 @@ int main()
     char filename[256];
     char line[256];
     int structOpen = 0;
-    //int functionOpen = 0;
+    int functionOpen = 0;
     int intCount = 0;
     //int charCount = 0;
     //int floatCount = 0;   
@@ -63,12 +63,12 @@ int main()
             line[strlen(line) - 1] = '\0';
         }
 */
-        if((classReplace = strstr(line, "class ")) && (structCheck = strstr(line, "{")))
+        if((classReplace = strstr(line, "class ")))
         {
             strncpy(buffer, line, classReplace - line);
             buffer[classReplace - line] = 0;
             sprintf(buffer + (classReplace - line), "%s%s", "struct ", classReplace + strlen("class "));
-            printf("%s\n", buffer);
+            printf("%s", buffer);
             if((structCheck = strstr(line, "{")))
             {
                 structOpen++;
@@ -110,24 +110,36 @@ int main()
         else if((structCheck = strstr(line, "{")))
         {
             structOpen++;
-            printf("%s\n", line);
+            printf("%s", line);
+        }
+        else if((structCheck = strstr(line, "}")) && (structOpen == 0))
+        {
+            printf("hi\n");
+            // structOpen--;
+            //printf("%s\n", line);
+            strcat(lineSave, line);
+            printf("%s", lineSave); 
         }
         else if((structCheck = strstr(line, "}")))
         {
             structOpen--;
-            //printf("%s\n", line);
+            printf("%s", line);
+        }
+        else if(functionOpen == 1)
+        {
+            // printf("%s\n", line);
             strcat(lineSave, line);
-            printf("%s", lineSave); 
-         }
+        }
         else
         {
-           // printf("%s\n", line);
-            strcat(lineSave, line);
+            printf("%s", line);
         }
 
         memset(line, '\0', strlen(line));
 
     }
+
+    printf("\n");
 
     fclose(fp);
 
