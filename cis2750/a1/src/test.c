@@ -7,9 +7,11 @@ int main()
     FILE *fp;
     char fileName[256];
     char line[256];
-    char ** store = malloc(sizeof(char) * 50000);
+    char fileStorage[500][500];
+    char lineStore;
+    char * store = malloc(sizeof(char) * 50000);
     int count = 0;   
- 
+    
     printf("enter file name: ");
     scanf("%s", fileName);
 
@@ -25,13 +27,18 @@ int main()
     
     while(fgets(line, sizeof(line), fp) != NULL)
     {
-       sprintf(store[count], "%s", line);
-       printf("%s", store[count]);
-       count++; 
+        strcpy(fileStorage[count], line); 
+        count++; 
         //strcat(store, line); 
     }    
 
-    //printf("%s\n", store);
+    for(int i = 0; i < count; i++)
+    {
+        printf("%s", fileStorage[i]);
+    }
+
+    printf("%s is line 15?\n", fileStorage[15]);
+
 
     fclose(fp);
 

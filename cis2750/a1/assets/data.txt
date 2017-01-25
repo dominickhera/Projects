@@ -19,3 +19,4 @@ int main() {
     newClass.b = 3;
     newClass.fn();
 }
+
