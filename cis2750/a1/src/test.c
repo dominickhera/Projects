@@ -17,6 +17,8 @@ int main()
     char * floatCheck;
     char * charCheck;
     char * doubleCheck; 
+    char * shortCheck;
+    char * longCheck; 
     char * structCheck;
     char * mainCheck; 
     int bracketCount = 0; 
@@ -24,6 +26,8 @@ int main()
     int floatCount = 0;
     int charCount = 0;
     int doubleCount = 0; 
+    int shortCount = 0;
+    int longCount = 0; 
     int structOpen = 0; 
     int count = 0;   
     
@@ -84,7 +88,51 @@ int main()
                 printf("floatCount: %d for line[%d]\n", floatCount, i);
             }
             
+            if((charCheck = strstr(fileStorage[i], "char ")))
+            {
+               charCount = 0;
+                while(charCheck != NULL)
+                {
+                   charCheck = strstr(charCheck + 1, "char ");
+                   charCount++;
+                }
+                printf("charCount: %d for line[%d]\n", charCount, i);
+            }
              
+            if((doubleCheck = strstr(fileStorage[i], "double ")))
+            {
+                doubleCount = 0;
+                while(doubleCheck != NULL)
+                {
+                   doubleCheck = strstr(doubleCheck + 1, "double ");
+                   doubleCount++;
+                }
+                printf("doubleCount: %d for line[%d]\n", doubleCount, i);
+            }
+
+            if((shortCheck = strstr(fileStorage[i], "short ")))
+            {
+                shortCount = 0;
+                while(shortCheck != NULL)
+                {
+                   shortCheck = strstr(shortCheck + 1, "short ");
+                   shortCount++;
+                }
+                printf("shortCount: %d for line[%d]\n", shortCount, i);
+            }
+            
+            if((longCheck = strstr(fileStorage[i], "long ")))
+            {
+                longCount = 0;
+                while(longCheck != NULL)
+                {
+                   longCheck = strstr(longCheck + 1, "long ");
+                   longCount++;
+                }
+                printf("longCount: %d for line[%d]\n", longCount, i);
+            }
+
+            printf("line[%d]: %s", i, fileStorage[i]);
         } 
         else
         {
