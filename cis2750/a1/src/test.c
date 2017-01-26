@@ -34,11 +34,8 @@ int main()
 
     for(int i = 0; i < count; i++)
     {
-        printf("%s", fileStorage[i]);
+        printf("line[%d]: %s", i, fileStorage[i]);
     }
-
-    printf("%s is line 15?\n", fileStorage[15]);
-
 
     fclose(fp);
 
