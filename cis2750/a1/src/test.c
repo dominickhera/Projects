@@ -15,6 +15,7 @@ int main()
     char * tempVariable = malloc(sizeof(char) * 256); 
     char * updatedVariable = malloc(sizeof(char) * 256); 
     char * finalVariable = malloc(sizeof(char) * 256); 
+    char value[256]; 
     char * classCheck;
     char * commentCheck; 
     char * intCheck;
@@ -78,41 +79,25 @@ int main()
             variableSize = 0;
             strcpy(variableStore, "");
             strcpy(variableStore, fileStorage[i]);
-            printf("variableStore: %s\n", variableStore);
- 
+
             for(int i = 0; i < strlen(variableStore); i++)
             {
-               if(variableStore[i] == '(')
-               {
-                  i++;
-                  while(variableStore[i] != ')')
-                  {
-                    tempVariable[variableSize] = variableStore[i];
-                    variableSize++;
-                    i++;
-                  }
-               
-                 updatedVariable[strlen(updatedVariable) - 1] = '\0';
-                 for(int j = 0; j < strlen(updatedVariable); j++)
-                 {
-
-                    finalVariable[variableFindCount] = updatedVariable[j];
-                    variableFindCount++; 
-                 }     
-               }
-               else
-               {
-                   finalVariable[variableFindCount] = variableStore[i];
-                   variableFindCount++;      
-               } 
-
-
+                if(variableStore[i] == '(')
+                {
+                    memset(finalVariable, '\0', 256); 
+                    while(variableStore[i] != ')')
+                    {
+                        i++;
+                        finalVariable[variableFindCount] = variableStore[i];
+                        variableFindCount++; 
+                    }
+                } 
             }
 
-            printf("finalVariable: %s\n", finalVariable);
+            printf("variables: %s for line[%d]\n", finalVariable, i);
 
 
-            if((intCheck = strstr(fileStorage[i], "int ")))
+            if((intCheck = strstr(finalVariable, "int ")))
             {
                 intCount = 0;
                 while(intCheck != NULL)
@@ -123,7 +108,7 @@ int main()
                 printf("intCount: %d for line[%d]\n", intCount, i);
             }
 
-            if((floatCheck = strstr(fileStorage[i], "float ")))
+            if((floatCheck = strstr(finalVariable, "float ")))
             {
                 floatCount = 0;
                 while(floatCheck != NULL)
@@ -134,7 +119,7 @@ int main()
                 printf("floatCount: %d for line[%d]\n", floatCount, i);
             }
 
-            if((charCheck = strstr(fileStorage[i], "char ")))
+            if((charCheck = strstr(finalVariable, "char ")))
             {
                 charCount = 0;
                 while(charCheck != NULL)
@@ -145,7 +130,7 @@ int main()
                 printf("charCount: %d for line[%d]\n", charCount, i);
             }
 
-            if((doubleCheck = strstr(fileStorage[i], "double ")))
+            if((doubleCheck = strstr(finalVariable, "double ")))
             {
                 doubleCount = 0;
                 while(doubleCheck != NULL)
@@ -156,7 +141,7 @@ int main()
                 printf("doubleCount: %d for line[%d]\n", doubleCount, i);
             }
 
-            if((shortCheck = strstr(fileStorage[i], "short ")))
+            if((shortCheck = strstr(finalVariable, "short ")))
             {
                 shortCount = 0;
                 while(shortCheck != NULL)
@@ -167,7 +152,7 @@ int main()
                 printf("shortCount: %d for line[%d]\n", shortCount, i);
             }
 
-            if((longCheck = strstr(fileStorage[i], "long ")))
+            if((longCheck = strstr(finalVariable, "long ")))
             {
                 longCount = 0;
                 while(longCheck != NULL)
