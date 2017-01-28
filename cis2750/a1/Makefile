@@ -1,7 +1,7 @@
 CC = gcc
 FILE = src/
 OBJFILE = bin/
-CFLAGS = -std=c99 -Wall -g
+CFLAGS = -std=c89 -Wall -g
 EXE = a1 
 
 
