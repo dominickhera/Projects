@@ -1,0 +1,36 @@
+======================
+a1
+29/1/16
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/a1
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+or
+
+gcc ./src/a1.c -o ./bin/a1
+
+=============
+description
+=============
+
+- at the time of being posted, the project is successfully only able to locate classes within the files and renames them into structs. if you dive into the code, you can see that there was progress made into searching for functions in the classes and attempts to move them out of the structs but due to unforseen reasons the program remains unfinished. 
+
+====================
+known limitations
+====================
+
+- only partially renames the classes to structs
+- is able to figure out the amount and type of variables in the functions within the structs but doesnt do anything with the information yet.
+- database is malloc'd but not actually used in the program due to last of progress made.

@@ -4,48 +4,55 @@
 
 int main()
 {
-    char filename[256];
-    char line[256];
-    int structOpen = 0;
-    int functionOpen = 0;
-    int intCount = 0;
-    //int charCount = 0;
-    //int floatCount = 0;   
-    char * classReplace;
-    char * structCheck;
-    //char * functionCheck;
-    char * openBracketCheck;
-    char * mainCheck;
-    char * intCheck;
-    //char * floatCheck;
-   // char * charCheck;
-    char buffer[500];
-   // char lineBuffer[500];
-    char * lineSave = malloc(sizeof(char) * 5000); 
-    char **functionArray = malloc(sizeof(char *) * 500);
-
-    for(int i = 0; i < 500; i++)
-    {
-        functionArray[i] = malloc(sizeof(char) * 100);
-    }
-
-    for(int i = 0; i < 500; i++)
-    {
-        sprintf(functionArray[i], "%d", i);
-    }
-/*
-    for(int i = 0; i < 500; i++)
-    {
-        printf("%d %s\n", i, functionArray[i]);
-    }
-
-*/
-    printf("enter filename: ");
-    scanf("%s", filename);
-
     FILE *fp;
+    FILE *fo;
+    char fileName[256];
+    char line[256];
+    char buffer[500]; 
+    char fileStorage[500][500];
+    char * store = malloc(sizeof(char) * 50000);
+    char * variableStore = malloc(sizeof(char) * 256); 
+    char * finalVariable = malloc(sizeof(char) * 256); 
+    char **functionArray = malloc(sizeof(char *) * 500); 
+    char * classCheck;
+    char * commentCheck; 
+    char * intCheck;
+    char * floatCheck;
+    char * charCheck;
+    char * doubleCheck; 
+    char * shortCheck;
+    char * longCheck; 
+    char * structCheck;
+    char * mainCheck; 
+    char * bracketCheck; 
+    int variableLength = 0; 
+    int variableSize = 0; 
+    int loopCount = 0; 
+    int intCount = 0; 
+    int floatCount = 0;
+    int charCount = 0;
+    int doubleCount = 0; 
+    int shortCount = 0;
+    int longCount = 0; 
+    int structOpen = 0; 
+    int functionOpen = 0;
+    int variableLoop = 0; 
+    int totalVariableCount = 0;
+    int variableFindCount = 0; 
+    int count = 0;   
+    int functionStorageCount = 0; 
+    int i;
 
-    fp = fopen(filename, "r");
+    for(i = 0; i < 500; i++)
+    {
+        functionArray[i] = malloc(sizeof(char) * 500);
+    }
+
+    printf("enter file name: ");
+    scanf("%s", fileName);
+
+    fp = fopen(fileName, "r");
+    fo = fopen("./assets/convertedFile.c", "w");
 
     if(fp == NULL)
     {
@@ -53,94 +60,210 @@ int main()
         return 0;
     }
 
-    //strcpy(lineSave, "");
-
     while(fgets(line, sizeof(line), fp) != NULL)
     {
+        strcpy(fileStorage[count], line); 
+        count++;
+    }    
 
-     /*   if (line[strlen(line) - 1] == '\n')
+
+    for(i = 0; i < count; i++)
+    {
+        if((classCheck = strstr(fileStorage[i], "class ")) && (!(commentCheck = strstr(fileStorage[i], "//"))))        
         {
-            line[strlen(line) - 1] = '\0';
-        }
-*/
-        if((classReplace = strstr(line, "class ")))
-        {
-            strncpy(buffer, line, classReplace - line);
-            buffer[classReplace - line] = 0;
-            sprintf(buffer + (classReplace - line), "%s%s", "struct ", classReplace + strlen("class "));
-            printf("%s", buffer);
-            if((structCheck = strstr(line, "{")))
+            strncpy(buffer, fileStorage[i], classCheck - fileStorage[i]);
+            buffer[classCheck - fileStorage[i]] = 0;
+            sprintf(buffer + (classCheck - fileStorage[i]), "%s%s", "struct ", classCheck + strlen("class "));
+            strcpy(fileStorage[i], buffer);
+            printf("line[%d]: %s", i, fileStorage[i]); 
+            if((structCheck = strstr(fileStorage[i], "{")))
             {
                 structOpen++;
             }
         }
-        else if((structCheck = strstr(line, ") {")) && (!(mainCheck = strstr(line, "int main"))) &&  (structOpen <= 1))
+        else if((structCheck = strstr(fileStorage[i], ") {")) && (!(mainCheck = strstr(fileStorage[i], "int main"))))
         {
-               strcpy(lineSave, " ");
-               strcat(lineSave, line);
-               //printf("%s\n", lineSave); 
-            /*strcpy(lineSave, line); 
-            strncpy(lineBuffer, line, structCheck - line);
-            lineBuffer[structCheck - line] = 0;
-            sprintf(lineBuffer + (structCheck - line), "%s%s", "();", structCheck + strlen(") {"));
-            printf("%s\n", lineBuffer);
-            printf("the saved line is %s\n", lineSave);
-            structOpen++;
-            
-            
-            while((intCheck = strstr(line, "int")) != NULL)
-            { 
-                intCount++;
-                printf("intCount: %d\n", intCount);
-            }           
-           
-              while ((charCheck = strstr(line, "char")))
-              {
-              charCount++;
-              printf("charCount: %d\n", charCount);
-              }
+            functionOpen++;
+            variableLength = 0;
+            variableFindCount = 0;
+            variableSize = 0;
+            totalVariableCount = 0;
+            strcpy(variableStore, "");
+            strcpy(variableStore, fileStorage[i]);
+            strcpy(store, fileStorage[i]);
 
-              while((floatCheck = strstr(line, "float")))
-              {
-              floatCount++;
-              printf("floatCount: %d\n", floatCount);
-              }
-            */ 
+            for(variableLoop = 0; variableLoop < strlen(variableStore); variableLoop++)
+            {
+                if(variableStore[variableLoop] == '(')
+                {
+                    memset(finalVariable, '\0', 256); 
+
+                    while(variableStore[variableLoop] != ')')
+                    {
+                        variableLoop++;
+                        finalVariable[variableFindCount] = variableStore[variableLoop];
+                        variableFindCount++; 
+                    }
+                } 
+            }
+
+            if((intCheck = strstr(finalVariable, "int ")))
+            {
+                intCount = 0;
+                while(intCheck != NULL)
+                {
+                    intCheck = strstr(intCheck + 1, "int ");
+                    intCount++;
+                    totalVariableCount++; 
+                }
+
+            }
+
+            if((floatCheck = strstr(finalVariable, "float ")))
+            {
+                floatCount = 0;
+                while(floatCheck != NULL)
+                {
+                    floatCheck = strstr(floatCheck + 1, "float ");
+                    floatCount++;
+                    totalVariableCount++;
+                }
+            }
+
+            if((charCheck = strstr(finalVariable, "char ")))
+            {
+                charCount = 0;
+                while(charCheck != NULL)
+                {
+                    charCheck = strstr(charCheck + 1, "char ");
+                    charCount++;
+                    totalVariableCount++;
+                }
+            }
+
+            if((doubleCheck = strstr(finalVariable, "double ")))
+            {
+                doubleCount = 0;
+                while(doubleCheck != NULL)
+                {
+                    doubleCheck = strstr(doubleCheck + 1, "double ");
+                    doubleCount++;
+                    totalVariableCount++;
+                }
+            }
+
+            if((shortCheck = strstr(finalVariable, "short ")))
+            {
+                shortCount = 0;
+                while(shortCheck != NULL)
+                {
+                    shortCheck = strstr(shortCheck + 1, "short ");
+                    shortCount++;
+                    totalVariableCount++;
+                }
+            }
+
+            if((longCheck = strstr(finalVariable, "long ")))
+            {
+                longCount = 0;
+                while(longCheck != NULL)
+                {
+                    longCheck = strstr(longCheck + 1, "long ");
+                    longCount++;
+                    totalVariableCount++;
+                }
+            }
+
+            if(intCount != 0)
+            {
+                for(loopCount = 0; loopCount < intCount; loopCount++)
+                {
+                    printf("i");
+                }
+                intCount = 0;             
+            }  
+
+            if(charCount != 0)
+            {
+                for(loopCount = 0; loopCount < charCount; loopCount++)
+                {
+                    printf("c");
+                } 
+                charCount = 0;
+            }
+
+            if(floatCount != 0)
+            {
+                for(loopCount = 0; loopCount < floatCount; loopCount++)
+                {
+                    printf("f");
+                }
+                floatCount = 0;
+            }
+
+            if(doubleCount != 0)
+            {
+                for(loopCount = 0; loopCount < doubleCount; loopCount++)
+                {
+                    printf("d");
+                }
+                doubleCount = 0;
+            }
+
+            if(shortCount != 0)
+            {
+                for(loopCount = 0; loopCount < shortCount; loopCount++)
+                {
+                    printf("s");
+                }
+                shortCount = 0;
+            }
+
+            if(longCount != 0)
+            {
+                for(loopCount = 0; loopCount < longCount; loopCount++)
+                {
+                    printf("l");
+                }
+                longCount = 0;
+            }
+
+            printf("\n");
+
+            printf("line[%d]: %s", i, fileStorage[i]);
         }
-        else if((structCheck = strstr(line, "{")))
+
+        else if((bracketCheck = strstr(fileStorage[i], "}")) && structOpen == 1 && functionOpen == 1)
         {
-            structOpen++;
-            printf("%s", line);
+            printf("line[%d]: %s", i, fileStorage[i]);
+            strcat(store, fileStorage[i]);
+            /* printf("store: %s\n", store);    */
+            functionOpen--;
+            /*sprintf(functionArray[functionStorageCount], "%s", store);
+              strcpy(functionArray[functionStorageCount], store); */
+            functionStorageCount++;
+            /* printf("function[%d]: %s\n", functionStorageCount, functionArray[functionStorageCount]); */
+
         }
-        else if((structCheck = strstr(line, "}")) && (structOpen == 0))
+        else if(structOpen == 1 && functionOpen == 1)
         {
-            // structOpen--;
-            //printf("%s\n", line);
-            strcat(lineSave, line);
-            printf("%s", lineSave); 
-        }
-        else if((structCheck = strstr(line, "}")))
-        {
-            structOpen--;
-            printf("%s", line);
-        }
-        else if(functionOpen == 1)
-        {
-            // printf("%s\n", line);
-            strcat(lineSave, line);
-        }
+            /*printf("line[%d] copied :%s\n", i, fileStorage[i]);*/
+            printf("line[%d]: %s", i, fileStorage[i]);
+            strcat(store, fileStorage[i]); 
+        } 
         else
         {
-            printf("%s", line);
+            printf("line[%d]: %s", i, fileStorage[i]);
         }
-
-        memset(line, '\0', strlen(line));
-
     }
 
-    printf("\n");
+    for(i = 0; i < count; i++)
+    {
+        fprintf(fo, "%s", fileStorage[i]);
+    }
 
     fclose(fp);
+    fclose(fo);
 
     return 0;
 }
