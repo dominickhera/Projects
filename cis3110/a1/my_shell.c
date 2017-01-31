@@ -17,11 +17,17 @@ int main()
       args = getln();
       for(i = 0; args[i] != NULL; i++)
       {
-        printf("Argument %d: %s\n", i, args[i]);
-        //if(strcmp(args[i], "exit") == 0)
-        //{
-         //   exit(input);
-       // } 
+        if(i == 0)
+        {
+            printf("only one arguement entered\n");
+        } 
+         //printf("Argument %d: %s\n", i, args[i]);
+        if(strcmp(args[0], "exit") == 0)
+        {
+           exit(1);
+        }
+        
+         
       }
     }
 }
