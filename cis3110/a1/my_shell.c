@@ -26,7 +26,6 @@ int main()
 
         for(i = 0; args[i] != NULL; i++)
         {
-
             if(count == 1)
             {
                 if(strcmp(args[i], "exit") == 0)
@@ -36,23 +35,26 @@ int main()
                 else
                 { 
                     execvp(args[i], args);
-                    // printf("Argument %d: %c\n", i, args[i][i]);
-                    // break;
                 }
             }
             else if(count == 2)
             {
                 if(strpbrk(args[i], "-") == 0)
                 {
-                    // printf("%s\n", args[1]);
                     execvp(args[0], &args[i]);
-                    // printf("arguement found\n");
                 }
-                // printf("more than one arguement\n");
+                else
+                {
+                    execvp(args[0], &args[i]);
+                }
                 break;
             }
             else
             {
+                // if(strpbrk(args[i], ">") == 0)
+                // {
+                //  freopen   
+                // }
                 if(strcmp(args[i], "add") == 0)
                 {
                     addInt = 0;
@@ -72,8 +74,7 @@ int main()
                     break;
 
                 }
-                
-                if(strcmp(args[i], "args") == 0)
+                else if(strcmp(args[i], "args") == 0)
                 {
                     printf("argc = %d, args = ", count);
                     for(j = 1; j < count; j++)
@@ -87,6 +88,14 @@ int main()
                             printf("%s, ", args[j]);
                         }
                     }
+                }
+                else if(strcmp(args[i], "&") == 0)
+                {
+                    printf("this should use the background computation but it is not implemented\n");
+                }
+                else
+                {
+                    execvp(args[0], &args[i]);
                 }
             }
         }
