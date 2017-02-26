@@ -4,10 +4,11 @@
 
 int main(int argc, char **argv)
 {
-    FILE *fp;
+    // FILE *fp;
     char line[256]; 
     char fileName[256];
-    char fileStorage[500][500]; 
+    char fileStorage[500][500];
+    char * parse; 
     int detailFlag = 0;
     int verboseFlag = 0;
     int roundRobinFlag = 0;
@@ -29,12 +30,19 @@ int main(int argc, char **argv)
     while(fgets(line, sizeof(line), stdin) != NULL)
     {
         strcpy(fileStorage[count], line);
-        printf("%s", fileStorage[count]);
+        // printf("%s", fileStorage[count]);
         count++;
-        //printf("%s", line);
     }
 
-    fclose(fp);
+parse = strtok(fileStorage[0], " ");
+
+while(parse != NULL)
+{
+    printf("%s\n", parse);
+    parse = strtok(NULL, " ");
+}
+
+    // fclose(fp);
 
     return 0;
 }
