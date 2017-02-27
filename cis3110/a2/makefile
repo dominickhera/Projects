@@ -14,7 +14,7 @@ BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
 
 simcpu.o: ./src/simcpu.c
-	$(CC) -c $(CFLAGS) $(FILE)simcpu.c
+	$(CC) -c $(CFLAGS) $(FILE)simcpu.c -Iinclude
 		
 clean:
 	rm *.o
