@@ -16,6 +16,9 @@ typedef struct Process
     int processCount;
     int threadSwitch;
     int processSwitch;
+    int averageTurnAroundTime;
+    int totalTime;
+    int cpuUtilization;
 
     int detailFlag;
     int verboseFlag;

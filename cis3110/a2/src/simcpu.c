@@ -8,18 +8,14 @@ int main(int argc, char **argv)
     Process * process = malloc(sizeof(int)* 5000);
 
     char line[256]; 
-    // char fileName[256];
     char fileStorage[500][500];
     char * parse; 
     char *p; 
-    // int detailFlag = 0;
-    // int verboseFlag = 0;
-    // int roundRobinFlag = 0;
+    process->detailFlag = 0;
+    process->verboseFlag = 0;
+    process->roundRobinFlag = 0;
     int count = 0;   
     int initCount = 0; 
-    // int quantumInteger = 0;
-
-    // printf("1\n");
 
     /*
        if(!feof(stdin))
@@ -29,63 +25,93 @@ int main(int argc, char **argv)
        }
      */ 
 
-    for(int i = 0; i < argc - 1; i++)
+    for(int i = 0; i < argc; i++)
     {
         // printf("2\n");
         if(strcmp(argv[i],"-d") == 0)
         {
-            // printf("3\n");
             printf("detail mode enabled\n");
-            process->detailFlag = 1;
+            process->detailFlag++;
         }
 
         if(strcmp(argv[i], "-v") == 0)
         {
-            // printf("4\n");
             printf("verbose mode enabled\n"); 
             process->verboseFlag = 1;
         }
 
         if(strcmp(argv[i], "-r") == 0)
         {
-            // printf("5\n");
-            // printf("round robin mode enabled\n");
+            printf("round robin mode enabled\n");
             process->roundRobinFlag = 1;
-            // printf("6\n");
-            process->quantumInteger = strtol(argv[i+1], &p, 10);
-            // printf("7\n");
-            printf("Round Robin (quantum = %d time units): \n", process->quantumInteger);
-            // printf("8\n"); 
+            process->quantumInteger = strtol(argv[i+1], &p, 10); 
         }
     }  
-    // printf("9\n");
 
     while(fgets(line, sizeof(line), stdin) != NULL)
     {
-        // printf("10\n");
         strcpy(fileStorage[count], line);
-        // printf("%s", fileStorage[count]);
         count++;
-        // printf("11\n");
     }
-    // printf("12\n");
+
     parse = strtok(fileStorage[0], " ");
     while(parse != NULL)
     {
-        // printf("13\n");
-        printf("%s, initCount: %d\n", parse, initCount);
-
-        // printf("14\n");
+        switch(initCount)
+        {
+            case 0:
+                process->processCount = strtol(parse, &p, 10);
+                printf("Process Count: %d\n", process->processCount);
+                break;
+            case 1:
+                process->threadSwitch = strtol(parse, &p, 10);
+                printf("Thread Switch: %d\n", process->threadSwitch);
+                break;
+            case 2:
+                process->processSwitch = strtol(parse, &p, 10);
+                printf("Process Switch: %d\n", process->processSwitch);
+                break;
+            default:
+                printf("default case\n");
+                break;
+        }
         parse = strtok(NULL, " \n");
-        // printf("15\n");
-        initCount++;
-        // printf("16\n"); 
+        initCount++; 
     }
-    // printf("17\n");
 
-    // process->processCount = 10;
+    for(int i = 1; i < count; i++)
+    {
+        initCount = 0;
 
-    // printf("processCount is %d\n", process->processCount);
+        parse = strtok(fileStorage[i], " ");
+        while(parse != NULL)
+        {
+            printf("line[%d]: %s\n", i, parse);
+            parse = strtok(NULL, " \n");
+            initCount++;
+        }
+    }
+
+    // for(int i = 0; i < process->processCount; i++)
+    // {
+    //     for(int j = 0; j < process->)
+    // }
+
+    if(process->roundRobinFlag != 1)
+    {
+        printf("\nFCFS: \n\n");
+    }
+    else
+    {
+        printf("\nRound Robin (quantum = %d time units):\n\n", process->quantumInteger);
+    }
+
+    printf("Total Time required is %d time units\nAverage Turnaround Time is %d time units\nCPU Utilization is %d%%\n\n", process->totalTime, process->averageTurnAroundTime, process->cpuUtilization);
+    
+    if(process->detailFlag == 1)
+    {
+        printf("butts\n");
+    }
 
     return 0;
 }
