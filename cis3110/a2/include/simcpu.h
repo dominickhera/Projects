@@ -1,28 +1,28 @@
 #ifndef __DHERA_SIMCPU__
 #define __DHERA_SIMCPU__
 
-typedef struct Burst
+typedef struct Thread
 {
-	int cputTime;
+	int threadNum;
+	int arrivalTime;
+	int cpuCount;
+	int cpuTime;
 	int ioTime;
-}Burst;
 
-// typedef struct Thread
-// {
-
-// }
+}Thread;
 
 typedef struct Process
 {
     int processCount;
     int threadSwitch;
     int processSwitch;
+
     int detailFlag;
     int verboseFlag;
     int roundRobinFlag;
     int quantumInteger;
 
-    Burst * cpuBurst;
+    Thread * cpuThread;
 
 }Process;
 
