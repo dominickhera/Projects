@@ -12,6 +12,7 @@ int main(int argc, char **argv)
     char fileStorage[500][500];
     char * parse; 
     char *p; 
+    process->processCount = 0;
     // int detailFlag = 0;
     // int verboseFlag = 0;
     // int roundRobinFlag = 0;
@@ -62,25 +63,27 @@ int main(int argc, char **argv)
 
     while(fgets(line, sizeof(line), stdin) != NULL)
     {
+
+        if ()
         // printf("10\n");
-        strcpy(fileStorage[count], line);
+        // strcpy(fileStorage[count], line);
         // printf("%s", fileStorage[count]);
-        count++;
+        // count++;
         // printf("11\n");
     }
     // printf("12\n");
-    parse = strtok(fileStorage[0], " ");
-    while(parse != NULL)
-    {
-        // printf("13\n");
-        printf("%s, initCount: %d\n", parse, initCount);
+    // parse = strtok(fileStorage[0], " ");
+    // while(parse != NULL)
+    // {
+    //     // printf("13\n");
+    //     printf("%s, initCount: %d\n", parse, initCount);
 
-        // printf("14\n");
-        parse = strtok(NULL, " \n");
-        // printf("15\n");
-        initCount++;
-        // printf("16\n"); 
-    }
+    //     // printf("14\n");
+    //     parse = strtok(NULL, " \n");
+    //     // printf("15\n");
+    //     initCount++;
+    //     // printf("16\n"); 
+    // }
     // printf("17\n");
 
     // process->processCount = 10;
