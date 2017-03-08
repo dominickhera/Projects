@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+
+	if(argc != 3)
+	{
+		printf("not enough arguments, exiting...\n");
+		exit(1);
+	}
+
+	for(int i = 0; i < argc; i++)
+	{
+		printf("arg[%d]: %s\n", i, argv[i]);
+	}
+
+	return 0;
+}

@@ -7,62 +7,56 @@ int main(int argc, char **argv)
 {
     Process * process = malloc(sizeof(int)* 5000);
 
+    //decalre variables
     char line[256]; 
-    // char fileName[256];
     char fileStorage[500][500];
     char * parse; 
     char *p; 
+<<<<<<< HEAD
     process->processCount = 0;
     // int detailFlag = 0;
     // int verboseFlag = 0;
     // int roundRobinFlag = 0;
+=======
+    process->detailFlag = 0;
+    process->verboseFlag = 0;
+    process->roundRobinFlag = 0;
+>>>>>>> 6533235c6620958cfc53edb1da99c83733b5275e
     int count = 0;   
     int initCount = 0; 
-    // int quantumInteger = 0;
+    int processNumBuffer = 0;
+    int tempProcessNumBuffer = 0; 
 
-    // printf("1\n");
 
-    /*
-       if(!feof(stdin))
-       {
-       printf("could not find file, exiting program...\n");
-       exit(1);
-       }
-     */ 
-
-    for(int i = 0; i < argc - 1; i++)
+//checks for various flags and initiates them even though they dont completely work.
+    for(int i = 0; i < argc; i++)
     {
         // printf("2\n");
         if(strcmp(argv[i],"-d") == 0)
         {
-            // printf("3\n");
             printf("detail mode enabled\n");
-            process->detailFlag = 1;
+            process->detailFlag++;
         }
 
         if(strcmp(argv[i], "-v") == 0)
         {
-            // printf("4\n");
             printf("verbose mode enabled\n"); 
             process->verboseFlag = 1;
         }
 
         if(strcmp(argv[i], "-r") == 0)
         {
-            // printf("5\n");
-            // printf("round robin mode enabled\n");
+            printf("round robin mode enabled\n");
             process->roundRobinFlag = 1;
-            // printf("6\n");
-            process->quantumInteger = strtol(argv[i+1], &p, 10);
-            // printf("7\n");
-            printf("Round Robin (quantum = %d time units): \n", process->quantumInteger);
-            // printf("8\n"); 
+            process->quantumInteger = strtol(argv[i+1], &p, 10); 
         }
     }  
-    // printf("9\n");
 
+
+//takes the textfile and copys it all over into a 2D array
     while(fgets(line, sizeof(line), stdin) != NULL)
     {
+<<<<<<< HEAD
 
         if ()
         // printf("10\n");
@@ -85,10 +79,106 @@ int main(int argc, char **argv)
     //     // printf("16\n"); 
     // }
     // printf("17\n");
+=======
+        strcpy(fileStorage[count], line);
+        count++;
+    }
 
-    // process->processCount = 10;
+//parses the 2D array and seperates each of the numbers
+// presumable where i wouldve put all the numbers into the struct buttttttt
+    for(int i = 0; i < count; i++)
+    {
+        initCount = 0;
 
-    // printf("processCount is %d\n", process->processCount);
+        parse = strtok(fileStorage[i], " ");
+        while(parse != NULL)
+        {
+            printf("%s ", parse);
+            parse = strtok(NULL, " \n");
+            initCount++;
+        }
+        printf("\n");
+    }
+
+
+//specifically parses the first line and stores various peieces into the process struct
+    parse = strtok(fileStorage[0], " ");
+    while(parse != NULL)
+    {
+        switch(initCount)
+        {
+            case 0:
+                process->processCount = strtol(parse, &p, 10);
+                // printf("Process Count: %d\n", process->processCount);
+                break;
+            case 1:
+                process->threadSwitch = strtol(parse, &p, 10);
+                // printf("Thread Switch: %d\n", process->threadSwitch);
+                break;
+            case 2:
+                process->processSwitch = strtol(parse, &p, 10);
+                // printf("Process Switch: %d\n", process->processSwitch);
+                break;
+            default:
+                // printf("default case\n");
+                break;
+        }
+        parse = strtok(NULL, " \n");
+        initCount++; 
+    }
+
+
+//speicially parses second line to initiate storing all the other data in the process struct to use for other for loops
+    initCount = 0;
+    parse = strtok(fileStorage[1], " ");
+    while(parse != NULL)
+        // printf("no\n");
+    {
+        switch(initCount)
+        {
+            case 0:
+                process->cpuThread = malloc(sizeof(process) * 500);
+                processNumBuffer = strtol(parse, &p, 10);
+                // process->cpuThread[0].processNum = strtol(parse, &p, 10);
+                break;
+            case 1:
+                // process->cpuThread = malloc(sizeof(process) * (strtol(parse, &p, 10) * 3));
+                process->cpuThread[0].threadNum = strtol(parse, &p, 10);
+                // printf("Thread Count: %d\n", process->cpuThread[0].threadNum);
+                break;
+            default:
+                break;
+        }
+        parse = strtok(NULL, " \n");
+        initCount++; 
+    }
+    // for(int j = 2; i < count; j++)
+    // {
+    //     for(int i = 1; i < process->cpuThread[0].threadNum; i++)
+    //     {
+
+    //     }
+    // }
+
+
+//ideally, this is where the end data would've been presented
+//but alas it all just ends up as 0 since the simulation is never done.
+    if(process->roundRobinFlag != 1)
+    {
+        printf("\nFCFS: \n\n");
+    }
+    else
+    {
+        printf("\nRound Robin (quantum = %d time units):\n\n", process->quantumInteger);
+    }
+>>>>>>> 6533235c6620958cfc53edb1da99c83733b5275e
+
+    printf("Total Time required is %d time units\nAverage Turnaround Time is %d time units\nCPU Utilization is %d%%\n\n", process->totalTime, process->averageTurnAroundTime, process->cpuUtilization);
+
+    if(process->detailFlag == 1)
+    {
+        printf("details should be here but they aren't\n");
+    }
 
     return 0;
 }

@@ -1,0 +1,34 @@
+======================
+a3
+10/3/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+Dining Philosophers:
+./bin/dine 3 2
+
+Simple Memory Management:
+./bin/holes ./assets/testCase1.txt
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+-
+
+====================
+known limitations
+====================
+
+- 
