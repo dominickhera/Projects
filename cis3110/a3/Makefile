@@ -8,7 +8,7 @@ EXE2 = holes
 all: $(EXE1) $(EXE2)
 
 $(EXE1): dine.o BIN
-	gcc dine.o -o ./bin/$(EXE1)
+	gcc dine.o -o ./bin/$(EXE1) -lpthread
 
 $(EXE2): holes.o BIN
 	$(CC) holes.o -o ./bin/$(EXE2)

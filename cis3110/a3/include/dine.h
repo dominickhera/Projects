@@ -1,11 +1,15 @@
 #ifndef __DHERA_DINE__
 #define __DHERA_DINE__
 
-typedef struct Philosopher
-{
-    int philosopherCount;
-    int processCount;
+#include <stdio.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <pthread.h>
+#include <unistd.h>
 
-}Philosopher;
+void *philosopherFunction(void* position);
+// int getPhiliosopherCount(int num);
+void eat(int eatPosition);
+void think(int thinkPosition);
 
 #endif
