@@ -14,7 +14,7 @@ Dining Philosophers:
 ./bin/dine 3 2
 
 Simple Memory Management:
-./bin/holes ./assets/testCase1.txt
+./bin/holes ./assets/testfile1
 
 ==========
 to compile
@@ -32,3 +32,11 @@ known limitations
 ====================
 
 - 
+
+=============
+references
+=============
+- http://pseudomuto.com/development/2014/03/01/dining-philosophers-in-c/
+- https://osandnetworkingcslab.wordpress.com/implementation-of-dining-philosophers-using-threads/
+- https://wwwhome.ewi.utwente.nl/~pieter/CS-OS/Philosophers.c
+- http://compsciz.blogspot.ca/2015/03/dining-philosophers-problem-using.html

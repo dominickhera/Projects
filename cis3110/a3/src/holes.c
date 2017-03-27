@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "holes.h"
 
 int main(int argc, char **argv)
@@ -12,10 +9,47 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	for(int i = 0; i < argc; i++)
+	FILE *fp;
+	char line[256];
+	char * word;
+	int parseCount = 0;
+
+	fp = fopen(argv[1], "r");
+
+	if(fp == NULL)
 	{
-		printf("arg[%d]: %s\n", i, argv[i]);
+		printf("couldn't find file\nexiting...\n");
+		exit(1);
 	}
+
+
+	while(fgets(line, sizeof(line), fp))
+	{
+		if(line[strlen(line) - 1] == '\n')
+		{
+			line[strlen(line) - 1] = '\0';
+		}
+		word = strtok(line, " ");
+		
+		while(word != NULL)
+		{
+			printf("%s\n", word);
+			word = strtok(NULL, " ");
+			if (parseCount != 0)
+			{
+				parseCount--;
+				// printf("parseCount: %d\n", parseCount);
+			}
+			else if(parseCount == 0)
+			{
+				parseCount++;
+				// printf("parseCount: %d\n", parseCount);
+			}
+		}
+		memset(line, '\0', strlen(line));
+	}
+
+	fclose(fp);
 
 	return 0;
 }

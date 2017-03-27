@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 void *philosopherFunction(void* position);
-// int getPhiliosopherCount(int num);
 void eat(int eatPosition);
 void think(int thinkPosition);
 

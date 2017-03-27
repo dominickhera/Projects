@@ -17,9 +17,7 @@ int main(int argc, char **argv)
     processCount = strtol(argv[2], &p, 10);
 
     pthread_t philosopherThread[philosopherCount];
-    // pthread_mutex_t forks[philosopherCount];
 
-    // printf("name: %s\n", name);
     for(int j = 1; j <= processCount; j++)
     {
         printf("Process %d\n", j);
@@ -31,7 +29,6 @@ int main(int argc, char **argv)
 
         for(int i = 1; i <= philosopherCount; i++)
         {
-        	// printf("Process %d\n", i);
             pthread_create(&philosopherThread[i], NULL, philosopherFunction, (void *)i);
         }
 
@@ -56,11 +53,11 @@ void *philosopherFunction(void* position)
     pthread_mutex_lock(&forks[eatPosition]);
     pthread_mutex_lock(&forks[(eatPosition + 1) % 1000]);
     think(eatPosition);
-    // sleep(1);
+    sleep(1);
     pthread_mutex_unlock(&forks[eatPosition]);
     pthread_mutex_unlock(&forks[(eatPosition + 1) % 1000]);
     eat(eatPosition);
-    // sleep(1);
+    sleep(1);
 
 	}
     pthread_exit(NULL);
